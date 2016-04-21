@@ -1,10 +1,10 @@
 {
-  "short_name": "melonJS Boilerplate",
-  "name": "My melonJS Boilerplate Game",
+  "short_name": "Rusty Rooster",
+  "name": "Rusty Rooster",
   "orientation": "landscape",
   "developer": {
-    "name": "melonjs",
-    "url": "http://www.melonjs.org"
+    "name": "romualdk",
+    "url": "http://romualdk.github.io"
   },
   "start_url": "./index.html",
   "display": "fullscreen",
