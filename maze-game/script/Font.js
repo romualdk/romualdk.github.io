@@ -9,7 +9,7 @@ ENGINE.Font = {
         this.image = img.canvas;
     },
 
-    text: function(ctx, x, y, text, ) {
+    text: function(ctx, x, y, text) {
         var dx = x;
         var dy = y;
 
