@@ -1,7 +1,7 @@
 var app = new PLAYGROUND.Application({
 
   smoothing: false,
-  scale: 1,
+  scale: 3,
   preferedAudioFormat: "mp3",
 
   debug: false,
