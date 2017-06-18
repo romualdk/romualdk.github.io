@@ -493,9 +493,40 @@ ENGINE.Game = {
       layer.clear(app.bgColor);
       layer.save();
       layer.translate(app.center.x, app.center.y);
-      layer.align(0.5, 0.5);
-      layer.drawImage(this.buffer, 0, 0);
+      layer.align(0.5, 0.55);
+
+
+      var margin = 16;
+
+      var spaceWidth = Math.floor((layer.width - 2*margin) / 32) * 32;
+      var spaceHeight = Math.floor((layer.height - 2*margin) / 32) * 32;
+      var scaleW = spaceWidth / this.buffer.width;
+      var scaleH = spaceHeight / this.buffer.height;
+
+
+      //var scaleW = (layer.width - 2*margin) / this.buffer.width;
+      //var scaleH = (layer.height - 2*margin) / this.buffer.height;
+      var scale = scaleW < scaleH ? scaleW : scaleH;
+
+      var sx = 0;
+      var sy = 0;
+      var sw = this.buffer.width;
+      var sh = this.buffer.height;
+      var dw = Math.floor(sw * scale);
+      var dh = Math.floor(sh * scale);
+      var dx = margin; //Math.floor((layer.width - dw) / 2);
+      var dy = margin; //Math.floor((layer.height - dh) / 2);
+      
+
+      console.log(spaceWidth, spaceHeight, scale, sw,sh, dw,dh, dx,dy);
+
+
+      layer.drawImage(this.buffer, sx,sy, sw,sh, dx,dy, dw,dh);
+
+      //layer.drawImage(this.buffer, 0, 0);
       layer.restore();
+
+      //console.log(layer.width, layer.height);
     }
   },
 

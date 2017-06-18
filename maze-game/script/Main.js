@@ -1,7 +1,7 @@
 var app = new PLAYGROUND.Application({
 
   smoothing: false,
-  scale: 3,
+  scale: 1,
   preferedAudioFormat: "mp3",
 
   debug: false,
@@ -35,6 +35,15 @@ var app = new PLAYGROUND.Application({
     this.loadSounds("Walk", "Door", "Hurt", "Coin", "LifeUp");
   },
 
+  resize: function() {
+
+    var minH = this.width / (ENGINE.Tileset.width * (9+2));
+    var minV = this.height / (ENGINE.Tileset.height * (9+4));
+
+    //this.scale = minH < minV ? minH : minV;
+    console.log(this.scale);
+  },
+
   ready: function() {
     // CUSTOM PALETTE MODE
     /*var mode = cq(app.images.dungeon);
@@ -44,6 +53,8 @@ var app = new PLAYGROUND.Application({
     var pos = ENGINE.Tileset.tilePos(10);
     var bg = mode.getPixel(pos[0], pos[1]);
     this.bgColor = cq.rgbToHex(bg[0], bg[1], bg[2]);*/
+
+    
 
     ENGINE.Font.image = this.images.font;
     ENGINE.Tileset.image = app.images.dungeon;
