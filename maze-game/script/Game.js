@@ -55,7 +55,7 @@ ENGINE.Game = {
     var id = x + "x" + y;
 
     if(typeof(this.rooms[id]) == "undefined") {
-      this.rooms[id] = new ENGINE.Room(9, 9, room.doors, oppositeDoor, this.maze, x, y);
+      this.rooms[id] = new ENGINE.Room(app.settings.room.width, app.settings.room.height, room.doors, oppositeDoor, this.maze, x, y);
     }
     else {
       this.rooms[id].shiftDoorsTo(oppositeDoor);
@@ -279,15 +279,20 @@ ENGINE.Game = {
     ENGINE.Font.setColor("#ff0000");
     ENGINE.Font.text(this.buffer.ctx, margin, roomHeight + margin, String.fromCharCode(3));
     ENGINE.Font.setColor();
-    ENGINE.Font.text(this.buffer.ctx, margin + ENGINE.Font.size+1, roomHeight + margin, "x");
-    ENGINE.Font.text(this.buffer.ctx, margin + ENGINE.Font.size*2+2, roomHeight + margin, "" + this.player.lifes);
+    ENGINE.Font.text(this.buffer.ctx, margin + ENGINE.Font.size+4, roomHeight + margin, "" + this.player.lifes);
+
 
     ENGINE.Font.setColor();
 
     var points = "" + this.points;
-    var str = "Score: " + "0000".substring(0, 4 - points.length) + points;
+    //var str = "Score: " + "0000".substring(0, 4 - points.length) + points;
+    var str = "" + points;
     ENGINE.Font.text(this.buffer.ctx, roomWidth - margin - ENGINE.Font.size*str.length, roomHeight + margin, str);
-  },
+  
+    ENGINE.Font.setColor("#29adff");
+    ENGINE.Font.text(this.buffer.ctx, roomWidth - margin - ENGINE.Font.size*(str.length+1)-2, roomHeight + margin, String.fromCharCode(228));
+
+},
 
 
 
@@ -493,47 +498,18 @@ ENGINE.Game = {
       layer.clear(app.bgColor);
       layer.save();
       layer.translate(app.center.x, app.center.y);
-      layer.align(0.5, 0.55);
+      layer.align(0.5, 0.5);
 
-
-      var margin = 16;
-
-      var spaceWidth = Math.floor((layer.width - 2*margin) / 32) * 32;
-      var spaceHeight = Math.floor((layer.height - 2*margin) / 32) * 32;
-      var scaleW = spaceWidth / this.buffer.width;
-      var scaleH = spaceHeight / this.buffer.height;
-
-
-      //var scaleW = (layer.width - 2*margin) / this.buffer.width;
-      //var scaleH = (layer.height - 2*margin) / this.buffer.height;
-      var scale = scaleW < scaleH ? scaleW : scaleH;
-
-      var sx = 0;
-      var sy = 0;
-      var sw = this.buffer.width;
-      var sh = this.buffer.height;
-      var dw = Math.floor(sw * scale);
-      var dh = Math.floor(sh * scale);
-      var dx = margin; //Math.floor((layer.width - dw) / 2);
-      var dy = margin; //Math.floor((layer.height - dh) / 2);
-      
-
-      console.log(spaceWidth, spaceHeight, scale, sw,sh, dw,dh, dx,dy);
-
-
-      layer.drawImage(this.buffer, sx,sy, sw,sh, dx,dy, dw,dh);
-
-      //layer.drawImage(this.buffer, 0, 0);
+      var r = app.renderArea;
+      layer.drawImage(this.buffer, r.sx,r.sy, r.sw,r.sh, r.dx,r.dy, r.dw,r.dh);
       layer.restore();
-
-      //console.log(layer.width, layer.height);
     }
   },
 
   initBuffer: function() {
     this.buffer = document.createElement('canvas');
-    this.buffer.width = (this.room.width + 2) * ENGINE.Tileset.width;
-    this.buffer.height = (this.room.height + 3 + 1) * ENGINE.Tileset.height;
+    this.buffer.width = (app.settings.room.width + 2) * ENGINE.Tileset.width;
+    this.buffer.height = (app.settings.room.height + 3 + 1) * ENGINE.Tileset.height;
     this.buffer.ctx = this.buffer.getContext("2d");
 
     this.currentRoomBuffer = document.createElement('canvas');

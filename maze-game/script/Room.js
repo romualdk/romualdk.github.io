@@ -261,7 +261,7 @@ ENGINE.Room.prototype.initFloor = function() {
     
   
   // set obstacles
-  var iObstacles = Math.floor(Math.random() * 3) + 1;
+  var iObstacles = Math.floor(Math.random() * 2) + 1;
   for(var i = 0; i < iObstacles; i++) {
     var ox = Math.floor(Math.random() * Math.floor(this.width / 2)) + 1;
     var oy = Math.floor(Math.random() * Math.floor(this.height / 2)) + 2;

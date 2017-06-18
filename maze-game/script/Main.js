@@ -4,7 +4,23 @@ var app = new PLAYGROUND.Application({
   scale: 1,
   preferedAudioFormat: "mp3",
 
+  settings: {
+    room: {
+      width: 7,
+      height: 7
+    }
+  },
+
   debug: false,
+
+
+  swipeAngles: [
+      ["up", 235,305],
+      ["right", 325, 360],
+      ["right", 0, 35],
+      ["down", 55, 125],
+      ["left", 145, 215]
+    ],
 
   controls: {
     up: false,
@@ -27,6 +43,30 @@ var app = new PLAYGROUND.Application({
     }
   },
 
+  pointerdown: function(event) {
+    this.p1 = event;
+  },
+
+  pointerup: function(event) {
+    this.p2 = event;
+
+    var angle = Math.atan2(this.p2.y - this.p1.y, this.p2.x - this.p1.x) * 180 / Math.PI;
+    if(angle < 0){
+        angle += 360;
+    }
+
+    var direction = null;
+    var i = 0;
+    while(direction == null && i < this.swipeAngles.length) {
+      if(angle >= this.swipeAngles[i][1] && angle < this.swipeAngles[i][2]) {
+        direction = this.swipeAngles[i][0];
+      }
+      i++;
+    }
+
+    this.controls[direction] = true;
+  },
+
   create: function() {
     this.loadImage("font");
 
@@ -36,13 +76,34 @@ var app = new PLAYGROUND.Application({
   },
 
   resize: function() {
+    this.bufferMargin = ENGINE.Tileset.width;
+    this.bufferWidth = (app.settings.room.width + 2) * ENGINE.Tileset.width;
+    this.bufferHeight = (app.settings.room.height + 3 + 1) * ENGINE.Tileset.height;
+/*
+    var spaceWidth = Math.floor((this.width - 2*this.bufferMargin) / ENGINE.Tileset.width) * ENGINE.Tileset.width;
+    var spaceHeight = Math.floor((this.height - 2*this.bufferMargin) / ENGINE.Tileset.height) * ENGINE.Tileset.height;
+    var scaleW = spaceWidth / this.bufferWidth;
+    var scaleH = spaceHeight / this.bufferHeight;*/
 
-    var minH = this.width / (ENGINE.Tileset.width * (9+2));
-    var minV = this.height / (ENGINE.Tileset.height * (9+4));
+    var scaleW = Math.floor(this.width / this.bufferWidth);
+    var scaleH = Math.floor(this.height / this.bufferHeight);
 
-    //this.scale = minH < minV ? minH : minV;
-    console.log(this.scale);
+    var scale = scaleW < scaleH ? scaleW : scaleH;
+
+    this.renderArea = {
+      sx: 0,
+      sy: 0,
+      sw: this.bufferWidth,
+      sh: this.bufferHeight,
+      dw: Math.floor(this.bufferWidth * scale),
+      dh: Math.floor(this.bufferHeight * scale),
+      dx: 0,
+      dy: 0
+    };
+
+
   },
+
 
   ready: function() {
     // CUSTOM PALETTE MODE
