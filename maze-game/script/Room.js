@@ -258,8 +258,6 @@ ENGINE.Room.prototype.initFloor = function() {
   // set switch
     this.tiles[this.centerCoords[0]][this.centerCoords[1]] = ENGINE.Tileset._DOOR_SWITCH[0];
   
-    
-  
   // set obstacles
   var iObstacles = Math.floor(Math.random() * 2) + 1;
   for(var i = 0; i < iObstacles; i++) {
