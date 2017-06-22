@@ -26,7 +26,8 @@ var app = new PLAYGROUND.Application({
     up: false,
     right: false,
     down: false,
-    left: false
+    left: false,
+    a: false
   },
 
   keydown: function(event) {
@@ -48,7 +49,17 @@ var app = new PLAYGROUND.Application({
   },
 
   pointerup: function(event) {
+    
+
     this.p2 = event;
+    var a = this.p1.x - this.p2.x;
+    var b = this.p1.y - this.p2.y;
+    var distance = Math.sqrt( a*a + b*b );
+
+    if(distance <= 10) {
+      this.controls.a = true;
+      return false;
+    }
 
     var angle = Math.atan2(this.p2.y - this.p1.y, this.p2.x - this.p1.x) * 180 / Math.PI;
     if(angle < 0){
@@ -68,11 +79,12 @@ var app = new PLAYGROUND.Application({
   },
 
   create: function() {
-    this.loadImage("font");
+    
 
     this.bgColor = "#091431";
     this.loadImage("dungeon");
-    this.loadSounds("Walk", "Door", "Hurt", "Coin", "LifeUp");
+    this.loadImage("font");
+    this.loadSounds("Walk", "Door", "Hurt", "Coin", "LifeUp", "8bitDungeonLevel");
   },
 
   resize: function() {
@@ -123,7 +135,7 @@ var app = new PLAYGROUND.Application({
 
     
 
-    this.setState(ENGINE.Game);
+    this.setState(ENGINE.Menu);
 
     
 

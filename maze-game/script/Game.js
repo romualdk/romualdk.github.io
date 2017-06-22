@@ -46,6 +46,8 @@ ENGINE.Game = {
     this.initBuffer();
     this.renderHUD();
 
+    app.sound.setPlaybackRate(app.music, 1.5);
+
   },
 
 
@@ -140,6 +142,19 @@ ENGINE.Game = {
     }
 
     
+
+    if(app.controls.a) {
+      //var dx = this.player.x * ENGINE.Tileset.width + Math.floor(ENGINE.Tileset.width / 2);
+      //var dy = this.player.y * ENGINE.Tileset.height;
+
+      //var color = "#ff004d";
+      //this.particles.push(new ENGINE.ParticleText(dx,dy, "!", color));
+      this.app.sound.play("Coin");
+      this.addPoints(1);
+
+      app.controls.a = false;
+    }
+
 
     // Update player state
     this.player.step(dt);
