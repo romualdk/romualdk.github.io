@@ -1,5 +1,14 @@
-ENGINE.Room = function(width, height, doors, entrance) {
-    //console.log('Generating new room.');
+ENGINE.Room = function(width, height, doors, entrance, maze, x,y) {
+    this.isEntrance = false;
+    this.isExit = false;
+
+    if(y > (maze.height - 1)) {
+        this.isEntrance = true;
+    }
+    else if (y < 0) {
+        this.isExit = true;
+    }
+
     var d = new Date();
     var t1 = d.getTime();
 
@@ -59,21 +68,27 @@ ENGINE.Room = function(width, height, doors, entrance) {
                 && (
                     ox != this.doorEntranceCoords[entrance][0]
                     || oy != this.doorEntranceCoords[entrance][1]
-                )) {
-                    emptySpace = true;
-                    //this.tiles[ox][oy] = ENGINE.Tileset._FLOOR_DISCOVERED;
-                    this.items.push(new ENGINE.Coin(ox, oy));
-                    coins.push(ox + "x" + oy);
+                ))
+                {
+                    if(!this.isEntrance
+                    || (this.isEntrance && ox != this.centerCoords[0] && oy != (this.centerCoords[1]-1))) {
+                        emptySpace = true;
+                        this.items.push(new ENGINE.Coin(ox, oy));
+                        coins.push(ox + "x" + oy);
+                    }
                 }
             }
         }
     }
 
+    if(this.isEntrance) {
+        this.showHints([this.centerCoords[0], this.centerCoords[0]-1]);
+    }
+    else {
+        this.showHints(this.doorEntranceCoords[entrance]);
+    }
 
     this.hideSpikes();
-
-    this.showHints(this.doorEntranceCoords[entrance]);
-
     this.initDoors();
 
 
@@ -164,13 +179,21 @@ ENGINE.Room.prototype.initDoors = function() {
   }
 
 
-  // set switch
-    this.tiles[this.centerCoords[0]][this.centerCoords[1]] = ENGINE.Tileset._DOOR_SWITCH[this.openedDoor];
+  // set switchswitch
+    if(!this.isEntrance && !this.isExit) {
+        this.tiles[this.centerCoords[0]][this.centerCoords[1]] = ENGINE.Tileset._DOOR_SWITCH[this.openedDoor];
+    }
+    
   
 }
 
 ENGINE.Room.prototype.shiftDoorsTo = function(openedDoor) {
-    this.tiles[this.centerCoords[0]][this.centerCoords[1]] = ENGINE.Tileset._DOOR_SWITCH[openedDoor];
+    //this.tiles[this.centerCoords[0]][this.centerCoords[1]] = ENGINE.Tileset._DOOR_SWITCH[openedDoor];
+
+    if(!this.isEntrance && !this.isExit) {
+        this.tiles[this.centerCoords[0]][this.centerCoords[1]] = ENGINE.Tileset._DOOR_SWITCH[this.openedDoor];
+    }
+
     this.image = this.getImage();
 
     for(var i = 0; i < 4; i++) {
@@ -254,9 +277,16 @@ ENGINE.Room.prototype.initFloor = function() {
   for(var y = 2; y < this.height+2; y++) {
     this.tiles[x][y] = ENGINE.Tileset._FLOOR;
   }
-
-  // set switch
+  
+  if(this.isEntrance) {
+    this.tiles[this.centerCoords[0]][this.centerCoords[1]] = ENGINE.Tileset._STAIRS_ENTRANCE;
+  }
+  else if(this.isExit) {
+    this.tiles[this.centerCoords[0]][this.centerCoords[1]] = ENGINE.Tileset._STAIRS_EXIT;
+  }
+  else {
     this.tiles[this.centerCoords[0]][this.centerCoords[1]] = ENGINE.Tileset._DOOR_SWITCH[0];
+  }
   
   // set obstacles
   var iObstacles = Math.floor(Math.random() * 2) + 1;
@@ -400,15 +430,20 @@ ENGINE.Room.prototype.showHints = function(pos) {
         var x = tilesToShow[i][0];
         var y = tilesToShow[i][1];
 
+        
+
         if(this.hints[x][y] == ENGINE.Tileset._FLOOR) {
             this.tiles[x][y] = ENGINE.Tileset._FLOOR_DISCOVERED;
 
             showedTiles++;
         }
         else if(this.tiles[x][y] == ENGINE.Tileset._FLOOR) {
-            this.tiles[x][y] = this.hints[x][y];
+            if(typeof(this.tiles[x][y]) != "undefined") {
+                this.tiles[x][y] = this.hints[x][y];
+                showedTiles++;
+            }
 
-            showedTiles++;
+            
         }
 
         
@@ -444,8 +479,17 @@ ENGINE.Room.prototype.evaluate = function() {
         }
     }
 
-    // Put flood on center - flood starts on the switch
-    copy[this.centerCoords[0]][this.centerCoords[1]] = ENGINE.Tileset._NULL;
+    if(this.isEntrance) {
+        if(!ENGINE.Tileset.isWalkable(copy[this.centerCoords[0]][this.centerCoords[1]-1])) {
+            return false;
+        }
+
+        copy[this.centerCoords[0]][this.centerCoords[1]-1] = ENGINE.Tileset._NULL;
+    }
+    else {
+        // Put flood on center - flood starts on the switch
+        copy[this.centerCoords[0]][this.centerCoords[1]] = ENGINE.Tileset._NULL;
+    }
 
     var changed = true;
 

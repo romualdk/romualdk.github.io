@@ -3,6 +3,16 @@ ENGINE.Font = {
     size: 8,
     columns: 16,
 
+    setImage: function(image) {
+        this.image = image;
+        /*this.original = image;
+        this.image = cq(this.original).canvas;*/
+    },
+
+    resetImage: function() {
+        //this.image = cq(this.original).canvas;
+    },
+
     setColor: function(color = "#ffffff") {
         var palette = [color];
         var img = cq(this.image).matchPalette(palette);

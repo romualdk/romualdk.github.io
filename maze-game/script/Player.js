@@ -1,5 +1,5 @@
 ENGINE.Player = function(pos) {
-    this.lifes = 5;
+    this.lifes = 3;
     this.maxLifes = 4;
     this.isDead = false;
     this.width = 16;
@@ -11,9 +11,6 @@ ENGINE.Player = function(pos) {
     this.animStep = 0;
     
     this.move(pos);
-    
-    
-    
 }
 
 ENGINE.Player.prototype.step = function(dt) {

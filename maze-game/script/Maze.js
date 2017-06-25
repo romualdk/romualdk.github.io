@@ -41,32 +41,47 @@ ENGINE.Maze = {
 },
 
 
-image: function(m) {
+image: function(m, currentRoom) {
+  /*if(typeof(currentRoom) == "undefined") {
+    currentRoom = m.entry[0] + "x" + m.entry[1];
+  }*/
+
   var canvas = document.createElement('canvas');
   canvas.width = m.x*4+1;
   canvas.height = m.y*4+1;
   var ctx = canvas.getContext("2d");
 
-  ctx.fillStyle = 'rgb(0, 0, 0)';
+  ctx.fillStyle = app.bgColor;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  ctx.fillStyle = 'rgb(255,255,255)';
+  //ctx.fillStyle = app.outlineColor;
+  ctx.fillStyle = app.fogColor;
 
   ctx.fillRect(0,0, canvas.width,1);
   ctx.fillRect(0,0, 1, canvas.height);
   ctx.fillRect(0, canvas.height-1, canvas.width, 1);
   ctx.fillRect(canvas.width-1, 0, 1, canvas.height);
 
-  ctx.fillStyle = 'rgb(0, 0, 0)';
+  ctx.fillStyle = app.bgColor;
   // entry
   ctx.fillRect(m.entry[0]*4+1, canvas.height-1, 3, 1);
   // exit
   ctx.fillRect(m.exit[0]*4+1, 0, 3,1);
 
-  ctx.fillStyle = 'rgb(255,255,255)';
+  //ctx.fillStyle = app.outlineColor;
+  ctx.fillStyle = app.fogColor;
 
   for(var x = 0; x < m.x; x++)
   for(var y = 0; y < m.y; y++) {
+    var id = x + "x" + y;
+
+    if(id == currentRoom) {
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(1+x*4, 1+y*4, 3,3);
+      //ctx.fillStyle = app.outlineColor;
+      ctx.fillStyle = app.fogColor;
+    }
+
 
     if(x < m.x-1) {
       // vertical lines
@@ -82,9 +97,6 @@ image: function(m) {
         ctx.fillRect(x*4,(y+1)*4, 5, 1);
       }
     }
-    
-
-    //console.log(x, y, m.horiz[y][x]);
     
 
   }

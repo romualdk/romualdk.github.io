@@ -79,12 +79,15 @@ var app = new PLAYGROUND.Application({
   },
 
   create: function() {
-    
-
     this.bgColor = "#091431";
+    this.outlineColor = "#29adff";
+    this.fogColor = "#5f574f";
+
+    this.loadImage("title_ko");
     this.loadImage("dungeon");
     this.loadImage("font");
-    this.loadSounds("Walk", "Door", "Hurt", "Coin", "LifeUp", "8bitDungeonLevel");
+    this.loadImage("fontd");
+    this.loadSounds("Walk", "Door", "Hurt", "Coin", "LifeUp"/*, "8bitDungeonLevel"*/);
   },
 
   resize: function() {
@@ -129,13 +132,16 @@ var app = new PLAYGROUND.Application({
 
     
 
-    ENGINE.Font.image = this.images.font;
+    //ENGINE.Font.image = this.images.font;
+    ENGINE.Font.setImage(this.images.font);
     ENGINE.Tileset.image = app.images.dungeon;
 
 
     
 
     this.setState(ENGINE.Menu);
+
+    //this.setState(ENGINE.Game);
 
     
 

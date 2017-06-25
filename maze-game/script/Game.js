@@ -35,23 +35,30 @@ ENGINE.Game = {
 
 
   create: function() {
-
     this.maze = ENGINE.Maze.generate(3, 3);
     this.maze.width = 3;
     this.maze.height = 3;
     this.mazeImage = ENGINE.Maze.image(this.maze);
     this.player = new ENGINE.Player(0, 0);
-    this.changeRoom(this.maze.entry[0], this.maze.entry[1]+1, 2, true);
 
     this.initBuffer();
-    this.renderHUD();
 
-    app.sound.setPlaybackRate(app.music, 1.5);
+    this.changeRoom(this.maze.entry[0], this.maze.entry[1]+1, 2, true);
+    
+
+    this.dialog = new ENGINE.Dialog("Be careful!    The maze is dangerous.    And there is   an Orc keeping the exit.");
+
+    console.log(this.dialog.bg.width);
+    console.log(this.dialog.bg.height);
+
+    //app.sound.setPlaybackRate(app.music, 1.5);
 
   },
 
 
   changeRoom: function(x, y, door, isStart = false) {
+    this.particles = [];
+
     var room = ENGINE.Maze.room(this.maze, x, y);
     var oppositeDoor = (door + 2) % 4;
     var id = x + "x" + y;
@@ -66,7 +73,13 @@ ENGINE.Game = {
     this.previousRoom = this.room;
     this.room = this.rooms[id];
 
-    this.player.move(this.room.doorEntranceCoords[oppositeDoor]);
+    if(this.room.isEntrance) {
+      this.player.move([this.room.centerCoords[0], this.room.centerCoords[1]-1]);
+    }
+    else {
+      this.player.move(this.room.doorEntranceCoords[oppositeDoor]);
+    }
+    
     
 
     this.mazeX = x;
@@ -80,6 +93,9 @@ ENGINE.Game = {
       this.renderRoom(this.currentRoomBuffer, this.room, false);
       this.renderRoom(this.previousRoomBuffer, this.previousRoom, false);
     }
+
+    this.renderMap();
+    this.renderHUD();
     
   },
 
@@ -87,7 +103,9 @@ ENGINE.Game = {
 
 
   step: function(dt) {
+    
 
+    
 
     if(this.changingRoom && this.previousRoom instanceof ENGINE.Room) {
       this.changingRoomTime -= dt;
@@ -130,6 +148,10 @@ ENGINE.Game = {
       }
     }
 
+    if(this.dialog.step(dt) == true) {
+      return true;
+    }
+
 
     // GAME OVER
     if(this.player.isDead) {
@@ -142,18 +164,13 @@ ENGINE.Game = {
     }
 
     
-
+/*
     if(app.controls.a) {
-      //var dx = this.player.x * ENGINE.Tileset.width + Math.floor(ENGINE.Tileset.width / 2);
-      //var dy = this.player.y * ENGINE.Tileset.height;
-
-      //var color = "#ff004d";
-      //this.particles.push(new ENGINE.ParticleText(dx,dy, "!", color));
       this.app.sound.play("Coin");
       this.addPoints(1);
 
       app.controls.a = false;
-    }
+    }*/
 
 
     // Update player state
@@ -259,7 +276,7 @@ ENGINE.Game = {
     var points = this.points - this.prevPoints;
 
     if(points != 0) {
-      if((this.points - this.lastLifePoints) >= 100) {
+      if((this.points - this.lastLifePoints) >= 500) {
         var color = "#ff004d";
         this.particles.push(new ENGINE.ParticleText(dx,dy, String.fromCharCode(3), color));
 
@@ -267,7 +284,7 @@ ENGINE.Game = {
         this.app.sound.play("LifeUp");
         this.renderHUD();
 
-        this.lastLifePoints = Math.floor(this.points / 100) * 100;
+        this.lastLifePoints = Math.floor(this.points / 500) * 500;
       }
       else {
         var color = points > 0 ? "#00e756" : "#ff004d";
@@ -307,6 +324,14 @@ ENGINE.Game = {
     ENGINE.Font.setColor("#29adff");
     ENGINE.Font.text(this.buffer.ctx, roomWidth - margin - ENGINE.Font.size*(str.length+1)-2, roomHeight + margin, String.fromCharCode(228));
 
+    var dx = Math.floor((roomWidth - this.mazeBuffer.width) / 2);
+    var dy = roomHeight + ENGINE.Tileset.height - this.mazeBuffer.height;
+    this.buffer.ctx.drawImage(this.mazeBuffer, dx,dy);
+    this.buffer.ctx.drawImage(this.mazeFogBuffer, dx,dy);
+
+    
+
+
 },
 
 
@@ -322,13 +347,30 @@ ENGINE.Game = {
       this.points = 0;
     }
 
-    
-    
-
     this.renderHUD();
   },
 
 
+  renderMap: function() {
+    this.mazeBuffer = ENGINE.Maze.image(this.maze, this.mazeX + "x" + this.mazeY);
+    this.updateMapFog(this.mazeX, this.mazeY);
+  },
+
+  updateMapFog: function(x, y) {
+    if(typeof(this.mazeFogBuffer) == "undefined") {
+      this.mazeFogBuffer = document.createElement('canvas');
+      this.mazeFogBuffer.width = this.mazeBuffer.width;
+      this.mazeFogBuffer.height = this.mazeBuffer.height;
+      this.mazeFogBuffer.ctx = this.mazeFogBuffer.getContext("2d");
+
+      this.mazeFogBuffer.ctx.fillStyle = app.fogColor;
+      this.mazeFogBuffer.ctx.fillRect(0,0, this.mazeFogBuffer.width, this.mazeFogBuffer.height);
+    }
+
+    if(x >= 0 && y >= 0) {
+      this.mazeFogBuffer.ctx.clearRect(x*4,y*4, 5,5);
+    }
+  },
 
 
   renderRoom: function(layer, room, renderPlayer = true) {
@@ -509,6 +551,11 @@ ENGINE.Game = {
 
     }
     
+    if(this.dialog) {
+      this.dialog.render(this.buffer);
+    }
+
+
     if(drawBuffer) {
       layer.clear(app.bgColor);
       layer.save();

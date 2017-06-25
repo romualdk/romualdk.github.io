@@ -7,14 +7,14 @@ ENGINE.Menu = {
         this.startButton = new ENGINE.ParticleText(0,0, "PRESS START");
         this.startButton.lifetime = 0;
 
-        app.music = app.sound.play("8bitDungeonLevel", true);
-        app.sound.fadeIn(app.music);
+        //app.music = app.sound.play("8bitDungeonLevel", true);
+        //app.sound.fadeIn(app.music);
     },
 
     step: function(dt) {
-        this.buttonTime += dt * 1.5;
-        if(this.buttonTime >= 4) {
-            this.buttonTime = this.buttonTime % 4;
+        this.buttonTime += dt * 2;
+        if(this.buttonTime >= 3) {
+            this.buttonTime = this.buttonTime % 3;
         }
 
         if(app.controls.a) {
@@ -34,11 +34,18 @@ ENGINE.Menu = {
         this.buffer.ctx.fillStyle = app.bgColor;
         this.buffer.ctx.fillRect(0,0, this.buffer.width, this.buffer.height);
 
-        if(this.buttonTime % 4 <= 2) {
+        var dx = Math.floor((this.buffer.width - app.images.title_ko.width) / 2);
+        var dy = 16;
+        this.buffer.ctx.drawImage(app.images.title_ko, dx, dy);
+
+        //if(this.buttonTime % 3 <= 2) {
+
+        this.buffer.ctx.globalAlpha = 1 - this.buttonTime / 2;
             var dx = Math.floor((this.buffer.width - this.startButton.image.width) / 2);
-            var dy = Math.floor((this.buffer.height - this.startButton.image.height) / 2);
+            var dy = Math.floor((this.buffer.height - this.startButton.image.height) / 2) + 16;
             this.buffer.ctx.drawImage(this.startButton.image, dx,dy);
-        }
+        this.buffer.ctx.globalAlpha = 1;
+        //}
 
 
         var r = app.renderArea;
