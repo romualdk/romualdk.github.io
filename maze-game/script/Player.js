@@ -31,7 +31,7 @@ ENGINE.Player.prototype.move = function(pos) {
     return true;
 }
 
-ENGINE.Player.prototype.hurt = function() {
+ENGINE.Player.prototype.hurt = function(gameover) {
     this.tile = ENGINE.Tileset._PLAYER_HURT;
     this.isHurt = true;
     this.animStep = 0;
@@ -39,6 +39,7 @@ ENGINE.Player.prototype.hurt = function() {
     this.lifes--;
     if(this.lifes == 0) {
         this.isDead = true;
+        gameover()
     }
 }
 

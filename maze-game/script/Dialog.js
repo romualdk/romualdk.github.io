@@ -1,16 +1,44 @@
-ENGINE.Dialog = function(text, character, next) {
+ENGINE.Dialog = function(text, portrait, next, wait) {
     ENGINE.Font.setImage(app.images.fontd);
 
     this.width = (app.settings.room.width+1)*2;
     this.height = 4;
-    this.text = ENGINE.Dialog.splitText(text, this.width, this.height);
+
+
+    if(portrait > 0) {
+        this.portrait = portrait;
+        this.portraitW = 4 * 8;
+        this.portraitH = 4 * 8;
+        var portraitsInRow = 5;
+        var portraitsStart = 38 + this.portrait;
+        this.portraitSx = (portraitsStart % portraitsInRow) * this.portraitW;
+        this.portraitSy = Math.floor(portraitsStart / portraitsInRow) * this.portraitH;
+        this.textMargin = this.portraitW + 4;
+    }
+    else {
+        this.textMargin = 0;
+    }
+
+    this.textCharacters = this.width - 4;
+
+    this.text = ENGINE.Dialog.splitText(text, this.textCharacters, this.height);
     this.bg = this.bgImage();
     this.image = cq(this.bg);
     this.currentChunk = 0;
-    this.renderText();
+    this.renderMessage();
 
     this.flashTime = 0;
-    this.active = 1;
+
+    if(wait > 0) {
+        this.active = 0;
+        this.wait = wait;
+    }
+    else {
+        this.active = 1;
+    }
+    
+
+    this.next = next;
 
     ENGINE.Font.setImage(app.images.font);
     app.controls.a = false;
@@ -18,16 +46,37 @@ ENGINE.Dialog = function(text, character, next) {
 
 
 ENGINE.Dialog.prototype.step = function(dt) {
+    if(this.active == 0 && this.waitt <= 0) {
+        return false;
+    }
+    else if(this.wait > 0) {
+        this.wait -= dt;
+
+        if(this.wait <= 0) {
+            this.active = 1;
+            this.wait = 0;
+            this.currentChunk = 0;
+            ENGINE.Font.setImage(app.images.fontd);
+            this.renderMessage();
+
+        }
+    }
+
     if(app.controls.a) {
         this.currentChunk++;
         app.controls.a = false;
         ENGINE.Font.setImage(app.images.fontd);
-        this.renderText();
+        this.renderMessage();
     }
 
     if(this.currentChunk >= this.text.length) {
         this.active = 0;
         ENGINE.Font.setImage(app.images.font);
+
+        if(this.next) {
+            this.next();
+        }
+
         return false;
     }
 
@@ -45,7 +94,7 @@ ENGINE.Dialog.prototype.step = function(dt) {
 
 
 ENGINE.Dialog.prototype.render = function(buffer) {
-    if(!this.active) {
+    if(this.active != 1) {
         return false;
     }
 
@@ -66,12 +115,20 @@ ENGINE.Dialog.prototype.renderFlash = function() {
     ENGINE.Font.setImage(app.images.font);
 }
 
-ENGINE.Dialog.prototype.renderText = function() {
+
+ENGINE.Dialog.prototype.renderPortrait = function() {
+    this.image.drawImage(ENGINE.Tileset.image, this.portraitSx, this.portraitSy, this.portraitW, this.portraitH, 8, 8,  this.portraitW, this.portraitH);
+}
+
+ENGINE.Dialog.prototype.renderMessage = function() {
     this.bg = this.bgImage();
     this.image = cq(this.bg);
 
+    this.renderPortrait();
+
     for(var i in this.text[this.currentChunk]) {
-        ENGINE.Font.text(this.image, 8, (i*1+1)*8, this.text[this.currentChunk][i]);
+        //ENGINE.Font.text(this.image, 8 + this.textMargin, (i*1+1)*8, this.text[this.currentChunk][i], 6);
+        ENGINE.Font.textW(this.image, 8 + this.textMargin, (i*1+1)*9-2, this.text[this.currentChunk][i], 8);
     }
 }
 
@@ -109,6 +166,58 @@ ENGINE.Dialog.prototype.bgImage = function() {
 
 
 ENGINE.Dialog.splitText = function(text, maxWidth, maxHeight) {
+    var textArr = [];
+    var words = text.split(" ");
+
+    maxWidth = maxWidth * 8;
+
+    var i = 0;
+    var width = 0;
+    textArr[0] = "";
+    var w = 0;
+
+    var spaceWidth = ENGINE.Font.charWidth(32, 7);
+
+    while(w < words.length) {
+        var wordWidth = ENGINE.Font.wordWidth(words[w], 7);
+        
+        if((width + wordWidth) <= maxWidth) {
+            textArr[i] += words[w] + " ";
+            
+            width += wordWidth + spaceWidth;
+            w++;
+        }
+        else {
+            width = 0;
+            i++;
+            textArr[i] = "";
+        }
+    }
+
+    newText = [];
+    var n = 0;
+    var line = 0;
+    newText[n] = [];
+    var i = 0;
+
+    while(i < textArr.length) {
+        if(line < maxHeight) {
+            newText[n][line] = textArr[i];
+            line++;
+            i++;
+        }
+        else {
+            line = 0;
+            n++;
+            newText[n] = [];
+        }
+    }
+
+    return newText;
+}
+
+
+ENGINE.Dialog.splitText_OLD = function(text, maxWidth, maxHeight) {
     var textArr = [];
     var words = text.split(" ");
 

@@ -32,7 +32,44 @@ ENGINE.Game = {
   },
 
   
+  resetGame: function() {
+    this.lastLifePoints = 0;
+    this.prevPoints = 0;
+    this.points = 0;
+    this.maxPoints = 9999;
 
+    this.player = null;
+    this.maze = null;
+    this.rooms = {}; // list of generated rooms with their current state
+    this.room = null; // current room pointer
+
+    this.mazeX = 0;
+    this.mazeY = 0;
+
+    this.flash = false;
+    this.flashTime = 0;
+
+    this.changingRoom = false;
+    this.changingRoomTime = 0;
+    this.changingRoomSpeed = 0.5;
+
+    this.debug = false;
+
+    this.particles = [];
+
+    delete this.mazeFogBuffer;
+
+
+
+    this.create();
+    app.setState(ENGINE.Menu);
+  },
+
+  gameover: function() {
+    app.state.dialog = new ENGINE.Dialog("Ooh! You're dead. Try again.", 6, function() {
+    app.state.resetGame();
+    }, 1.25);
+  },
 
   create: function() {
     this.maze = ENGINE.Maze.generate(3, 3);
@@ -45,13 +82,7 @@ ENGINE.Game = {
 
     this.changeRoom(this.maze.entry[0], this.maze.entry[1]+1, 2, true);
     
-
-    this.dialog = new ENGINE.Dialog("Be careful!    The maze is dangerous.    And there is   an Orc keeping the exit.");
-
-    console.log(this.dialog.bg.width);
-    console.log(this.dialog.bg.height);
-
-    //app.sound.setPlaybackRate(app.music, 1.5);
+    this.dialog = new ENGINE.Dialog("My brave knight! Find the way in this maze of dungeons.", 6, null, 0.5);
 
   },
 
@@ -100,13 +131,9 @@ ENGINE.Game = {
   },
 
 
-
+  
 
   step: function(dt) {
-    
-
-    
-
     if(this.changingRoom && this.previousRoom instanceof ENGINE.Room) {
       this.changingRoomTime -= dt;
 
@@ -114,10 +141,6 @@ ENGINE.Game = {
         this.changingRoom = 0;
         this.changingRoomTime = 0;
       }
-
-      
-
-      //console.log(this.door);
 
       return false;
     }
@@ -239,7 +262,7 @@ ENGINE.Game = {
         this.room.image = this.room.getImage();
 
         this.app.sound.play("Hurt");
-        this.player.hurt();
+        this.player.hurt(this.gameover);
         this.flash = true;
         this.addPoints(-10);
         this.renderHUD();
