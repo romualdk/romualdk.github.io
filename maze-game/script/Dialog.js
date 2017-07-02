@@ -46,7 +46,7 @@ ENGINE.Dialog = function(text, portrait, next, wait) {
 
 
 ENGINE.Dialog.prototype.step = function(dt) {
-    if(this.active == 0 && this.waitt <= 0) {
+    if(this.active == 0 && this.wait <= 0) {
         return false;
     }
     else if(this.wait > 0) {
@@ -62,11 +62,12 @@ ENGINE.Dialog.prototype.step = function(dt) {
         }
     }
 
-    if(app.controls.a) {
+    if(app.controls.any() && this.active) {
         this.currentChunk++;
-        app.controls.a = false;
         ENGINE.Font.setImage(app.images.fontd);
         this.renderMessage();
+
+        app.controls.reset();
     }
 
     if(this.currentChunk >= this.text.length) {

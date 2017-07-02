@@ -66,7 +66,14 @@ ENGINE.Game = {
   },
 
   gameover: function() {
-    app.state.dialog = new ENGINE.Dialog("Ooh! You're dead. Try again.", 6, function() {
+    app.state.dialog = new ENGINE.Dialog("Ooh! I'm dead.", 1, function() {
+
+    app.totalPlays += 1;
+    app.totalPoints += Number.isInteger(app.state.points) ? app.state.points : 0;
+
+    localStorage.setItem("totalPoints", app.totalPoints);
+    localStorage.setItem("totalPlays", app.totalPlays);
+
     app.state.resetGame();
     }, 1.25);
   },
@@ -104,7 +111,7 @@ ENGINE.Game = {
     this.previousRoom = this.room;
     this.room = this.rooms[id];
 
-    if(this.room.isEntrance) {
+    if(this.room.isEntrance && isStart) {
       this.player.move([this.room.centerCoords[0], this.room.centerCoords[1]-1]);
     }
     else {
@@ -328,32 +335,53 @@ ENGINE.Game = {
     var roomWidth = (this.room.width + 2) * ENGINE.Tileset.width;
     var roomHeight = (this.room.height + 3) * ENGINE.Tileset.height;
 
-    this.buffer.ctx.fillStyle = app.bgColor;
-    this.buffer.ctx.fillRect(0, roomHeight, roomWidth, roomHeight + ENGINE.Tileset.height);
+
+    this.HudBuffer.ctx.fillStyle = app.bgColor;
+    this.HudBuffer.ctx.fillRect(0, 0, roomWidth, ENGINE.Tileset.height + 8);
 
     ENGINE.Font.setColor("#ff0000");
-    ENGINE.Font.text(this.buffer.ctx, margin, roomHeight + margin, String.fromCharCode(3));
+    ENGINE.Font.text(this.HudBuffer.ctx, margin, margin, String.fromCharCode(3));
     ENGINE.Font.setColor();
-    ENGINE.Font.text(this.buffer.ctx, margin + ENGINE.Font.size+4, roomHeight + margin, "" + this.player.lifes);
-
+    ENGINE.Font.text(this.HudBuffer.ctx, margin + ENGINE.Font.size+4, margin, "" + this.player.lifes);
 
     ENGINE.Font.setColor();
 
     var points = "" + this.points;
-    //var str = "Score: " + "0000".substring(0, 4 - points.length) + points;
     var str = "" + points;
-    ENGINE.Font.text(this.buffer.ctx, roomWidth - margin - ENGINE.Font.size*str.length, roomHeight + margin, str);
+    ENGINE.Font.text(this.HudBuffer.ctx, roomWidth - margin - ENGINE.Font.size*str.length, margin, str);
   
     ENGINE.Font.setColor("#29adff");
-    ENGINE.Font.text(this.buffer.ctx, roomWidth - margin - ENGINE.Font.size*(str.length+1)-2, roomHeight + margin, String.fromCharCode(228));
+    ENGINE.Font.text(this.HudBuffer.ctx, roomWidth - margin - ENGINE.Font.size*(str.length+1)-2, margin, String.fromCharCode(228));
 
     var dx = Math.floor((roomWidth - this.mazeBuffer.width) / 2);
-    var dy = roomHeight + ENGINE.Tileset.height - this.mazeBuffer.height;
+    var dy = ENGINE.Tileset.height - this.mazeBuffer.height;
+    this.HudBuffer.ctx.drawImage(this.mazeBuffer, dx,dy);
+    this.HudBuffer.ctx.drawImage(this.mazeFogBuffer, dx,dy);
+
+
+/*
+
+    this.buffer.ctx.fillStyle = app.bgColor;
+    this.buffer.ctx.fillRect(0, 0, roomWidth, ENGINE.Tileset.height + 8);
+
+    ENGINE.Font.setColor("#ff0000");
+    ENGINE.Font.text(this.buffer.ctx, margin, margin, String.fromCharCode(3));
+    ENGINE.Font.setColor();
+    ENGINE.Font.text(this.buffer.ctx, margin + ENGINE.Font.size+4, margin, "" + this.player.lifes);
+
+    ENGINE.Font.setColor();
+
+    var points = "" + this.points;
+    var str = "" + points;
+    ENGINE.Font.text(this.buffer.ctx, roomWidth - margin - ENGINE.Font.size*str.length, margin, str);
+  
+    ENGINE.Font.setColor("#29adff");
+    ENGINE.Font.text(this.buffer.ctx, roomWidth - margin - ENGINE.Font.size*(str.length+1)-2, margin, String.fromCharCode(228));
+
+    var dx = Math.floor((roomWidth - this.mazeBuffer.width) / 2);
+    var dy = ENGINE.Tileset.height - this.mazeBuffer.height;
     this.buffer.ctx.drawImage(this.mazeBuffer, dx,dy);
-    this.buffer.ctx.drawImage(this.mazeFogBuffer, dx,dy);
-
-    
-
+    this.buffer.ctx.drawImage(this.mazeFogBuffer, dx,dy);*/
 
 },
 
@@ -397,15 +425,17 @@ ENGINE.Game = {
 
 
   renderRoom: function(layer, room, renderPlayer = true) {
+      var offsetY = ENGINE.Tileset.height;
+
       // ROOM
-      layer.ctx.drawImage(room.image, 0,0);
+      layer.ctx.drawImage(room.image, 0,offsetY);
 
       // DOOR
       for(var i in room.doorSprites) {
         var x = room.doorSprites[i].x * ENGINE.Tileset.width;
         var y = room.doorSprites[i].y * ENGINE.Tileset.width;
 
-        layer.ctx.drawImage(room.doorSprites[i].image, x, y);
+        layer.ctx.drawImage(room.doorSprites[i].image, x, offsetY + y);
       }
 
 
@@ -415,7 +445,7 @@ ENGINE.Game = {
         for(var i in room.spikes) {
           var pos = room.spikes[i].split("x");
           var dx = pos[0] * ENGINE.Tileset.width;
-          var dy = pos[1] * ENGINE.Tileset.height;
+          var dy = offsetY + pos[1] * ENGINE.Tileset.height;
           var tilePos = ENGINE.Tileset.tilePos(ENGINE.Tileset._SPIKES);
           var sx = tilePos[0];
           var sy = tilePos[1];
@@ -431,7 +461,7 @@ ENGINE.Game = {
       for(var i in room.items) {
         var tilePos = ENGINE.Tileset.tilePos(ENGINE.Tileset._COIN[room.items[i].frame]);
         var dx = room.items[i].x * ENGINE.Tileset.width;
-        var dy = room.items[i].y * ENGINE.Tileset.height;
+        var dy = offsetY + room.items[i].y * ENGINE.Tileset.height;
 
         layer.ctx.drawImage(ENGINE.Tileset.image, tilePos[0], tilePos[1], ENGINE.Tileset.width, ENGINE.Tileset.height, dx, dy, ENGINE.Tileset.width, ENGINE.Tileset.height);
 
@@ -443,7 +473,7 @@ ENGINE.Game = {
         var tilePos = ENGINE.Tileset.tilePos(this.player.tile);
 
         var dx = this.player.x * ENGINE.Tileset.width;
-        var dy = this.player.y * ENGINE.Tileset.height;
+        var dy = offsetY + this.player.y * ENGINE.Tileset.height;
 
         layer.ctx.drawImage(ENGINE.Tileset.image, tilePos[0], tilePos[1], ENGINE.Tileset.width, ENGINE.Tileset.height, dx, dy, ENGINE.Tileset.width, ENGINE.Tileset.height);
       }
@@ -452,6 +482,8 @@ ENGINE.Game = {
 
 
   renderChangingRoom: function(layer, door) {
+    var offsetY = ENGINE.Tileset.height;
+
     var p = this.changingRoomTime / this.changingRoomSpeed * 100;
     var rw = this.currentRoomBuffer.width;
     var rh = this.currentRoomBuffer.height - ENGINE.Tileset.height;
@@ -460,18 +492,18 @@ ENGINE.Game = {
       var shift = Math.floor(rh * p /100);
 
       var sx = 0;
-      var sy = shift;
+      var sy = shift + offsetY + 8;
       var sw = this.currentRoomBuffer.width;
       var sh = rh - shift;
 
-      layer.ctx.drawImage(this.currentRoomBuffer, sx,sy,sw,sh, 0,0,sw,sh);
+      layer.ctx.drawImage(this.currentRoomBuffer, sx,sy,sw,sh, 0,offsetY + 8,sw,sh);
 
       var sx = 0;
-      var sy = 0;
+      var sy = offsetY;
       var sw = this.currentRoomBuffer.width;
       var sh = shift;
       var dx = 0;
-      var dy = rh - shift;
+      var dy = offsetY + rh - shift;
 
       layer.ctx.drawImage(this.previousRoomBuffer, sx,sy,sw,sh, dx,dy,sw,sh);
 
@@ -481,18 +513,18 @@ ENGINE.Game = {
       var shift = Math.floor(rh * p /100);
 
       var sx = 0;
-      var sy = rh - shift;
+      var sy = offsetY + 8 + rh - shift;
       var sw = this.currentRoomBuffer.width;
       var sh = shift;
 
-      layer.ctx.drawImage(this.previousRoomBuffer, sx,sy,sw,sh, 0,0,sw,sh);
+      layer.ctx.drawImage(this.previousRoomBuffer, sx,sy,sw,sh, 0,offsetY + 8,sw,sh);
 
       var sx = 0;
-      var sy = 0;
+      var sy = offsetY;
       var sw = this.currentRoomBuffer.width;
       var sh = rh - shift;
       var dx = 0;
-      var dy = shift;
+      var dy = offsetY + shift;
 
       layer.ctx.drawImage(this.currentRoomBuffer, sx,sy,sw,sh, dx,dy,sw,sh);
     }
@@ -556,7 +588,9 @@ ENGINE.Game = {
     else {
       this.renderRoom(this.buffer, this.room);
 
-  
+      // HUD
+      this.buffer.ctx.drawImage(this.HudBuffer, 0,0, this.HudBuffer.width, this.HudBuffer.height);
+
 
       // Particles
       for(var i in this.particles) {
@@ -606,6 +640,11 @@ ENGINE.Game = {
     this.previousRoomBuffer.width = this.buffer.width;
     this.previousRoomBuffer.height = this.buffer.height;
     this.previousRoomBuffer.ctx = this.previousRoomBuffer.getContext("2d");
+
+    this.HudBuffer = document.createElement('canvas');
+    this.HudBuffer.width = this.buffer.width;
+    this.HudBuffer.height = ENGINE.Tileset.height + 8;
+    this.HudBuffer.ctx = this.HudBuffer.getContext("2d");
   }
 
 };

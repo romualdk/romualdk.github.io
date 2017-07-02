@@ -27,7 +27,18 @@ var app = new PLAYGROUND.Application({
     right: false,
     down: false,
     left: false,
-    a: false
+    a: false,
+
+    any: function() {
+      return this.up || this.right || this.down || this.left || this.a;
+    },
+    reset: function() {
+      this.up = false;
+      this.right = false;
+      this.down = false;
+      this.left = false;
+      this.a = false;
+    }
   },
 
   keydown: function(event) {
@@ -35,12 +46,19 @@ var app = new PLAYGROUND.Application({
       this.controls[event.key] = true;
     }
 
+    if(event.key == "enter") {
+      this.controls.a = true;
+    }
     
   },
 
   keyup: function(event) {
     if(event.key in this.controls) {
       this.controls[event.key] = false;
+    }
+
+    if(event.key == "enter") {
+      this.controls.a = false;
     }
   },
 
@@ -87,7 +105,7 @@ var app = new PLAYGROUND.Application({
     this.loadImage("dungeon");
     this.loadImage("font");
     this.loadImage("fontd");
-    this.loadSounds("Walk", "Door", "Hurt", "Coin", "LifeUp"/*, "8bitDungeonLevel"*/);
+    this.loadSounds("Walk", "Door", "Hurt", "Coin", "LifeUp", "MenuMove", "MenuSelect"/*, "8bitDungeonLevel"*/);
   },
 
   resize: function() {

@@ -1,4 +1,4 @@
-ENGINE.ParticleText = function(x, y, text, color) {
+ENGINE.ParticleText = function(x, y, text, color, textW) {
     this.x = x;
     this.y = y;
 
@@ -8,7 +8,13 @@ ENGINE.ParticleText = function(x, y, text, color) {
     this.lifetime = 0.7;
 
     this.image = document.createElement('canvas');
-    this.image.width = ENGINE.Font.size * text.length + 2;
+    if(textW == true) {
+        this.image.width = ENGINE.Font.wordWidth(text, 8) + 2;
+    }
+    else {
+        this.image.width = ENGINE.Font.size * text.length + 2;
+    }
+    
     this.image.height = ENGINE.Font.size + 2;
     this.image.ctx = this.image.getContext("2d");
 
@@ -23,7 +29,12 @@ ENGINE.ParticleText = function(x, y, text, color) {
         ENGINE.Font.setColor(color);
     }
     
-    ENGINE.Font.text(this.image.ctx, 1,1, text);
+    if(textW == true) {
+        ENGINE.Font.textW(this.image.ctx, 1,1, text);
+    }
+    else {
+        ENGINE.Font.text(this.image.ctx, 1,1, text);
+    }
     
 }
 
