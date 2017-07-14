@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="qrks.romualdk.mazedungeon" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>MAZE Dungeon</name>
+    <description>
+        Find way out from a maze of dungeons.
+    </description>
+    <author email="romuald.kowalczyk@gmail.com" href="http://romualdk.github.io">
+        Romuald Kowalczyk
+        Dorota Kasperek
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <icon src="icon.png" />
+    <preference name="fullscreen" value="true" />
+    <preference name="DisallowOverscroll" value="true" />
+    <preference name="UIWebViewBounce" value="false" />
+</widget>
