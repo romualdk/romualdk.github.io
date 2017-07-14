@@ -67,6 +67,15 @@ ENGINE.Game = {
   },
 
   create: function() {
+    this.player = new ENGINE.Player(0, 0);
+    this.changeMaze();
+  },
+
+  enter: function() {
+    this.player.tile = ENGINE.Tileset._PLAYER + app.character;
+  },
+
+  changeMaze: function() {
     app.roomNumber++;
 
     this.mazeX = 0;
@@ -92,7 +101,7 @@ ENGINE.Game = {
     this.maze.width = 3;
     this.maze.height = 3;
     this.mazeImage = ENGINE.Maze.image(this.maze);
-    this.player = new ENGINE.Player(0, 0);
+    
 
     this.initBuffer();
 
@@ -104,7 +113,6 @@ ENGINE.Game = {
     else {
       this.dialog = new ENGINE.Dialog("Another maze. Carry on!", 6, null, 0.25);
     }
-
   },
 
 
@@ -249,7 +257,7 @@ ENGINE.Game = {
     }
     // EXIT STAIRS
     else if(pos[0] != null && pos[1] != null && this.room.tiles[pos[0]][pos[1]] == ENGINE.Tileset._STAIRS_EXIT) {
-      this.create();
+      this.changeMaze();
     }
     // Player movement
     else if(pos[0] != null && pos[1] != null && (this.room.isWalkableTile(pos[0], pos[1]) || this.room.isSpikes(pos))) {
