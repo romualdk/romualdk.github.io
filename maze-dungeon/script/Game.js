@@ -43,6 +43,32 @@ ENGINE.Game = {
     this.rooms = {}; // list of generated rooms with their current state
     this.room = null; // current room pointer
 
+    
+
+    initRandom();
+    randomReseed(app.randomSeed);
+
+    this.create();
+    app.setState(ENGINE.Menu);
+  },
+
+  gameover: function() {
+    app.roomNumber = 0;
+    app.state.dialog = new ENGINE.Dialog("Ooh! I'm dead.", 1 + app.character, function() {
+
+    app.totalPlays += 1;
+    app.totalPoints += Number.isInteger(app.state.points) ? app.state.points : 0;
+
+    localStorage.setItem("totalPoints", app.totalPoints);
+    localStorage.setItem("totalPlays", app.totalPlays);
+
+    app.state.resetGame();
+    }, 1.25);
+  },
+
+  create: function() {
+    app.roomNumber++;
+
     this.mazeX = 0;
     this.mazeY = 0;
 
@@ -58,27 +84,10 @@ ENGINE.Game = {
     this.particles = [];
 
     delete this.mazeFogBuffer;
+    delete this.maze;
+    delete this.room;
+    this.rooms = {};
 
-
-
-    this.create();
-    app.setState(ENGINE.Menu);
-  },
-
-  gameover: function() {
-    app.state.dialog = new ENGINE.Dialog("Ooh! I'm dead.", 1, function() {
-
-    app.totalPlays += 1;
-    app.totalPoints += Number.isInteger(app.state.points) ? app.state.points : 0;
-
-    localStorage.setItem("totalPoints", app.totalPoints);
-    localStorage.setItem("totalPlays", app.totalPlays);
-
-    app.state.resetGame();
-    }, 1.25);
-  },
-
-  create: function() {
     this.maze = ENGINE.Maze.generate(3, 3);
     this.maze.width = 3;
     this.maze.height = 3;
@@ -89,7 +98,12 @@ ENGINE.Game = {
 
     this.changeRoom(this.maze.entry[0], this.maze.entry[1]+1, 2, true);
     
-    this.dialog = new ENGINE.Dialog("My brave knight! Find the way in this maze of dungeons.", 6, null, 0.5);
+    if(app.roomNumber == 1) {
+      this.dialog = new ENGINE.Dialog("My brave knight! Find the way in this maze of dungeons.", 6, null, 0.5);
+    }
+    else {
+      this.dialog = new ENGINE.Dialog("Another maze. Carry on!", 6, null, 0.25);
+    }
 
   },
 
@@ -228,8 +242,17 @@ ENGINE.Game = {
 
     app.controls.reset();
 
+
+    // ENTRANCE STAIRS
+    if(pos[0] != null && pos[1] != null && this.room.tiles[pos[0]][pos[1]] == ENGINE.Tileset._STAIRS_ENTRANCE) {
+      this.dialog = new ENGINE.Dialog("There is no way back.", 6, null);
+    }
+    // EXIT STAIRS
+    else if(pos[0] != null && pos[1] != null && this.room.tiles[pos[0]][pos[1]] == ENGINE.Tileset._STAIRS_EXIT) {
+      this.create();
+    }
     // Player movement
-    if(pos[0] != null && pos[1] != null && (this.room.isWalkableTile(pos[0], pos[1]) || this.room.isSpikes(pos))) {
+    else if(pos[0] != null && pos[1] != null && (this.room.isWalkableTile(pos[0], pos[1]) || this.room.isSpikes(pos))) {
       if(this.player.move(pos)) {
         this.app.sound.play("Walk");
 

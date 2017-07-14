@@ -46,23 +46,18 @@ ENGINE.Room = function(width, height, doors, entrance, maze, x,y) {
         iterations++;
     }
 
-    
-
-    
-    
-
     this.initFloorHints();
 
 
     // Items
     var coins = [];
     for(var i = 0; i < 8; i++) {
-        if(Math.random() * 100 < 50) {
+        if(app.random() * 100 < 50) {
             // Put coin
             var emptySpace = false;
             while(!emptySpace) {
-                var ox = Math.floor(Math.random() * this.width)+1;
-                var oy = Math.floor(Math.random() * this.height)+2;
+                var ox = Math.floor(app.random() * this.width)+1;
+                var oy = Math.floor(app.random() * this.height)+2;
 
                 if(this.tiles[ox][oy] == ENGINE.Tileset._FLOOR && coins.indexOf(ox + "x" + oy) == -1
                 && (
@@ -289,10 +284,10 @@ ENGINE.Room.prototype.initFloor = function() {
   }
   
   // set obstacles
-  var iObstacles = Math.floor(Math.random() * 2) + 1;
+  var iObstacles = Math.floor(app.random() * 2) + 1;
   for(var i = 0; i < iObstacles; i++) {
-    var ox = Math.floor(Math.random() * Math.floor(this.width / 2)) + 1;
-    var oy = Math.floor(Math.random() * Math.floor(this.height / 2)) + 2;
+    var ox = Math.floor(app.random() * Math.floor(this.width / 2)) + 1;
+    var oy = Math.floor(app.random() * Math.floor(this.height / 2)) + 2;
     
     this.tiles[ox][oy] = ENGINE.Tileset._OBSTACLE;
     this.tiles[this.width - ox + 1][oy] = ENGINE.Tileset._OBSTACLE;
@@ -307,8 +302,8 @@ ENGINE.Room.prototype.initFloor = function() {
   var spikesAmount = Math.floor(this.width * this.height / 8);
 
   while(spikes < spikesAmount) {
-    var x = Math.floor(Math.random() * this.width)+1;
-    var y = Math.floor(Math.random() * this.height)+2;
+    var x = Math.floor(app.random() * this.width)+1;
+    var y = Math.floor(app.random() * this.height)+2;
 
     // FLOOD FILL CHECK FOR DOORS AND SWITCH !!!!!!!!
     if(this.tiles[x][y] == ENGINE.Tileset._FLOOR /*&& this.evalTilePosition(x, y, ENGINE.Tileset._SPIKES)*/) {

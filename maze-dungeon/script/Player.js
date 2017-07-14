@@ -6,7 +6,7 @@ ENGINE.Player = function(pos) {
     this.height = 16;
     this.speed = 5;
 
-    this.tile = ENGINE.Tileset._PLAYER;
+    this.tile = ENGINE.Tileset._PLAYER + app.character;
     this.isHurt = false;
     this.animStep = 0;
     
@@ -32,7 +32,7 @@ ENGINE.Player.prototype.move = function(pos) {
 }
 
 ENGINE.Player.prototype.hurt = function(gameover) {
-    this.tile = ENGINE.Tileset._PLAYER_HURT;
+    this.tile = ENGINE.Tileset._PLAYER_HURT + app.character;
     this.isHurt = true;
     this.animStep = 0;
 
@@ -48,7 +48,7 @@ ENGINE.Player.prototype.step = function(dt) {
         this.animStep += dt;
 
         if(this.animStep >= 1) {
-            this.tile = ENGINE.Tileset._PLAYER;
+            this.tile = ENGINE.Tileset._PLAYER + app.character;
             this.isHurt = false;
         }
     }

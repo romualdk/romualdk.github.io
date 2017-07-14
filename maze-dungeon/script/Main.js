@@ -113,6 +113,14 @@ var app = new PLAYGROUND.Application({
     this.controls[direction] = true;
   },
 
+  random: function() {
+    return random();
+  },
+
+  intRandom: function(max) {
+    return intRandom(max);
+  },
+
   create: function() {
     this.bgColor = "#091431";
     this.outlineColor = "#29adff";
@@ -123,6 +131,17 @@ var app = new PLAYGROUND.Application({
     this.loadImage("font");
     this.loadImage("fontd");
     this.loadSounds("Walk", "Door", "Hurt", "Coin", "LifeUp", "MenuMove", "MenuSelect"/*, "8bitDungeonLevel"*/);
+
+    app.randomSeed = localStorage.getItem("randomSeed") * 1;
+
+    if(app.randomSeed == 0) {
+      app.randomSeed = Date.now();
+      localStorage.setItem("randomSeed", app.randomSeed)
+    }
+
+    randomReseed(app.randomSeed);
+
+    app.roomNumber = 0;
   },
 
   resize: function() {

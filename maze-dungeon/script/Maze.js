@@ -6,7 +6,7 @@ ENGINE.Maze = {
 	if (n<0) {/*alert("illegal maze dimensions");*/ return false;}
 	var horiz =[]; for (var j= 0; j<x+1; j++) horiz[j]= [],
 	    verti =[]; for (var j= 0; j<x+1; j++) verti[j]= [],
-	    here = [Math.floor(Math.random()*x), Math.floor(Math.random()*y)],
+	    here = [Math.floor(app.random()*x), Math.floor(app.random()*y)],
 	    path = [here],
 	    unvisited = [];
 	for (var j = 0; j<x+2; j++) {
@@ -23,7 +23,7 @@ ENGINE.Maze = {
 				neighbors.push(potential[j]);
 		if (neighbors.length) {
 			n = n-1;
-			next= neighbors[Math.floor(Math.random()*neighbors.length)];
+			next= neighbors[Math.floor(app.random()*neighbors.length)];
 			unvisited[next[0]+1][next[1]+1]= false;
 			if (next[0] == here[0])
 				horiz[next[0]][(next[1]+here[1]-1)/2]= true;
@@ -34,8 +34,8 @@ ENGINE.Maze = {
 			here = path.pop();
 	}
 
-  var entry = [Math.floor(Math.random() * x), y-1];
-  var exit = [Math.floor(Math.random() * x), 0];
+  var entry = [Math.floor(app.random() * x), y-1];
+  var exit = [Math.floor(app.random() * x), 0];
 
 	return {x: x, y: y, horiz: horiz, verti: verti, entry: entry, exit: exit};
 },
