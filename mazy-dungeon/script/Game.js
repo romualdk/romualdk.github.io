@@ -88,7 +88,7 @@ ENGINE.Game = {
       app.state.renderHUD();
 
       app.putGrave(app.state.player.x, app.state.player.y);
-    }, 0.75)
+    }, 0.5)
   },
 
   create: function() {
