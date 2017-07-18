@@ -4,6 +4,26 @@ var app = new PLAYGROUND.Application({
   scale: 1,
   preferedAudioFormat: "mp3",
 
+  character: 0,
+  level: 0,
+  totalPoints: 0,
+  totalPlays: 0,
+
+  mazepath: [],
+  graves: [],
+
+  putGrave: function(x, y) {
+    var id = this.mazepath.join("-") + "_" + x + 'x' + y;
+    if(this.graves.indexOf(id) < 0) {
+      this.graves.push(id);
+    }
+  },
+
+  isGrave: function(x, y) {
+    var id = this.mazepath.join("-") + "_" + x + 'x' + y;
+    return this.graves.indexOf(id) >= 0 ? true : false;
+  },
+
   settings: {
     room: {
       width: 7,
@@ -13,13 +33,22 @@ var app = new PLAYGROUND.Application({
 
   debug: false,
 
+  characters: [
+    {name: "Knight", plays: 0, points: 0},
+    {name: "Cyclop", plays: 10, points: 1000},
+    {name: "Orc", plays: 50, points: 5000},
+    {name: "Troll", plays: 100, points: 10000},
+    {name: "Ogre", plays: 150, points: 15000},
+    {name: "King", plays: 200, points: 20000}
+  ],
+
 
   swipeAngles: [
-      ["up", 235,305],
-      ["right", 325, 360],
-      ["right", 0, 35],
-      ["down", 55, 125],
-      ["left", 145, 215]
+      ["swipeUp", 235,305],
+      ["swipeRight", 325, 360],
+      ["swipeRight", 0, 35],
+      ["swipeDown", 55, 125],
+      ["swipeLeft", 145, 215]
     ],
 
   controls: {
@@ -27,16 +56,24 @@ var app = new PLAYGROUND.Application({
     right: false,
     down: false,
     left: false,
+    swipeUp: false,
+    swipeRight: false,
+    swipeDown: false,
+    swipeLeft: false,
     a: false,
 
     any: function() {
-      return this.up || this.right || this.down || this.left || this.a;
+      return this.up || this.right || this.down || this.left || this.swipeUp || this.swipeRight || this.swipeDown || this.swipeLeft || this.a;
     },
     reset: function() {
       this.up = false;
       this.right = false;
       this.down = false;
       this.left = false;
+      this.swipeUp = false;
+      this.swipeRight = false;
+      this.swipeDown = false;
+      this.swipeLeft = false;
       this.a = false;
     }
   },
@@ -96,22 +133,41 @@ var app = new PLAYGROUND.Application({
     this.controls[direction] = true;
   },
 
+  random: function() {
+    return random();
+  },
+
+  intRandom: function(max) {
+    return intRandom(max);
+  },
+
   create: function() {
     this.bgColor = "#091431";
     this.outlineColor = "#29adff";
     this.fogColor = "#5f574f";
 
-    this.loadImage("title_ko");
+    this.loadImage("title");
     this.loadImage("dungeon");
     this.loadImage("font");
     this.loadImage("fontd");
     this.loadSounds("Walk", "Door", "Hurt", "Coin", "LifeUp", "MenuMove", "MenuSelect"/*, "8bitDungeonLevel"*/);
+
+    app.randomSeed = localStorage.getItem("randomSeed") * 1;
+
+    if(app.randomSeed == 0) {
+      app.randomSeed = Date.now();
+      localStorage.setItem("randomSeed", app.randomSeed)
+    }
+
+    randomReseed(app.randomSeed);
+
+    app.roomNumber = 0;
   },
 
   resize: function() {
     this.bufferMargin = ENGINE.Tileset.width;
     this.bufferWidth = (app.settings.room.width + 2) * ENGINE.Tileset.width;
-    this.bufferHeight = (app.settings.room.height + 3 + 1) * ENGINE.Tileset.height;
+    this.bufferHeight = (app.settings.room.height + 3 + 2) * ENGINE.Tileset.height;
 /*
     var spaceWidth = Math.floor((this.width - 2*this.bufferMargin) / ENGINE.Tileset.width) * ENGINE.Tileset.width;
     var spaceHeight = Math.floor((this.height - 2*this.bufferMargin) / ENGINE.Tileset.height) * ENGINE.Tileset.height;
@@ -122,6 +178,14 @@ var app = new PLAYGROUND.Application({
     var scaleH = Math.floor(this.height / this.bufferHeight);
 
     var scale = scaleW < scaleH ? scaleW : scaleH;
+
+    if(scale > 3) {
+      scale = 3;
+    }
+    else if(scale <= 0) {
+      scale = 1;
+    }
+
 
     this.renderArea = {
       sx: 0,

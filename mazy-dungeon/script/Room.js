@@ -2,6 +2,9 @@ ENGINE.Room = function(width, height, doors, entrance, maze, x,y) {
     this.isEntrance = false;
     this.isExit = false;
 
+    this.mazeX = x;
+    this.mazeY = y;
+
     if(y > (maze.height - 1)) {
         this.isEntrance = true;
     }
@@ -9,8 +12,8 @@ ENGINE.Room = function(width, height, doors, entrance, maze, x,y) {
         this.isExit = true;
     }
 
-    var d = new Date();
-    var t1 = d.getTime();
+    /*var d = new Date();
+    var t1 = d.getTime();*/
 
     doors[entrance] = 2;
 
@@ -90,8 +93,8 @@ ENGINE.Room = function(width, height, doors, entrance, maze, x,y) {
     
 
     
-    d = new Date();
-    var t2 = d.getTime();
+    /*d = new Date();
+    var t2 = d.getTime();*/
 
     this.image = this.getImage();
 };
@@ -307,7 +310,12 @@ ENGINE.Room.prototype.initFloor = function() {
 
     // FLOOD FILL CHECK FOR DOORS AND SWITCH !!!!!!!!
     if(this.tiles[x][y] == ENGINE.Tileset._FLOOR /*&& this.evalTilePosition(x, y, ENGINE.Tileset._SPIKES)*/) {
-      this.tiles[x][y] = ENGINE.Tileset._SPIKES;
+        if(app.isGrave(x, y)) {
+            this.tiles[x][y] = ENGINE.Tileset._GRAVE;
+        }
+        else {
+            this.tiles[x][y] = ENGINE.Tileset._SPIKES;
+        }
       this.spikes.push(x + 'x' + y);
       spikes++;
     }
@@ -452,7 +460,10 @@ ENGINE.Room.prototype.showHints = function(pos) {
 
 
 ENGINE.Room.prototype.isSpikes = function(pos) {
-    return this.spikes.indexOf(pos[0] + 'x' + pos[1]) >= 0 ? true : false;
+    var spikes = this.spikes.indexOf(pos[0] + 'x' + pos[1]) >= 0 ? true : false;
+    //var graves = app.isGrave(pos[0], pos[1]);
+    var graves = this.tiles[pos[0]][pos[1]] == ENGINE.Tileset._GRAVE ? true : false;
+    return spikes & !graves;
 }
 
 ENGINE.Room.prototype.evaluate = function() {
@@ -588,7 +599,11 @@ ENGINE.Room.prototype.hideSpikes = function() {
         var x = pos[0] * 1;
         var y = pos[1] * 1;
 
-        this.tiles[x][y] = ENGINE.Tileset._FLOOR;
+
+        if(this.tiles[x][y] == ENGINE.Tileset._SPIKES) {
+            this.tiles[x][y] = ENGINE.Tileset._FLOOR;
+        }
+        
         //console.log(pos);
     }
 }

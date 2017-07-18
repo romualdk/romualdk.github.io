@@ -43,6 +43,67 @@ ENGINE.Game = {
     this.rooms = {}; // list of generated rooms with their current state
     this.room = null; // current room pointer
 
+    
+
+    initRandom();
+    randomReseed(app.randomSeed);
+
+    this.create();
+    app.setState(ENGINE.Menu);
+  },
+
+  gameover: function() {
+    
+    
+    /*app.state.dialog = new ENGINE.Dialog("Ooh! I'm dead.", 1 + app.character, function() {
+
+      app.totalPlays += 1;
+      app.totalPoints += Number.isInteger(app.state.points) ? app.state.points : 0;
+
+      localStorage.setItem("totalPoints", app.totalPoints);
+      localStorage.setItem("totalPlays", app.totalPlays);
+
+      app.state.resetGame();
+    }, 1.25);*/
+
+    app.state.dialog = new ENGINE.Dialog("Ooh! I'm dead. Press key to continue.", 1 + app.character, function() {
+
+      app.totalPlays += 1;
+      app.totalPoints += Number.isInteger(app.state.points) ? app.state.points : 0;
+
+      localStorage.setItem("totalPoints", app.totalPoints);
+      localStorage.setItem("totalPlays", app.totalPlays);
+
+      app.putGrave(app.state.player.x, app.state.player.y);
+
+      app.level = 0;
+      app.state.resetGame();
+
+
+
+    }, 1.25, 5, function() {
+      app.state.player.lifes++;
+      app.state.player.isDead = false;
+
+      app.state.renderHUD();
+
+      app.putGrave(app.state.player.x, app.state.player.y);
+    }, 0.75)
+  },
+
+  create: function() {
+    this.player = new ENGINE.Player(0, 0);
+    this.changeMaze();
+  },
+
+  enter: function() {
+    this.player.tile = ENGINE.Tileset._PLAYER + app.character;
+  },
+
+  changeMaze: function() {
+    app.level++;
+
+    app.mazepath = [];
     this.mazeX = 0;
     this.mazeY = 0;
 
@@ -58,39 +119,26 @@ ENGINE.Game = {
     this.particles = [];
 
     delete this.mazeFogBuffer;
+    delete this.maze;
+    delete this.room;
+    this.rooms = {};
 
-
-
-    this.create();
-    app.setState(ENGINE.Menu);
-  },
-
-  gameover: function() {
-    app.state.dialog = new ENGINE.Dialog("Ooh! I'm dead.", 1, function() {
-
-    app.totalPlays += 1;
-    app.totalPoints += Number.isInteger(app.state.points) ? app.state.points : 0;
-
-    localStorage.setItem("totalPoints", app.totalPoints);
-    localStorage.setItem("totalPlays", app.totalPlays);
-
-    app.state.resetGame();
-    }, 1.25);
-  },
-
-  create: function() {
     this.maze = ENGINE.Maze.generate(3, 3);
     this.maze.width = 3;
     this.maze.height = 3;
     this.mazeImage = ENGINE.Maze.image(this.maze);
-    this.player = new ENGINE.Player(0, 0);
+    
 
     this.initBuffer();
 
     this.changeRoom(this.maze.entry[0], this.maze.entry[1]+1, 2, true);
     
-    this.dialog = new ENGINE.Dialog("My brave knight! Find the way in this maze of dungeons.", 6, null, 0.5);
-
+    if(app.level == 1) {
+      this.dialog = new ENGINE.Dialog("My brave knight! Find the way in this maze of dungeons.", 6, null, 0.5);
+    }
+    else {
+      this.dialog = new ENGINE.Dialog("Another maze. Carry on!", 6, null, 0.25);
+    }
   },
 
 
@@ -102,7 +150,9 @@ ENGINE.Game = {
     var id = x + "x" + y;
 
     if(typeof(this.rooms[id]) == "undefined") {
+      app.mazepath.push(id);
       this.rooms[id] = new ENGINE.Room(app.settings.room.width, app.settings.room.height, room.doors, oppositeDoor, this.maze, x, y);
+      
     }
     else {
       this.rooms[id].shiftDoorsTo(oppositeDoor);
@@ -213,26 +263,32 @@ ENGINE.Game = {
     // Update player position
     var pos = [null, null];
 
-    if(app.controls.up) {
+    if(app.controls.up || app.controls.swipeUp) {
       pos = [this.player.x, this.player.y - 1];
     }
-    else if(app.controls.right) {
+    else if(app.controls.right || app.controls.swipeRight) {
       pos = [this.player.x + 1, this.player.y];
     }
-    else if(app.controls.down) {
+    else if(app.controls.down || app.controls.swipeDown) {
       pos = [this.player.x, this.player.y + 1];
     }
-    else if(app.controls.left) {
+    else if(app.controls.left || app.controls.swipeLeft) {
       pos = [this.player.x - 1, this.player.y];
     }
 
-    app.controls.up = false;
-    app.controls.right = false;
-    app.controls.down = false;
-    app.controls.left = false;
+    app.controls.reset();
 
+
+    // ENTRANCE STAIRS
+    if(pos[0] != null && pos[1] != null && this.room.tiles[pos[0]][pos[1]] == ENGINE.Tileset._STAIRS_ENTRANCE) {
+      this.dialog = new ENGINE.Dialog("There is no way back.", 6, null);
+    }
+    // EXIT STAIRS
+    else if(pos[0] != null && pos[1] != null && this.room.tiles[pos[0]][pos[1]] == ENGINE.Tileset._STAIRS_EXIT) {
+      this.changeMaze();
+    }
     // Player movement
-    if(pos[0] != null && pos[1] != null && (this.room.isWalkableTile(pos[0], pos[1]) || this.room.isSpikes(pos))) {
+    else if(pos[0] != null && pos[1] != null && (this.room.isWalkableTile(pos[0], pos[1]) || this.room.isSpikes(pos))) {
       if(this.player.move(pos)) {
         this.app.sound.play("Walk");
 
@@ -357,31 +413,6 @@ ENGINE.Game = {
     var dy = ENGINE.Tileset.height - this.mazeBuffer.height;
     this.HudBuffer.ctx.drawImage(this.mazeBuffer, dx,dy);
     this.HudBuffer.ctx.drawImage(this.mazeFogBuffer, dx,dy);
-
-
-/*
-
-    this.buffer.ctx.fillStyle = app.bgColor;
-    this.buffer.ctx.fillRect(0, 0, roomWidth, ENGINE.Tileset.height + 8);
-
-    ENGINE.Font.setColor("#ff0000");
-    ENGINE.Font.text(this.buffer.ctx, margin, margin, String.fromCharCode(3));
-    ENGINE.Font.setColor();
-    ENGINE.Font.text(this.buffer.ctx, margin + ENGINE.Font.size+4, margin, "" + this.player.lifes);
-
-    ENGINE.Font.setColor();
-
-    var points = "" + this.points;
-    var str = "" + points;
-    ENGINE.Font.text(this.buffer.ctx, roomWidth - margin - ENGINE.Font.size*str.length, margin, str);
-  
-    ENGINE.Font.setColor("#29adff");
-    ENGINE.Font.text(this.buffer.ctx, roomWidth - margin - ENGINE.Font.size*(str.length+1)-2, margin, String.fromCharCode(228));
-
-    var dx = Math.floor((roomWidth - this.mazeBuffer.width) / 2);
-    var dy = ENGINE.Tileset.height - this.mazeBuffer.height;
-    this.buffer.ctx.drawImage(this.mazeBuffer, dx,dy);
-    this.buffer.ctx.drawImage(this.mazeFogBuffer, dx,dy);*/
 
 },
 
@@ -586,11 +617,12 @@ ENGINE.Game = {
     }
     // GAMEPLAY
     else {
-      this.renderRoom(this.buffer, this.room);
+      this.buffer.ctx.fillStyle = app.bgColor;
+      this.buffer.ctx.fillRect(0,0, this.buffer.width, this.buffer.height);
 
+      this.renderRoom(this.buffer, this.room);
       // HUD
       this.buffer.ctx.drawImage(this.HudBuffer, 0,0, this.HudBuffer.width, this.HudBuffer.height);
-
 
       // Particles
       for(var i in this.particles) {
@@ -606,6 +638,19 @@ ENGINE.Game = {
         }
       }
 
+    }
+
+    if(!this.flash) {
+      this.buffer.ctx.fillStyle = app.bgColor;
+      this.buffer.ctx.fillRect(0,this.buffer.height - ENGINE.Tileset.height, this.buffer.width, this.buffer.height);
+
+      var str = "Level " + app.level;
+      var dx = Math.floor((this.buffer.width - ENGINE.Font.size * str.length) / 2);
+      var dy = this.buffer.height - ENGINE.Font.size - 4;
+
+      ENGINE.Font.setImage(app.images.font);
+      ENGINE.Font.setColor();
+      ENGINE.Font.text(this.buffer.ctx, dx, dy, str);
     }
     
     if(this.dialog) {
@@ -628,7 +673,7 @@ ENGINE.Game = {
   initBuffer: function() {
     this.buffer = document.createElement('canvas');
     this.buffer.width = (app.settings.room.width + 2) * ENGINE.Tileset.width;
-    this.buffer.height = (app.settings.room.height + 3 + 1) * ENGINE.Tileset.height;
+    this.buffer.height = (app.settings.room.height + 3 + 2) * ENGINE.Tileset.height;
     this.buffer.ctx = this.buffer.getContext("2d");
 
     this.currentRoomBuffer = document.createElement('canvas');

@@ -10,6 +10,7 @@ ENGINE.Menu = {
         app.totalPoints = localStorage.getItem("totalPoints") * 1;
         app.totalPlays = localStorage.getItem("totalPlays") * 1;
         app.character = localStorage.getItem("character") * 1;
+        app.level = localStorage.getItem("level") * 1;
 
         if(app.character >= app.characters.length) {
             app.character = 0;
@@ -239,7 +240,7 @@ ENGINE.Menu = {
     initBuffer: function() {
         this.buffer = document.createElement('canvas');
         this.buffer.width = (app.settings.room.width + 2) * ENGINE.Tileset.width;
-        this.buffer.height = (app.settings.room.height + 3 + 1) * ENGINE.Tileset.height;
+        this.buffer.height = (app.settings.room.height + 3 + 2) * ENGINE.Tileset.height;
         this.buffer.ctx = this.buffer.getContext("2d");
 
         
