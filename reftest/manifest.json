@@ -1,7 +1,7 @@
 {
-  "short_name": "Notes",
-  "name": "Notes",
-  "description" : "An offline-capable notes app, using localStorage and ServiceWorker",
+  "short_name": "Referee",
+  "name": "Referee",
+  "description" : "",
   "display": "standalone",
   "orientation": "portrait",
   "start_url": "index.html",
@@ -9,23 +9,23 @@
   "background_color": "#ffffff",
   "icons": [
     {
-      "src": "img/icon-60.png",
+      "src": "img/icon_48.png",
       "sizes": "48x48",
       "type": "image/png"
     },
     {
-      "src": "img/icon-114.png",
-      "sizes": "114x114",
+      "src": "img/icon_96.png",
+      "sizes": "96x96",
       "type": "image/png"
     },
     {
-      "src": "img/icon-152.png",
-      "sizes": "152x152",
+      "src": "img/icon_144.png",
+      "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "img/icon-200.png",
-      "sizes": "200x200",
+      "src": "img/icon_192.png",
+      "sizes": "192x192",
       "type": "image/png"
     }
   ]
