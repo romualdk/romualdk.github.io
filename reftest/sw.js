@@ -14,7 +14,7 @@ self.addEventListener('install', function(event) {
         'index.html',
         'js/app.js',
         'js/jquery.min.js',
-        'js/referee.js',
+        /*'js/referee.js',*/
         'css/style.css',
         'icon.png',
         'manifest.json',
