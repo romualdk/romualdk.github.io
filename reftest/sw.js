@@ -14,13 +14,16 @@ self.addEventListener('install', function(event) {
         'index.html',
         'js/app.js',
         'js/jquery.min.js',
-        'js/note-list.js',
+        'js/referee.js',
         'css/style.css',
         'favicon.ico',
         'manifest.json',
-        'img/icon-60.png',
-        'img/icon-114.png',
-        'img/icon-152.png'
+        'img/icon_36.png',
+        'img/icon_48.png',
+        'img/icon_72.png',
+        'img/icon_96.png',
+        'img/icon_144.png',
+        'img/icon_192.png'
       ]);
     })
   );
