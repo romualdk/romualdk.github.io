@@ -3,6 +3,8 @@ MatchTimer.data = {
     
 }
 
+// as
+
 MatchTimer.reset = function() {
     this.interval = null;
     this.data = {
