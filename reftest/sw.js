@@ -11,10 +11,10 @@ self.addEventListener('install', function(event) {
       // Define what we want to cache
       return cache.addAll([
         '/',
-        'index.html',
+        /*'index.html',*/
         'js/app.js',
         'js/jquery.min.js',
-        'js/referee.js',
+        /*'js/referee.js',*/
         'css/style.css',
         'icon.png',
         'manifest.json',
