@@ -17,9 +17,6 @@
       <link rel=apple-touch-icon href=img/icon_192.png>
       <meta name=msapplication-TileImage content=img/icon_144.png>
       <meta name=msapplication-TileColor content=#2196F3>
-      
-    
-      <!--<link rel="shortcut icon" href="icon.png" />-->
       <meta name="theme-color" content="#ffffff">
       <link href="css/style.css" rel="stylesheet">
     
@@ -27,13 +24,32 @@
   <body>
     <div class="wrapper">
       <div class="wrapper__inner">
-        <div class="screen">
+
+        <!-- Loader -->
+        <div class="loadscreen">
+            <div class="loader"></div>
+        </div>
+
+        <!-- Team select -->
+        <div class="screen matchlistscreen disabled">
+          <div class="title">Wybierz mecz</div>
+          <div class="matcheslist"></div>
+        </div>
+
+        <!-- Gameplay -->
+        <div class="screen gameplayscreen disabled">
+          <div class="title">
+              <button class="return">&laquo;</button>
+              <div>Mecz</div>
+              <div style="clear: left"></div>
+          </div>
           <div class="teams">
-            <div class="team field"><div>FC PROSKOWO</div></div>
+            <div id="team1" class="team field"><div>FC PROSKOWO</div></div>
             <div class="result field"><div>0:0</div></div>
-            <div class="team field"><div>Lyon</div></div>
+            <div id="team2" class="team field"><div>Lyon</div></div>
             <div style="clear: left"></div>
           </div>
+          <div class="controls">
           <p class="timer">00:00</p>
           <button class="start">
 
@@ -60,11 +76,24 @@
           
           </button>
           <div style="clear: left"></div>
-
+        </div>
           <div class="events">
             
           </div>
 
+
+          <div class="controls">
+              <button class="delete inactive">
+                  <svg style="width:72px;height:72px" fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M0 0h24v24H0V0z" fill="none"/>
+                    <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zm2.46-7.12l1.41-1.41L12 12.59l2.12-2.12 1.41 1.41L13.41 14l2.12 2.12-1.41 1.41L12 15.41l-2.12 2.12-1.41-1.41L10.59 14l-2.13-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4z"/>
+                    <path d="M0 0h24v24H0z" fill="none"/>
+                </svg>
+                
+              </button>
+          </div>
+
+          <div style="clear: left"></div>
         </div>
       </div>
     </div>

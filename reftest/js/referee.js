@@ -1,23 +1,134 @@
 MatchTimer = {};
+MatchTimer.database = {};
 MatchTimer.data = {
     
 }
 
-// as
+
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+      if ((new Date().getTime() - start) > milliseconds){
+        break;
+      }
+    }
+  }
+
+MatchTimer.init = function() {
+
+    $.getJSON( "data/data.json", function( data ) {
+        if(typeof(data.match) == "undefiend") {
+            return false;
+        }
+
+        MatchTimer.database.matches = [];
+
+        /*for(key in data.match) {
+            MatchTimer.database.matches[key] = data.match[key];
+        }*/
+
+        MatchTimer.database.matches = data.match;
+
+        $.each( MatchTimer.database.matches, function( key, val ) {
+            var id = "match_" + key;
+            var button = "<div id=\"" + id + "\" class=\"teams\">"
+            + "<div class=\"date\">" + val[2] + "</div>"
+            + "<div>"
+            + "<div class=\"team field\"><div>" + val[0] + "</div></div>"
+            + "<div class=\"vs field\"><div>vs</div></div>"
+            + "<div class=\"team field\"><div>" + val[1] + "</div></div>"
+            + "<div style=\"clear: left\"></div>"
+            + "</div>"
+          + "</div>";
+
+          $(".matcheslist").append(button);
+          $("#" + id).click(function() {
+              var key = this.id.replace(/\D/g,'');;
+              MatchTimer.setMatch(key);
+          });
+        });
+
+
+        $(".matchlistscreen").removeClass("disabled");
+        $(".loadscreen").addClass("disabled");
+
+      });
+
+      $(".gameplayscreen .title .return").click(function() {
+        MatchTimer.returnToMatchSelect();
+      });
+
+      
+}
+
+MatchTimer.setDeleteButtonState = function() {
+    var isactive = MatchTimer.data.events.length > 0;
+
+    var button = $(".controls .delete")
+    if(isactive && !this.data.isRunning) {
+        $(button).removeClass("inactive");
+        $(button).click(function() {
+            MatchTimer.deleteData();
+            MatchTimer.storeData();
+            $(".gameplayscreen .events").empty();
+
+            MatchTimer.setDeleteButtonState();
+        });
+    }
+    else {
+        $(button).addClass("inactive");
+        $(button).click(function() {return false});
+    }
+
+    
+}
+
+MatchTimer.setMatch = function(key) {
+    this.reset();
+    this.data.team1.name = this.database.matches[key][0];
+    this.data.team2.name = this.database.matches[key][0];
+
+    $("#team1 div").text(this.data.team1.name);
+    $("#team2 div").text(this.data.team2.name);
+
+    $(".gameplayscreen").removeClass("disabled");
+    $(".matchlistscreen").addClass("disabled");
+
+    MatchTimer.setDeleteButtonState();
+}
+
+MatchTimer.returnToMatchSelect = function() {
+    $(".matchlistscreen").removeClass("disabled");
+    $(".gameplayscreen").addClass("disabled");
+}
+
+
+MatchTimer.deleteData = function() {
+    this.data.date = null;
+    this.data.lastTime = null;
+    this.data.timerTime = null;
+    this.data.renderedTime = null;
+    this.data.isRunning = false;
+    this.data.events = [];
+
+    MatchTimer.setRenderedTime();
+    MatchTimer.refreshTimerView();
+}
 
 MatchTimer.reset = function() {
     this.interval = null;
     this.data = {
         date: null,
+        lastTime: null,
         timerTime: 0,
         renderedTime: null,
         isRunning: false,
         team1: {
-            name: "FS PROSKOWO",
+            name: "",
             points: 0
         },
         team2: {
-            name: "Lyon",
+            name: "",
             points: 0
         },
         events: []
@@ -27,7 +138,6 @@ MatchTimer.reset = function() {
 
     // load state
     this.initData();
-    console.log(this.data);
 
     this.setRenderedTime();
     this.refreshTimerView();
@@ -46,12 +156,16 @@ MatchTimer.reset = function() {
     $(".start").click(function() {
         MatchTimer.addEvent("normal", "Start");
         MatchTimer.setStateRunning();
+
+        MatchTimer.setDeleteButtonState();
         
     });;
     
     $(".stop").click(function() {
         MatchTimer.addEvent("normal", "Pause");
         MatchTimer.setStatePaused();
+
+        MatchTimer.setDeleteButtonState();
         
     });
     
@@ -104,6 +218,9 @@ MatchTimer.initTimer = function() {
 MatchTimer.setStateRunning = function() {
     this.data.isRunning = true;
     clearInterval(this.interval);
+
+    var d = new Date();
+    this.data.lastTime = d.getTime();
     this.interval = setInterval(MatchTimer.incrementTimer, 1000);
 
     $(".stop").removeClass("disabled");
@@ -129,7 +246,14 @@ MatchTimer.setStatePaused = function() {
 }
 
 MatchTimer.incrementTimer = function() {
-    MatchTimer.data.timerTime += 1;
+    //MatchTimer.data.timerTime += 1;
+
+    var d = new Date();
+    var t = d.getTime();
+
+    MatchTimer.data.timerTime += Math.round((t - MatchTimer.data.lastTime) / 1000);
+    MatchTimer.data.lastTime = t;
+
     MatchTimer.setRenderedTime();
     MatchTimer.refreshTimerView();
 
@@ -165,6 +289,8 @@ MatchTimer.addEvent = function(type, description) {
     MatchTimer.addEventToList(event);
 
     this.storeData();
+
+    MatchTimer.setDeleteButtonState();
 }
 
 MatchTimer.clearEventsList = function() {
@@ -183,5 +309,7 @@ MatchTimer.clearEventsList = function() {
      }
  }
 
+/*
+MatchTimer.reset();*/
 
-MatchTimer.reset();
+MatchTimer.init();
