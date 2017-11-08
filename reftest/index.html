@@ -30,11 +30,29 @@
             <div class="loader"></div>
         </div>
 
-        <!-- Team select -->
+        <!-- Match select -->
         <div class="screen matchlistscreen disabled">
           <div class="title">Wybierz mecz</div>
-          <div class="matcheslist"></div>
+          <div class="matcheslist">
+              <button class="newmatch green">Nowy mecz</button>
+          </div>
         </div>
+
+        <!-- New match -->
+        <div class="screen newmatchscreen disabled">
+          <div class="title">Wybierz drużyny</div>
+          <div class="teamlist">
+            <form>
+              <label>Drużyna 1</label><select class="team1"><option disabled selected></option></select>
+              <!--<label>Gracze drużyny 1</label><select multiple size="1" class="team1players"></select>-->
+              <label>Drużyna 2</label><select class="team2"><option disabled selected></option></select>
+              <!--<label>Gracze drużyny 2</label><select multiple size="1" class="team2players"></select>-->
+            </form>
+            <button class="addnewmatch green">Dodaj</button>
+          </div>
+          
+        </div>
+
 
         <!-- Gameplay -->
         <div class="screen gameplayscreen disabled">
@@ -83,6 +101,17 @@
 
 
           <div class="controls">
+
+              <button class="email inactive">
+                <!--<a href="mailto:romuald.kowalczyk@gmail.com&subject=2017-11-08%3A%20FC%20PROSKOWO%20vs%20RAKI%20CZERWONIAKI&body=test">-->
+                <svg style="width:72px;height:72px" fill="#ffffff" height="72" viewBox="0 0 24 24" width="72" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                  <path d="M0 0h24v24H0z" fill="none"/>
+                </svg>
+              <!--</a>-->
+              </button>
+
+
               <button class="delete inactive">
                   <svg style="width:72px;height:72px" fill="#ffffff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M0 0h24v24H0V0z" fill="none"/>
