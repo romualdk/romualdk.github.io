@@ -487,7 +487,7 @@ MatchTimer.reset = function() {
     
     $(".stop").off( "click" );
     $(".stop").click(function() {
-        MatchTimer.addEvent("normal", "Pause");
+        MatchTimer.addEvent("normal", "Stop");
         MatchTimer.setStatePaused();
 
         MatchTimer.setDeleteButtonState();
@@ -732,7 +732,7 @@ MatchTimer.email = function() {
     body,
     {token: securityToken});
 
-    var PROD = false;
+    var PROD = true;
 
     if(PROD) {
         Email.send(senderEmail,
