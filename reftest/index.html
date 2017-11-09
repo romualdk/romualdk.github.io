@@ -40,7 +40,11 @@
 
         <!-- New match -->
         <div class="screen newmatchscreen disabled">
-          <div class="title">Wybierz drużyny</div>
+          <div class="title">
+            <button class="return">&laquo;</button>
+            <div>Wybierz drużyny</div>
+            
+          </div>
           <div class="teamlist">
             <form>
               <label>Drużyna 1</label><select class="team1"><option disabled selected></option></select>
@@ -53,6 +57,44 @@
           
         </div>
 
+
+        <!-- Goal -->
+        <div class="screen goalscreen disabled">
+          <div class="title">
+            <button class="return">&laquo;</button>
+            <div>Gol</div>
+            <div style="clear: left"></div>
+          </div>
+          <div class="teamlist">
+            <form>
+              <label>Drużyna</label><select class="goalteam"><option disabled selected></option></select>
+              <label>Gracz</label><select class="goalplayer"><option disabled selected></option></select>
+              </form>
+          </div>
+          <button class="addgoal green">OK</button>
+        </div>
+
+        <!-- Card -->
+        <div class="screen cardscreen disabled">
+          <div class="title">
+            <button class="return">&laquo;</button>
+            <div>Kara</div>
+            <div style="clear: left"></div>
+          </div>
+          <div class="teamlist">
+            <form>
+                <label>Kara</label><select class="cardtype">
+                  <option disabled selected></option>
+                  <option>Żółta kartka</option>
+                  <option>Czerwona kartka</option>
+                  <option>Kara 10 min</option>
+                </select>
+              <label>Drużyna</label><select class="cardteam"><option disabled selected></option></select>
+              <label>Gracz</label><select class="cardplayer"><option disabled selected></option></select>
+              </form>
+          </div>
+          <button class="addcard green">OK</button>
+        </div>
 
         <!-- Gameplay -->
         <div class="screen gameplayscreen disabled">

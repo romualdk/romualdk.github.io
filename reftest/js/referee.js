@@ -26,7 +26,7 @@ MatchTimer.init = function() {
             return false;
         }
 
-        MatchTimer.database.matches = [];
+        //MatchTimer.database.matches = [];
 
         /*for(key in data.match) {
             MatchTimer.database.matches[key] = data.match[key];
@@ -89,6 +89,18 @@ MatchTimer.init = function() {
 
       $(".gameplayscreen .title .return").click(function() {
         MatchTimer.returnToMatchSelect();
+      });
+
+      $(".newmatchscreen .title .return").click(function() {
+        MatchTimer.showScreen("matchlistscreen");
+      });
+
+      $(".goalscreen .title .return").click(function() {
+        MatchTimer.showScreen("gameplayscreen");
+      });
+
+      $(".cardscreen .title .return").click(function() {
+        MatchTimer.showScreen("gameplayscreen");
       });
 
 
@@ -215,6 +227,10 @@ MatchTimer.showScreen = function(screenName) {
 MatchTimer.setDeleteButtonState = function() {
     var match = this.data.currentMatch;
 
+    if(typeof(this.data.match[match]) == "undefined") {
+        return false;
+    }
+
     var isactive = this.data.match[match].events.length > 0;
 
     
@@ -222,6 +238,7 @@ MatchTimer.setDeleteButtonState = function() {
         var button = $(".controls .delete")
 
         $(button).removeClass("inactive");
+        $(button).off( "click" );
         $(button).click(function() {
             MatchTimer.deleteData();
             MatchTimer.storeData();
@@ -233,6 +250,7 @@ MatchTimer.setDeleteButtonState = function() {
         var button = $(".controls .email")
         
         $(button).removeClass("inactive");
+        $(button).off( "click" );
         $(button).click(function() {
             MatchTimer.email();
         });
@@ -240,6 +258,7 @@ MatchTimer.setDeleteButtonState = function() {
     }
     else {
         $(button).addClass("inactive");
+        $(button).off( "click" );
         $(button).click(function() {return false});
     }
 
@@ -262,7 +281,139 @@ MatchTimer.setMatch = function(key) {
     $(".matchlistscreen").addClass("disabled");
 
     MatchTimer.setDeleteButtonState();
+
+
+
+    // goal selects
+    $(".goalscreen select.goalteam").empty();
+    $(".goalscreen select.goalteam").append("<option disabled selected></option>");
+    $(".goalscreen select.goalteam").append("<option>" + this.data.match[key].team1.name  + "</option>");
+    $(".goalscreen select.goalteam").append("<option>" + this.data.match[key].team2.name  + "</option>");
+
+    $(".goalscreen select.goalteam").change(function() {
+        var team = $(this).val();
+        
+        if(typeof(MatchTimer.database.teams[team]) !== "undefined") {
+            $(".goalscreen select.goalplayer").empty();
+            $(".goalscreen select.goalplayer").append("<option disabled selected></option>");
+
+            for(var key in MatchTimer.database.teams[team]) {
+                $(".goalscreen select.goalplayer").append("<option>" + MatchTimer.database.teams[team][key] + "</option>");
+            }
+        }
+    });
+
+    $(".goalscreen button.addgoal").click(function() {
+        MatchTimer.addGoal();
+    });
+
+
+    // card selects
+    $(".cardscreen select.cardteam").empty();
+    $(".cardscreen select.cardteam").append("<option disabled selected></option>");
+    $(".cardscreen select.cardteam").append("<option>" + this.data.match[key].team1.name  + "</option>");
+    $(".cardscreen select.cardteam").append("<option>" + this.data.match[key].team2.name  + "</option>");
+
+    $(".cardscreen select.cardteam").change(function() {
+        var team = $(this).val();
+        
+        if(typeof(MatchTimer.database.teams[team]) !== "undefined") {
+            $(".cardscreen select.cardplayer").empty();
+            $(".cardscreen select.cardplayer").append("<option disabled selected></option>");
+
+            for(var key in MatchTimer.database.teams[team]) {
+                $(".cardscreen select.cardplayer").append("<option>" + MatchTimer.database.teams[team][key] + "</option>");
+            }
+        }
+    });
+
+    $(".cardscreen button.addcard").click(function() {
+        MatchTimer.addCard();
+    });
+    
+
+    MatchTimer.refreshEventsList();
 }
+
+
+MatchTimer.addGoal = function() {
+    var team = $(".goalscreen select.goalteam").val();
+    var player = $(".goalscreen select.goalplayer").val();
+
+    var match = MatchTimer.data.match[MatchTimer.data.currentMatch];
+
+    if(team != match.team1.name && team != match.team2.name) {
+        return false;
+    }
+    else if(team == match.team1.name) {
+        var teamNo = 1;
+    }
+    else {
+        var teamNo = 2;
+    }
+
+    if(MatchTimer.database.teams[team].indexOf(player) == -1) {
+        return false;
+    }
+
+
+    if(player == "SAMOBÓJ") {
+        teamNo = teamNo == 1 ? 2 : 1;
+    }
+
+    if(teamNo == 1) {
+        MatchTimer.data.match[MatchTimer.data.currentMatch].team1.points += 1;
+    }
+    else if(teamNo == 2) {
+        MatchTimer.data.match[MatchTimer.data.currentMatch].team2.points += 1;
+    }
+
+    MatchTimer.addEvent("goal", "Gol " + player + " (" + team + ")");
+    MatchTimer.refreshPointsView();
+
+    MatchTimer.showScreen("gameplayscreen");
+
+    $(".goalscreen .goalteam option:selected").removeAttr("selected");
+    $(".goalscreen .goalplayer option:selected").removeAttr("selected");
+
+    $(".goalscreen .goalteam option:disabled").prop("selected", true);
+    $(".goalscreen .goalplayer option:disabled").prop("selected", true);
+}
+
+
+MatchTimer.addCard = function() {
+    var type = $(".cardscreen select.cardtype").val();
+    var team = $(".cardscreen select.cardteam").val();
+    var player = $(".cardscreen select.cardplayer").val();
+
+    var match = MatchTimer.data.match[MatchTimer.data.currentMatch];
+
+    if(typeof(type) == "undefined" || type == null) {
+        return false;
+    }
+
+    if(team != match.team1.name && team != match.team2.name) {
+        return false;
+    }
+
+    if(MatchTimer.database.teams[team].indexOf(player) == -1) {
+        return false;
+    }
+
+    MatchTimer.addEvent("card", type + " " + player + " (" + team + ")");
+
+    MatchTimer.showScreen("gameplayscreen");
+
+    $(".cardscreen .cardtype option:selected").removeAttr("selected");
+    $(".cardscreen .cardteam option:selected").removeAttr("selected");
+    $(".cardscreen .cardplayer option:selected").removeAttr("selected");
+
+    $(".cardscreen .cardtype option:disabled").prop("selected", true);
+    $(".cardscreen .cardteam option:disabled").prop("selected", true);
+    $(".cardscreen .cardplayer option:disabled").prop("selected", true);
+}
+
+
 
 MatchTimer.returnToMatchSelect = function() {
     $(".matchlistscreen").removeClass("disabled");
@@ -271,42 +422,41 @@ MatchTimer.returnToMatchSelect = function() {
 
 
 MatchTimer.deleteData = function() {
-    this.data.date = null;
+    /*this.data.date = null;
     this.data.lastTime = null;
     this.data.timerTime = null;
     this.data.renderedTime = null;
     this.data.isRunning = false;
-    this.data.events = [];
+    this.data.events = [];*/
 
-    MatchTimer.setRenderedTime();
-    MatchTimer.refreshTimerView();
+    var match = MatchTimer.data.currentMatch;
+
+    if(MatchTimer.data.match[match].events.length == 0) {
+        delete MatchTimer.data.match[match];
+        MatchTimer.refreshMatchList();
+        MatchTimer.showScreen("matchlistscreen");
+
+        MatchTimer.storeData();
+    }
+    else {
+        MatchTimer.data.match[match].lastTime = null;
+        MatchTimer.data.match[match].timerTime = null;
+        MatchTimer.data.match[match].renderedTime = null;
+        MatchTimer.data.match[match].isRunning = false;
+        MatchTimer.data.match[match].events = [];
+        MatchTimer.data.match[match].team1.points = 0;
+        MatchTimer.data.match[match].team2.points = 0;
+    
+        MatchTimer.setRenderedTime();
+        MatchTimer.refreshTimerView();
+        MatchTimer.refreshPointsView();
+        MatchTimer.refreshEventsList();
+    }
+
+    
 }
 
 MatchTimer.reset = function() {
-    /*this.interval = null;
-    this.data = {
-        date: null,
-        lastTime: null,
-        timerTime: 0,
-        renderedTime: null,
-        isRunning: false,
-        team1: {
-            name: "",
-            points: 0
-        },
-        team2: {
-            name: "",
-            points: 0
-        },
-        events: []
-    };*/
-
-    
-
-    // load state
-    /*this.initData();
-*/
-
     var match = this.data.currentMatch;
 
     this.setRenderedTime();
@@ -322,7 +472,7 @@ MatchTimer.reset = function() {
     }
 
 
-
+    $(".start").off( "click" );
     $(".start").click(function() {
         if(MatchTimer.isRunningAnyMatch()) {
             return false;
@@ -335,6 +485,7 @@ MatchTimer.reset = function() {
         
     });;
     
+    $(".stop").off( "click" );
     $(".stop").click(function() {
         MatchTimer.addEvent("normal", "Pause");
         MatchTimer.setStatePaused();
@@ -343,15 +494,23 @@ MatchTimer.reset = function() {
         
     });
     
+    $(".goal").off( "click" );
     $(".goal").click(function() {
-        if(MatchTimer.data.match[match].isRunning) {
-            MatchTimer.addEvent("goal", "Gol");
+        if(MatchTimer.data.match[MatchTimer.data.currentMatch].isRunning) {
+
+            MatchTimer.showScreen("goalscreen");
+
+            /*MatchTimer.addEvent("goal", "Gol");*/
         }
     });
     
+    $(".card").off( "click" );
     $(".card").click(function() {
-        if(MatchTimer.data.match[match].isRunning) {
-            MatchTimer.addEvent("card", "Kartka");
+        if(MatchTimer.data.match[MatchTimer.data.currentMatch].isRunning) {
+
+            MatchTimer.showScreen("cardscreen");
+
+            //MatchTimer.addEvent("card", "Kartka");
         }
     });
 }
@@ -362,12 +521,6 @@ MatchTimer.initData = function() {
     if(data != null) {
         this.data = JSON.parse(data);
     }
-    /*else {
-        var d = new Date();
-        this.data.date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
-    }*/
-
-    //initEventsList()
 }
 
 MatchTimer.storeData = function() {
@@ -414,7 +567,8 @@ MatchTimer.setStatePaused = function() {
     var match = this.data.currentMatch;
 
     this.data.match[match].isRunning = false;
-    clearInterval(this.interval);
+    //clearInterval(this.interval);
+    clearInterval(this.data.match[match].interval);
 
     $(".start").removeClass("disabled");
     $(".stop").addClass("disabled");
@@ -449,6 +603,14 @@ MatchTimer.incrementTimer = function() {
 MatchTimer.refreshTimerView = function() {
     var match = this.data.currentMatch;
     $('.timer').text(MatchTimer.data.match[match].renderedTime);
+}
+
+
+MatchTimer.refreshPointsView = function() {
+    var match = MatchTimer.data.match[MatchTimer.data.currentMatch];
+    var result = match.team1.points + ":" + match.team2.points;
+
+    $(".gameplayscreen .result.field div").text(result);
 }
 
 
@@ -492,7 +654,8 @@ MatchTimer.addEvent = function(type, description) {
 
     this.data.match[match].events[this.data.match[match].events.length] = event;
 
-    MatchTimer.addEventToList(event);
+    //MatchTimer.addEventToList(event);
+    MatchTimer.refreshEventsList();
 
     this.storeData();
 
@@ -503,6 +666,18 @@ MatchTimer.clearEventsList = function() {
     // $(".events").empty();
  }
  
+MatchTimer.refreshEventsList = function() {
+    var events = MatchTimer.data.match[MatchTimer.data.currentMatch].events;
+
+    $(".gameplayscreen .events").empty();
+
+    for(var key in events) {
+        var event = events[key];
+        $(".gameplayscreen .events").prepend('<div class="event"><div class="e_field_timer">' + event.timerTime + '</div><div class="e_field_description">' + event.description + ' (' + event.actualTime + ')</div></div>');
+    }
+
+}
+
  MatchTimer.addEventToList = function(event) {
      $(".events").prepend('<div class="event"><div class="e_field_timer">' + event.timerTime + '</div><div class="e_field_description">' + event.description + ' (' + event.actualTime + ')</div></div>');
  }
@@ -533,24 +708,39 @@ MatchTimer.email = function() {
     var securityToken = "95d48787-a60d-4f8a-aabe-26849cdb857b";
 
     var email = 'romuald.kowalczyk@gmail.com';
+    var prodemail = 'liga.szostek.pruszkow@gmail.com';
+
     var subject = date + ": " + team1 + " vs " + team2;
-    var body = events;
+    var body = "<h1>" + team1 + " " + match.team1.points + ":" + match.team2.points + " " + team2 + "\n</h1>";
 
-    /*
-    var link = "mailto:" + email
- 
-    + "&subject=" + escape(subject)
-    + "&body=" + escape(body);
+    body += "<h2>" + date + "</h2>"
+    body += "<table>";
 
-    console.log(link);
+    for(var key in match.events) {
+        var event = match.events[key];
 
-    window.location.href = link;*/
+        body += "<tr>"
+        body += "<td>" + event.timerTime + "</td><td>" + event.description + "</td><td>" + event.actualTime + "</td>"
+        body += "</tr>"
+    }
+
+    body += "</table>"
 
     Email.send(senderEmail,
     email,
     subject,
     body,
     {token: securityToken});
+
+    var PROD = false;
+
+    if(PROD) {
+        Email.send(senderEmail,
+            prodemail,
+            subject,
+            body,
+            {token: securityToken});
+    }
 }
 
 
