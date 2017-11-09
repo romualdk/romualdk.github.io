@@ -486,7 +486,7 @@ MatchTimer.addEvent = function(type, description) {
     var event = {
         type: type,
         description: description,
-        timerTime: this.data.renderedTime,
+        timerTime: this.data.match[match].renderedTime,
         actualTime: this.getActualTime()
     };
 
@@ -529,18 +529,28 @@ MatchTimer.email = function() {
     var date = match.date;
     var events = "test";
 
+    var senderEmail = "rk.app.mailer@gmail.com";
+    var securityToken = "95d48787-a60d-4f8a-aabe-26849cdb857b";
+
     var email = 'romuald.kowalczyk@gmail.com';
     var subject = date + ": " + team1 + " vs " + team2;
     var body = events;
 
+    /*
     var link = "mailto:" + email
-    /*+ "?cc=myCCaddress@example.com"*/
+ 
     + "&subject=" + escape(subject)
     + "&body=" + escape(body);
 
     console.log(link);
 
-    window.location.href = link;
+    window.location.href = link;*/
+
+    Email.send(senderEmail,
+    email,
+    subject,
+    body,
+    {token: securityToken});
 }
 
 
