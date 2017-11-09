@@ -732,7 +732,7 @@ MatchTimer.email = function() {
     body,
     {token: securityToken});
 
-    var PROD = true;
+    var PROD = true; // IS PROD ####
 
     if(PROD) {
         Email.send(senderEmail,
