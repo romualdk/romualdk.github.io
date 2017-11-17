@@ -69,6 +69,9 @@
             <form>
               <label>Drużyna</label><select class="goalteam"><option disabled selected></option></select>
               <label>Gracz</label><select class="goalplayer"><option disabled selected></option></select>
+              <div class="opponentPlayer disabled">
+                <label>Gracz</label><select class="opponentPlayer"><option disabled selected></option></select>
+              </div>
               </form>
           </div>
           <button class="addgoal green">OK</button>
@@ -94,6 +97,21 @@
               </form>
           </div>
           <button class="addcard green">OK</button>
+        </div>
+
+        <!-- Send email -->
+        <div class="screen emailscreen disabled">
+            <div class="title">
+              <button class="return">&laquo;</button>
+              <div>Wyślij mecz</div>
+              <div style="clear: left"></div>
+            </div>
+            <div class="teamlist">
+              <form>
+                <label>E-mail:</label><input type="email" class="email" />
+              </form>
+            </div>
+            <button class="sendemail green">Wyślij</button>
         </div>
 
         <!-- Gameplay -->

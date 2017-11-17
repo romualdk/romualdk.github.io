@@ -86,7 +86,8 @@ label {
   font-size: 0.8em;
 }
 
-.screen select {
+.screen select,
+.screen input {
   padding-top: 10px;
   font-size: 18px;
 }
@@ -100,6 +101,7 @@ label {
 
 button,
 select,
+input,
 .teams {
   width: 100%;
   padding: 20px 40px;
