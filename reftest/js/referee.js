@@ -27,6 +27,35 @@ MatchTimer.init = function() {
         }
 
         MatchTimer.config = data;
+
+        //set emails
+
+        if(typeof(MatchTimer.config.email) !== "undefined") {
+            $(".emailscreen form").append('<div class="listitem"><input type="checkbox" name="email" class="email" value="' + MatchTimer.config.email + '" checked="checked" disabled="disabled"><label class="emaillist">' + MatchTimer.config.email + '</label></div>');
+        }
+
+        if(typeof(MatchTimer.config.emails) !== "undefined") {
+            for(key in MatchTimer.config.emails) {
+                
+                $(".emailscreen form").append('<div class="listitem"><input type="checkbox" class="email_y" value="' + MatchTimer.config.emails[key] + '"><label class="emaillist emailcheck_' + key + '">' + MatchTimer.config.emails[key] + '</label></div>');
+
+                $(".emailcheck_" + key).click(function() {
+                    var checkbox = $(this).prev();
+                    
+                    if($(checkbox).prop("checked")) {
+                        $(checkbox).prop("checked", false)
+                    }
+                    else {
+                        $(checkbox).prop("checked", true)
+                    }
+                    
+                });
+            }
+        }
+
+        $(".emailscreen form").append('<label>Inny:</label><input type="email" class="email_x" />');
+
+        
     });
 
     $.getJSON( "data/data.json", function( data ) {
@@ -86,6 +115,25 @@ MatchTimer.init = function() {
 
       $(".emailscreen .title .return").click(function() {
         MatchTimer.showScreen("gameplayscreen");
+      });
+
+      $(".confirmdeletescreen .title .return").click(function() {
+        MatchTimer.showScreen("gameplayscreen");
+      });
+
+
+      //$(".emailprogressscreen .load").addClass("disabled");
+
+      $(".emailprogressscreen .title .return").click(function() {
+        MatchTimer.showScreen("gameplayscreen");
+      });
+
+      $(".confirmdeletescreen .confirmdelete").click(function() {
+        MatchTimer.deleteData();
+        MatchTimer.storeData();
+        $(".gameplayscreen .events").empty();
+
+        MatchTimer.setDeleteButtonState();
       });
 
 
@@ -225,11 +273,9 @@ MatchTimer.setDeleteButtonState = function() {
         $(button).removeClass("inactive");
         $(button).off( "click" );
         $(button).click(function() {
-            MatchTimer.deleteData();
-            MatchTimer.storeData();
-            $(".gameplayscreen .events").empty();
 
-            MatchTimer.setDeleteButtonState();
+            MatchTimer.showScreen("confirmdeletescreen");
+  
         });
 
         var button = $(".controls .email")
@@ -238,7 +284,10 @@ MatchTimer.setDeleteButtonState = function() {
         $(button).off( "click" );
         $(button).click(function() {
             MatchTimer.showScreen("emailscreen");
-            $(".emailscreen .email").val(MatchTimer.config.email);
+
+            //$(".emailscreen .email").val(MatchTimer.config.email);
+
+            $(".emailscreen .email").val("");
         });
 
     }
@@ -250,6 +299,8 @@ MatchTimer.setDeleteButtonState = function() {
 
     
 }
+
+
 
 MatchTimer.setMatch = function(key) {
     //console.log("SET MATCH: " + key);
@@ -488,6 +539,7 @@ MatchTimer.deleteData = function() {
         MatchTimer.showScreen("matchlistscreen");
 
         MatchTimer.storeData();
+
     }
     else {
         MatchTimer.data.match[match].lastTime = null;
@@ -502,6 +554,8 @@ MatchTimer.deleteData = function() {
         MatchTimer.refreshTimerView();
         MatchTimer.refreshPointsView();
         MatchTimer.refreshEventsList();
+
+        MatchTimer.showScreen("gameplayscreen");
     }
 
     
@@ -758,6 +812,19 @@ MatchTimer.reset();*/
 
 MatchTimer.sendEmail = function() {
     var email = $(".emailscreen .email").val();
+    var email_x = $(".emailscreen .email_x").val();
+
+    var email_y = [];
+
+    $(".email_y:checked").each(function(i) {
+        email_y[i] = $(this).val();
+    });
+
+    if(typeof(email_x) !== "undefined" && email_x.length > 0) {
+        email_y[email_y.length] = email_x;
+    }
+
+    
     var senderEmail = MatchTimer.config.senderEmail;
     var securityToken = MatchTimer.config.securityToken;
 
@@ -783,13 +850,33 @@ MatchTimer.sendEmail = function() {
 
     body += "</table>"
 
-    Email.send(senderEmail,
-    email,
-    subject,
-    body,
-    {token: securityToken});
+    $(".emailprogressscreen .loader").removeClass("disabled");
+    $(".emailprogressscreen .error").not(".disabled").addClass("disabled");
+    MatchTimer.showScreen("emailprogressscreen");
 
-    MatchTimer.showScreen("gameplayscreen");
+
+    Email.handleUI = true;
+
+    Email.send(senderEmail,
+        email,
+        subject,
+        body,
+        {
+            token: securityToken
+        });
+    
+    
+    Email.handleUI = false;
+    for(i in email_y) {
+        Email.send(senderEmail,
+            email_y[i],
+            subject,
+            body,
+            {
+                token: securityToken
+            });
+    }
+
 }
 
 

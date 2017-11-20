@@ -58,6 +58,20 @@
         </div>
 
 
+        <!-- Confirm delete -->
+        <div class="screen confirmdeletescreen disabled">
+          <div class="title">
+            <button class="return">&laquo;</button>
+            <div></div>
+            <div style="clear: left"></div>
+          </div>
+          <div class="teamlist">
+            <p>Na pewno chcesz usunąć?</p>
+          </div>
+          <button class="confirmdelete red">Usuń</button>
+          <!--<button class="canceldelete green">Anuluj</button>-->
+        </div>
+
         <!-- Goal -->
         <div class="screen goalscreen disabled">
           <div class="title">
@@ -108,10 +122,38 @@
             </div>
             <div class="teamlist">
               <form>
-                <label>E-mail:</label><input type="email" class="email" />
+                
+
+                <!--
+               <div class="listitem">
+                <input type="checkbox" name="email" value="qrakis@pix.art.pl"><label class="emaillist">qrakis@pix.art.pl</label>
+               </div>
+                <div class="listitem">
+                  <input type="checkbox" name="email" value="r.kowalczyk@infosystems.pl"><label class="emaillist">r.kowalczyk@infosytems.pl</label>
+                </div>
+             
+                
+                <label>Inny:</label><input type="email" class="email" />
+
+              -->
+
               </form>
             </div>
             <button class="sendemail green">Wyślij</button>
+        </div>
+
+        <!-- Sending email screen -->
+        <div class="screen emailprogressscreen disabled">
+            <div class="title">
+                <button class="return">&laquo;</button>
+                <div>Wysyłanie</div>
+            </div>
+            <div class="teamlist">
+              <div class="loaderscreen">
+                <div class="loader"></div>
+                <div class="error disabled">Wystąpił problem podczas wysyłania.</div>
+              </div>
+            </div>
         </div>
 
         <!-- Gameplay -->
