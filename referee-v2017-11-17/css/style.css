@@ -1,0 +1,302 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  font-family: Helvetica Neue, sans-serif;
+  background: linear-gradient(to left, #57ba5a, #28aca1);
+  min-height: 100%;
+}
+
+
+
+.events {
+  width: 100%;
+  padding: 20px 20px;
+  border: 0;
+  border-bottom: 1px solid #f5f4f4;
+  line-height: 1.3;
+  list-style-type: none;
+  vertical-align: middle;  
+  color: #5f5f5f;
+  background-color: transparent;
+}
+
+.events .event div {
+  display: table-cell;
+  font-size: 18px;
+  text-align: left;
+}
+
+.events .e_field_timer {
+  width: 60px;
+}
+
+.title {
+  width: 100%;
+  padding: 10px;
+  border: 0;
+  font-size: 18px;
+  text-align: center;
+  border-bottom: 1px solid #f5f4f4;
+  line-height: 1.3;
+  list-style-type: none;
+  vertical-align: middle; 
+  color: #5f5f5f;
+  background-color: #eee;
+}
+
+.return {
+  border: 0;
+  list-style-type: none;
+  background-color: transparent;
+  display: inline-block;
+  width: 5%;
+  text-align: left;
+  font-size: 24px;
+  color: #5f5f5f;
+  padding: 0;
+  margin: 0;
+}
+
+.return + div {
+  width: 70%;
+  display: inline-block;
+  vertical-align: middle;
+  padding-right: 20px;
+}
+
+button.match {
+  line-height: 1.5;
+}
+
+.teams .date {
+  text-align: center;
+}
+
+label {
+  display: block;
+  color: #5f5f5f;
+  line-height: 1.3;
+  padding-left: 20px;
+  margin-top: 10px;
+  font-size: 0.8em;
+}
+
+.screen select,
+.screen input {
+  padding-top: 10px;
+  font-size: 18px;
+}
+
+.screen button.green {
+  padding-top: 20px;
+  background-color: #57ba5a;
+  color: #fff;
+  font-size: 18px;
+}
+
+button,
+select,
+input,
+.teams {
+  width: 100%;
+  padding: 20px 40px;
+  border: 0;
+  border-bottom: 1px solid #f5f4f4;
+  line-height: 1.3;
+  list-style-type: none;
+  vertical-align: middle;  
+  color: #5f5f5f;
+  background-color: transparent;
+}
+
+.teams .field {
+  /*display: table-cell;*/
+  display: inline-block;
+  /*float: left;*/
+  font-size: 18px;
+  text-align: center;
+  width: 32%;
+ vertical-align:middle;
+  
+}
+
+
+.teams .result {
+  font-size: 36px;
+}
+
+@media screen and (max-width: 500px) {
+  body {
+    /*height: auto;*/
+    min-height: 100%;
+    background: none;
+  }
+}
+
+@keyframes fadein {
+  from { 
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  
+  to   { 
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.wrapper {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 400px;
+  min-height: 100%;
+  background-color: #fff;
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6);
+  /*animation: fadein 1s;*/
+}
+
+@media screen and (max-width: 500px) {
+  .wrapper {
+    width: 100%;
+    min-height: 100%;
+    margin: 0;
+    box-shadow: none;
+    animation: none;
+  }
+}
+
+  .wrapper__inner {
+    width: 100%;
+    min-height: 100vh;
+  }
+
+
+  .heading {
+    width: 100%;
+    padding: 60px 40px 15px;
+    border-bottom: 1px solid #f5f4f4;
+    color: #5f5f5f;
+    font-weight: 400;
+  }
+
+  .events {
+    height: auto;
+  }
+
+  .event {
+    width: 100%;
+    padding: 5px 0px;
+    border: 0;
+    border-bottom: 1px solid #f5f4f4;
+    line-height: 1.3;
+    font-size: 19px;
+    list-style-type: none;
+    color: #5f5f5f;
+    background-color: transparent;
+  }
+
+.timer {
+  width: 100%;
+  padding: 30px 40px;
+  border: 0;
+  border-bottom: 1px solid #f5f4f4;
+  line-height: 1.3;
+  font-size: 72px;
+  text-align: center;
+  list-style-type: none;
+  color: #5f5f5f;
+  background-color: transparent;
+}
+
+.disabled {
+  display: none !important;
+}
+
+
+.controls button {
+  width: 100%;
+  padding: 20px;
+  border: 0;
+  border-bottom: 1px solid #f5f4f4;
+  line-height: 1;
+  font-size: 19px;
+  list-style-type: none;
+  color: #5f5f5f;
+  background-color: transparent;
+}
+
+.controls button .material-icons {
+  font-size: 72px;
+}
+
+.controls button.email,
+.controls button.start {
+  background-color: #57ba5a;
+  color: #fff;
+}
+
+.controls button.stop {
+  background-color: #ff5f5f;
+  color: #fff;
+}
+
+.controls button.card {
+  background-color: #fccb02;
+  color: #fff;
+}
+
+.controls button.delete {
+  background-color: #ff5f5f;
+  color: #fff;
+}
+
+.controls button.email.inactive,
+.controls button.card.inactive,
+.controls button.goal.inactive,
+.controls button.delete.inactive {
+  background-color: #808080 !important;
+}
+
+
+.controls button.goal {
+  background-color: #804884;
+  color: #fff;
+}
+
+.controls .button-half {
+  width: 50%;
+  float: left;
+}
+
+
+.loadscreen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader {
+  border: 8px solid #eee;
+  border-top: 8px solid #57ba5a;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+
+  
+
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
