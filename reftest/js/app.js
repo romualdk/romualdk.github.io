@@ -1,6 +1,6 @@
 // Registering ServiceWorker
 if ( 'serviceWorker' in navigator ) {
-  navigator.serviceWorker.register( 'sw.js' ).then(function(registration) {
+  navigator.serviceWorker.register( 'sw.js?v=20171129' ).then(function(registration) {
 
     // Registration was successful
     console.log( 'ServiceWorker registration successful. Scope: ' + registration.scope )
