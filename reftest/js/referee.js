@@ -857,7 +857,6 @@ MatchTimer.sendEmail = function() {
 
     Email.handleUI = true;
 
-    console.log("send to: ", email);
     Email.send(senderEmail,
         email,
         subject,
@@ -866,9 +865,8 @@ MatchTimer.sendEmail = function() {
             token: securityToken
         });
     
-    Email.handleUI = false;
+    //Email.handleUI = false;
     for(i in email_y) {
-        console.log("send to: ", email_y[i]);
         Email.send(senderEmail,
             email_y[i],
             subject,
