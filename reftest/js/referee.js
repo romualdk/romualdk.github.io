@@ -31,13 +31,13 @@ MatchTimer.init = function() {
         //set emails
 
         if(typeof(MatchTimer.config.email) !== "undefined") {
-            $(".emailscreen form").append('<div class="listitem"><input type="checkbox" name="email" class="email_default" value="' + MatchTimer.config.email + '" checked="checked" disabled="disabled"><label class="emaillist">' + MatchTimer.config.email + '</label></div>');
+            $(".emailscreen form").append('<div class="listitem"><input type="checkbox" name="email" class="email_default" value="' + MatchTimer.config.email[0] + '" checked="checked" disabled="disabled"><label class="emaillist">' + MatchTimer.config.email[1] + '</label></div>');
         }
 
         if(typeof(MatchTimer.config.emails) !== "undefined") {
             for(key in MatchTimer.config.emails) {
                 
-                $(".emailscreen form").append('<div class="listitem"><input type="checkbox" class="email_y" value="' + MatchTimer.config.emails[key] + '"><label class="emaillist emailcheck_' + key + '">' + MatchTimer.config.emails[key] + '</label></div>');
+                $(".emailscreen form").append('<div class="listitem"><input type="checkbox" class="email_y" value="' + MatchTimer.config.emails[key][0] + '"><label class="emaillist emailcheck_' + key + '">' + MatchTimer.config.emails[key][1] + '</label></div>');
 
                 $(".emailcheck_" + key).click(function() {
                     var checkbox = $(this).prev();
@@ -857,6 +857,7 @@ MatchTimer.sendEmail = function() {
 
     Email.handleUI = true;
 
+    console.log("send to: ", email);
     Email.send(senderEmail,
         email,
         subject,
@@ -865,9 +866,9 @@ MatchTimer.sendEmail = function() {
             token: securityToken
         });
     
-    
     Email.handleUI = false;
     for(i in email_y) {
+        console.log("send to: ", email_y[i]);
         Email.send(senderEmail,
             email_y[i],
             subject,

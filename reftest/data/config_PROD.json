@@ -1,0 +1,11 @@
+{
+    "senderEmail": "rk.app.mailer@gmail.com",
+    "securityToken": "95d48787-a60d-4f8a-aabe-26849cdb857b",
+    "email": ["liga.szostek.pruszkow@gmail.com", "Liga szóstek"],
+    "emails": [
+        ["ciesielski.grzegorz@op.pl", "Grzesiek"],
+        ["Rafal.milner@gruparen.eu", "Broda"],
+        ["p.pretkiewicz@gmail.com", "Przemek"],
+        ["piotr.orman@wp.pl", "Siwy"]
+    ]
+}
