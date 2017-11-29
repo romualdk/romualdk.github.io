@@ -865,7 +865,7 @@ MatchTimer.sendEmail = function() {
             token: securityToken
         });
     
-    /*
+    
     Email.handleUI = false;
     for(i in email_y) {
         Email.send(senderEmail,
@@ -875,7 +875,7 @@ MatchTimer.sendEmail = function() {
             {
                 token: securityToken
             });
-    }*/
+    }
 
 }
 
