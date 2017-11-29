@@ -31,7 +31,7 @@ MatchTimer.init = function() {
         //set emails
 
         if(typeof(MatchTimer.config.email) !== "undefined") {
-            $(".emailscreen form").append('<div class="listitem"><input type="checkbox" name="email" class="email" value="' + MatchTimer.config.email + '" checked="checked" disabled="disabled"><label class="emaillist">' + MatchTimer.config.email + '</label></div>');
+            $(".emailscreen form").append('<div class="listitem"><input type="checkbox" name="email" class="email_default" value="' + MatchTimer.config.email + '" checked="checked" disabled="disabled"><label class="emaillist">' + MatchTimer.config.email + '</label></div>');
         }
 
         if(typeof(MatchTimer.config.emails) !== "undefined") {
@@ -811,7 +811,7 @@ MatchTimer.refreshEventsList = function() {
 MatchTimer.reset();*/
 
 MatchTimer.sendEmail = function() {
-    var email = $(".emailscreen .email").val();
+    var email = $(".emailscreen .email_default").val();
     var email_x = $(".emailscreen .email_x").val();
 
     var email_y = [];
