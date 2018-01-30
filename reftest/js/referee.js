@@ -297,9 +297,10 @@ MatchTimer.setDeleteButtonState = function() {
         $(button).removeClass("inactive");
         $(button).off( "click" );
         $(button).click(function() {
-            if(match.events.length > 0) {
-                var match = MatchTimer.data.match[MatchTimer.data.currentMatch];
+            var match = MatchTimer.data.match[MatchTimer.data.currentMatch];
 
+            if(match.events.length > 0) {
+            
                 var team1 = match.team1.name;
                 var team2 = match.team2.name;
                 var date = match.date;
