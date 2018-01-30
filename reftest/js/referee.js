@@ -297,12 +297,39 @@ MatchTimer.setDeleteButtonState = function() {
         $(button).removeClass("inactive");
         $(button).off( "click" );
         $(button).click(function() {
+            if(match.events.length > 0) {
+                var match = MatchTimer.data.match[MatchTimer.data.currentMatch];
+
+                var team1 = match.team1.name;
+                var team2 = match.team2.name;
+                var date = match.date;
+                var events = "";
+
+                var subject = date + ": " + team1 + " vs " + team2;
+                var body = "<h1>" + team1 + " " + match.team1.points + ":" + match.team2.points + " " + team2 + "\n</h1>";
+
+                body += "<h2>" + date + "</h2>"
+                body += "<table>";
+
+                for(var key in match.events) {
+                    var event = match.events[key];
+
+                    body += "<tr>"
+                    body += "<td>" + event.timerTime + "</td><td>" + event.description + "</td><td>" + event.actualTime + "</td>"
+                    body += "</tr>"
+                }
+
+                body += "</table>"
+            
+                var html = '<html>';
+                html + '<head><meta charset="utf-8"><title>' + subject + '</title></head>';
+                html + '<body>' + body + '</body>';
+                html += '</html>';
+
+                download(html, 'match.html', 'text/html')
 
 
-            var events = MatchTimer.data.match[MatchTimer.data.currentMatch].events;
-
-            if(events.length > 0) {
-                download(JSON.stringify(MatchTimer.data.match[MatchTimer.data.currentMatch]), "match.txt", "text/plain");
+                //download(JSON.stringify(MatchTimer.data.match[MatchTimer.data.currentMatch]), "match.txt", "text/plain");
             }
 
             
