@@ -297,7 +297,15 @@ MatchTimer.setDeleteButtonState = function() {
         $(button).removeClass("inactive");
         $(button).off( "click" );
         $(button).click(function() {
-            download("hello world", "dlText.txt", "text/plain");
+
+
+            var events = MatchTimer.data.match[MatchTimer.data.currentMatch].events;
+
+            if(events.length > 0) {
+                download(JSON.stringify(MatchTimer.data.match[MatchTimer.data.currentMatch]), "match.txt", "text/plain");
+            }
+
+            
         });
     }
     else {
