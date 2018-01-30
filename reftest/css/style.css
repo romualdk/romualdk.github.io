@@ -277,6 +277,11 @@ label.emaillist {
   color: #fff;
 }
 
+.controls button.download {
+  background-color: #545afa;
+  color: #ffffff;
+}
+
 .controls button.stop {
   background-color: #ff5f5f;
   color: #fff;
