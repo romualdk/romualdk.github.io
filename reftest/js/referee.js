@@ -327,7 +327,7 @@ MatchTimer.setDeleteButtonState = function() {
                 html += '<body>' + body + '</body>';
                 html += '</html>';
 
-                download(html, 'match.html', 'text/html')
+                download(html, subject + '.html', 'text/html')
 
 
                 //download(JSON.stringify(MatchTimer.data.match[MatchTimer.data.currentMatch]), "match.txt", "text/plain");
