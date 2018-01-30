@@ -323,8 +323,8 @@ MatchTimer.setDeleteButtonState = function() {
                 body += "</table>"
             
                 var html = '<html>';
-                html + '<head><meta charset="utf-8"><title>' + subject + '</title></head>';
-                html + '<body>' + body + '</body>';
+                html += '<head><meta charset="utf-8"><title>' + subject + '</title></head>';
+                html += '<body>' + body + '</body>';
                 html += '</html>';
 
                 download(html, 'match.html', 'text/html')
