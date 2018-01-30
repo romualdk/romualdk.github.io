@@ -268,6 +268,7 @@ MatchTimer.setDeleteButtonState = function() {
 
     
     if(isactive && !this.data.match[match].isRunning) {
+        // DELETE MATCH
         var button = $(".controls .delete")
 
         $(button).removeClass("inactive");
@@ -278,6 +279,7 @@ MatchTimer.setDeleteButtonState = function() {
   
         });
 
+        // EMAIL MATCH
         var button = $(".controls .email")
         
         $(button).removeClass("inactive");
@@ -290,6 +292,13 @@ MatchTimer.setDeleteButtonState = function() {
             $(".emailscreen .email").val("");
         });
 
+        // DOWNLOAD MATCH
+        var button = $(".controls .download")
+        $(button).removeClass("inactive");
+        $(button).off( "click" );
+        $(button).click(function() {
+            download("hello world", "dlText.txt", "text/plain");
+        });
     }
     else {
         $(button).addClass("inactive");
