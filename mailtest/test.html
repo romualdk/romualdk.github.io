@@ -1,0 +1,19 @@
+<html>
+<head>
+</head>
+<body>
+  <script src="smtp.js"></script>
+  <script type="text/javascript">
+    var securityToken = "95d48787-a60d-4f8a-aabe-26849cdb857b";
+    
+    Email.send("rk.app.mailer@gmail.com",
+        "romuald.kowalczyk@gmail.com",
+        "test",
+        "test",
+        {
+            token: securityToken,
+            callback: function done(message) { alert("sent") }
+        });
+  </script>
+</body>
+</html>
