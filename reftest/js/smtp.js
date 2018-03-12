@@ -31,8 +31,8 @@ Email = {
                 else {
                     $(".emailprogressscreen .loader").addClass("disabled");
                     $(".emailprogressscreen .error").removeClass("disabled");
-                }*/
-}
+                }
+            }*/
         }, t.send()
     },
     createCORSRequest: function(e, o) {
