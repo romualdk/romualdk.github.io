@@ -1,6 +1,6 @@
 ﻿/* SmtpJS.com - v2.0.1 */
 Email = {
-    handleUI: false,
+    //handleUI: false,
     send: function(e, o, t, n, a, s, r, c) {
         var d = Math.floor(1e6 * Math.random() + 1),
             i = "From=" + e;
@@ -24,14 +24,14 @@ Email = {
             var e = t.responseText;
             void 0 != o && o(e)
 
-            if(Email.handleUI == true) {
+            /*if(Email.handleUI == true) {
                 if(e == "OK") {
                     MatchTimer.showScreen("gameplayscreen");
                 }
                 else {
                     $(".emailprogressscreen .loader").addClass("disabled");
                     $(".emailprogressscreen .error").removeClass("disabled");
-                }
+                }*/
 }
         }, t.send()
     },

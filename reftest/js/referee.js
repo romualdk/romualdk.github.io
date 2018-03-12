@@ -897,10 +897,10 @@ MatchTimer.sendEmail = function() {
 
     $(".emailprogressscreen .loader").removeClass("disabled");
     $(".emailprogressscreen .error").not(".disabled").addClass("disabled");
-    MatchTimer.showScreen("emailprogressscreen");
+    //MatchTimer.showScreen("emailprogressscreen");
 
 
-    Email.handleUI = true;
+    //Email.handleUI = true;
 
     Email.send(senderEmail,
         email,
@@ -920,6 +920,8 @@ MatchTimer.sendEmail = function() {
                 token: securityToken
             });
     }
+
+    MatchTimer.showScreen("gameplayscreen");
 
 }
 
