@@ -848,8 +848,7 @@ MatchTimer.refreshEventsList = function() {
 
             if(event.type == 'goal') {
 
-                console.log(event.val1);
-                console.log(event.val2);
+                console.log(event);
                 $(".goalscreen select.goalteam").val(event.val1).change();
                 $(".goalscreen select.goalplayer").val(event.val2).change();
 
