@@ -489,7 +489,7 @@ MatchTimer.addGoal = function() {
         var opponentPlayer = $(".goalscreen select.opponentPlayer").val();
 
         if(opponentPlayer !== null) {
-            MatchTimer.addEvent("goal", "Gol " + team + " (" + player + " " + opponentPlayer + ")");
+            MatchTimer.addEvent("goal", "Gol " + team + " (" + player + " " + opponentPlayer + ")", team, player);
 
             addEvent = true;
         }
@@ -803,14 +803,18 @@ MatchTimer.getActualTime = function() {
 }
 
 
-MatchTimer.addEvent = function(type, description) {
+MatchTimer.addEvent = function(type, description, val1, val2, val3, val4) {
     var match = this.data.currentMatch;
 
     var event = {
         type: type,
         description: description,
         timerTime: this.data.match[match].renderedTime,
-        actualTime: this.getActualTime()
+        actualTime: this.getActualTime(),
+        val1: val1,
+        val2: val2,
+        val3: val3,
+        val4: val4
     };
 
     this.data.match[match].events[this.data.match[match].events.length] = event;
@@ -841,6 +845,14 @@ MatchTimer.refreshEventsList = function() {
             var id = this.id.replace("event_", "");
             var event = MatchTimer.data.match[MatchTimer.data.currentMatch].events[id];
             console.log(event.type)
+
+            if(event.type = 'goal') {
+
+                $(".goalscreen select.goalteam").val(event.val1);
+                $(".goalscreen select.goalplayer").val(event.val2);
+
+                MatchTimer.showScreen("goalscreen");
+            }
         });
     }
 
