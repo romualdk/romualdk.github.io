@@ -482,35 +482,27 @@ MatchTimer.addGoal = function() {
     }
 */
     
+    // Edytuj
+    if(MatchTimer.editEvent == true) {
 
-    var addEvent = false;
-
-    if(player == "SAMOBÓJ") {
-        var opponentPlayer = $(".goalscreen select.opponentPlayer").val();
-
-        if(opponentPlayer !== null) {
-            MatchTimer.addEvent("goal", "Gol " + team + " (" + player + " " + opponentPlayer + ")", team, player);
-
+        if(player == "SAMOBÓJ") {
+            var opponentPlayer = $(".goalscreen select.opponentPlayer").val();
+    
+            if(opponentPlayer !== null) {
+                MatchTimer.addEvent("goal", "Gol " + team + " (" + player + " " + opponentPlayer + ")", team, player);
+    
+                addEvent = true;
+            }
+        }
+        else {
+            MatchTimer.addEvent("goal", "Gol " + team + " (" + player + ")", team, player);
+    
             addEvent = true;
         }
-    }
-    else {
-        MatchTimer.addEvent("goal", "Gol " + team + " (" + player + ")", team, player);
 
-        addEvent = true;
-    }
-
-
-    if(addEvent) {
-        if(teamNo == 1) {
-            MatchTimer.data.match[MatchTimer.data.currentMatch].team1.points += 1;
-        }
-        else if(teamNo == 2) {
-            MatchTimer.data.match[MatchTimer.data.currentMatch].team2.points += 1;
-        }
 
         MatchTimer.refreshPointsView();
-        
+            
         MatchTimer.showScreen("gameplayscreen");
     
         $(".goalscreen .goalteam option:selected").removeAttr("selected");
@@ -522,8 +514,61 @@ MatchTimer.addGoal = function() {
         $(".goalscreen .opponentPlayer option:disabled").prop("selected", true);
 
         $(".goalscreen div.opponentPlayer").addClass("disabled");
-        
     }
+    // Dodaj
+    else {
+
+
+        var addEvent = false;
+
+        if(player == "SAMOBÓJ") {
+            var opponentPlayer = $(".goalscreen select.opponentPlayer").val();
+    
+            if(opponentPlayer !== null) {
+                MatchTimer.addEvent("goal", "Gol " + team + " (" + player + " " + opponentPlayer + ")", team, player);
+    
+                addEvent = true;
+            }
+        }
+        else {
+            MatchTimer.addEvent("goal", "Gol " + team + " (" + player + ")", team, player);
+    
+            addEvent = true;
+        }
+    
+    
+        if(addEvent) {
+            if(teamNo == 1) {
+                MatchTimer.data.match[MatchTimer.data.currentMatch].team1.points += 1;
+            }
+            else if(teamNo == 2) {
+                MatchTimer.data.match[MatchTimer.data.currentMatch].team2.points += 1;
+            }
+    
+            MatchTimer.refreshPointsView();
+            
+            MatchTimer.showScreen("gameplayscreen");
+        
+            $(".goalscreen .goalteam option:selected").removeAttr("selected");
+            $(".goalscreen .goalplayer option:selected").removeAttr("selected");
+            $(".goalscreen .opponentPlayer option:selected").removeAttr("selected");
+        
+            $(".goalscreen .goalteam option:disabled").prop("selected", true);
+            $(".goalscreen .goalplayer option:disabled").prop("selected", true);
+            $(".goalscreen .opponentPlayer option:disabled").prop("selected", true);
+    
+            $(".goalscreen div.opponentPlayer").addClass("disabled");
+            
+        }
+        
+
+
+
+
+
+    }
+
+
     
     
 }
@@ -817,9 +862,17 @@ MatchTimer.addEvent = function(type, description, val1, val2, val3, val4) {
         val4: val4
     };
 
-    console.log(val1, val2);
+    //console.log(val1, val2);
 
-    this.data.match[match].events[this.data.match[match].events.length] = event;
+    if(MatchTimer.eventId > 0) {
+        this.data.match[match].events[this.data.match[match].events.length] = event;
+    }
+    else {
+        this.data.match[match].events[MatchTimer.eventId] = event;
+    }
+
+    MatchTimer.eventId = null;
+    
 
     //MatchTimer.addEventToList(event);
     MatchTimer.refreshEventsList();
@@ -854,6 +907,11 @@ MatchTimer.refreshEventsList = function() {
                 $(".goalscreen select.goalteam").val(event.val1).change();
                 $(".goalscreen select.goalplayer").val(event.val2).change();
 
+
+                MatchTimer.editEvent = true;
+                MatchTimer.eventId = id;
+                MatchTimer.prevVal1 = val1;
+                MatchTimer.prevVal2 = vale2;
                 MatchTimer.showScreen("goalscreen");
             }
         });
