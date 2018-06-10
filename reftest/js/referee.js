@@ -817,6 +817,8 @@ MatchTimer.addEvent = function(type, description, val1, val2, val3, val4) {
         val4: val4
     };
 
+    console.log(val1, val2);
+
     this.data.match[match].events[this.data.match[match].events.length] = event;
 
     //MatchTimer.addEventToList(event);
