@@ -495,7 +495,7 @@ MatchTimer.addGoal = function() {
         }
     }
     else {
-        MatchTimer.addEvent("goal", "Gol " + team + " (" + player + ")");
+        MatchTimer.addEvent("goal", "Gol " + team + " (" + player + ")", team, player);
 
         addEvent = true;
     }
