@@ -910,8 +910,8 @@ MatchTimer.refreshEventsList = function() {
 
                 MatchTimer.editEvent = true;
                 MatchTimer.eventId = id;
-                MatchTimer.prevVal1 = val1;
-                MatchTimer.prevVal2 = vale2;
+                MatchTimer.prevVal1 = event.val1;
+                MatchTimer.prevVal2 = event.val2;
                 MatchTimer.showScreen("goalscreen");
             }
         });
