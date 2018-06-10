@@ -836,7 +836,12 @@ MatchTimer.refreshEventsList = function() {
         var event = events[key];
         $(".gameplayscreen .events").prepend('<div id="event_' + key + '" class="event"><div class="e_field_timer">' + event.timerTime + '</div><div class="e_field_description">' + event.description + ' (' + event.actualTime + ')</div></div>');
     
-        $("#event_" + key).click(function() {alert($(this).id())});
+        $("#event_" + key).click(function() {
+
+            var id = this.id.replace("event_", "");
+            var event = MatchTimer.data.match[MatchTimer.data.currentMatch].events[id];
+            console.log(event.type)
+        });
     }
 
 }
