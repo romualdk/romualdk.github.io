@@ -846,7 +846,7 @@ MatchTimer.refreshEventsList = function() {
             var event = MatchTimer.data.match[MatchTimer.data.currentMatch].events[id];
             console.log(event.type)
 
-            if(event.type = 'goal') {
+            if(event.type == 'goal') {
 
                 console.log(event.val1);
                 console.log(event.val2);
