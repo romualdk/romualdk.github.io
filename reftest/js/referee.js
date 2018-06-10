@@ -456,6 +456,7 @@ MatchTimer.setMatch = function(key) {
 
 
 MatchTimer.addGoal = function() {
+
     var team = $(".goalscreen select.goalteam").val();
     var player = $(".goalscreen select.goalplayer").val();
 
@@ -833,7 +834,9 @@ MatchTimer.refreshEventsList = function() {
 
     for(var key in events) {
         var event = events[key];
-        $(".gameplayscreen .events").prepend('<div class="event"><div class="e_field_timer">' + event.timerTime + '</div><div class="e_field_description">' + event.description + ' (' + event.actualTime + ')</div></div>');
+        $(".gameplayscreen .events").prepend('<div id="event_' + key + '" class="event"><div class="e_field_timer">' + event.timerTime + '</div><div class="e_field_description">' + event.description + ' (' + event.actualTime + ')</div></div>');
+    
+        $("#event_" + key).click(function() {alert($(this).id())});
     }
 
 }
