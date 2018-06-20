@@ -165,7 +165,7 @@ MatchTimer.init = function() {
       });
 
       $(".confirmgoaldeletescreen .confirmgoaldelete").click(function() {
-        MatchTimer.deleteCard();
+        MatchTimer.deleteGoal();
       });
 
       $(".confirmcarddeletescreen .confirmcarddelete").click(function() {
@@ -1042,6 +1042,7 @@ MatchTimer.deleteGoal = function() {
     if(MatchTimer.editEvent == true && this.data.match[this.data.currentMatch].events[MatchTimer.eventId].type == 'goal') {
         this.data.match[this.data.currentMatch].events.splice(MatchTimer.eventId, 1);
         MatchTimer.refreshEventsList();
+        MatchTimer.refreshPointsView();
         MatchTimer.showScreen('gameplayscreen');
 
         $(".goalscreen select.goalteam").val('').change();
