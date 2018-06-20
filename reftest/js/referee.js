@@ -366,6 +366,8 @@ MatchTimer.setDeleteButtonState = function() {
 
                 body += "</table>"
             
+                body += "<pre>"+ match.notes + "</pre>"
+
                 var html = '<html>';
                 html += '<head><meta charset="utf-8"><title>' + subject + '</title></head>';
                 html += '<body>' + body + '</body>';
@@ -1121,6 +1123,8 @@ MatchTimer.sendEmail = function() {
     }
 
     body += "</table>"
+
+    body += "<pre>"+ match.notes + "</pre>"
 
     $(".emailprogressscreen .loader").removeClass("disabled");
     $(".emailprogressscreen .error").not(".disabled").addClass("disabled");
