@@ -110,7 +110,13 @@ MatchTimer.init = function() {
 
         $(".goalscreen select.goalteam").val('').change();
         $(".goalscreen select.goalplayer").val('').change();
+        MatchTimer.editEvent = false;
       });
+
+      $(".goalscreen .deletegoal").click(function() {
+        MatchTimer.deleteGoal();
+      });
+
 
       $(".cardscreen .title .return").click(function() {
         MatchTimer.showScreen("gameplayscreen");
@@ -118,6 +124,11 @@ MatchTimer.init = function() {
         $(".cardscreen select.cardtype").val('').change();
         $(".cardscreen select.cardteam").val('').change();
         $(".cardscreen select.cardplayer").val('').change();
+        MatchTimer.editEvent = false;
+      });
+
+      $(".cardscreen .deletecard").click(function() {
+        MatchTimer.deleteCard();
       });
 
       $(".emailscreen .title .return").click(function() {
@@ -739,6 +750,7 @@ MatchTimer.reset = function() {
     $(".goal").click(function() {
         if(MatchTimer.data.match[MatchTimer.data.currentMatch].isRunning) {
 
+            $(".goalscreen .deletegoal").not(".disabled").addClass("disabled");
             MatchTimer.showScreen("goalscreen");
 
             /*MatchTimer.addEvent("goal", "Gol");*/
@@ -749,6 +761,7 @@ MatchTimer.reset = function() {
     $(".card").click(function() {
         if(MatchTimer.data.match[MatchTimer.data.currentMatch].isRunning) {
 
+            $(".goalscreen .deletecard").not(".disabled").addClass("disabled");
             MatchTimer.showScreen("cardscreen");
 
             //MatchTimer.addEvent("card", "Kartka");
@@ -968,6 +981,8 @@ MatchTimer.refreshEventsList = function() {
                 MatchTimer.eventId = id;
                 MatchTimer.prevVal1 = event.val1;
                 MatchTimer.prevVal2 = event.val2;
+
+                $(".goalscreen .deletegoal").removeClass("disabled");
                 MatchTimer.showScreen("goalscreen");
             }
 
@@ -981,6 +996,8 @@ MatchTimer.refreshEventsList = function() {
                 MatchTimer.prevVal1 = event.val1;
                 MatchTimer.prevVal2 = event.val2;
                 MatchTimer.prevVal3 = event.val3;
+
+                $(".goalscreen .deletecard").removeClass("disabled");
                 MatchTimer.showScreen("cardscreen");
             }
         });
@@ -1001,6 +1018,24 @@ MatchTimer.refreshEventsList = function() {
          this.addEventToList(this.data.match[match].events[i]);
      }
  }
+
+
+MatchTimer.deleteGoal = function() {
+    this.data.match[this.data.currentMatch].events.splice(MatchTimer.eventId, 1);
+    MatchTimer.refreshEventsList();
+    MatchTimer.showScreen('gameplayscreen');
+};
+
+MatchTimer.deleteCard = function() {
+    this.data.match[this.data.currentMatch].events.splice(MatchTimer.eventId, 1);
+    MatchTimer.refreshEventsList();
+    MatchTimer.showScreen('gameplayscreen');
+};
+
+
+
+
+
 
 /*
 MatchTimer.reset();*/
