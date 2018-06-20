@@ -232,7 +232,8 @@ MatchTimer.addMatch = function(team1, team2) {
             timerTime: 0,
             renderedTime: null,
             isRunning: false,
-            notes: '',
+            notes: 'Uwagi:\
+            ',
             team1: {
                 name: team1,
                 points: 0
