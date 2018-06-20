@@ -175,7 +175,7 @@ MatchTimer.init = function() {
     
 
     $(".matchnotes").on("change keyup paste", function() {
-        var match = this.data.currentMatch;
+        var match = MatchTimer.data.currentMatch;
 
         MatchTimer.data.match[match].notes = $(this).val();
     });
