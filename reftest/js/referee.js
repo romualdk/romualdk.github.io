@@ -840,10 +840,10 @@ MatchTimer.refreshPointsView = function() {
     match.team2.points = 0;
 
     for(var i in match.events) {
-        if(match.events[i].type = 'goal' && match.events[i].val1 == match.team1.name) {
+        if(match.events[i].type == 'goal' && match.events[i].val1 == match.team1.name) {
             match.team1.points += 1;
         }
-        else if(match.events[i].type = 'goal' && match.events[i].val1 == match.team2.name) {
+        else if(match.events[i].type == 'goal' && match.events[i].val1 == match.team2.name) {
             match.team2.points += 1;
         }
     }
