@@ -1039,7 +1039,7 @@ MatchTimer.refreshEventsList = function() {
 
 
 MatchTimer.deleteGoal = function() {
-    if(MatchTime.editEvent == true && this.data.match[this.data.currentMatch].events[MatchTimer.eventId].type == 'goal') {
+    if(MatchTimer.editEvent == true && this.data.match[this.data.currentMatch].events[MatchTimer.eventId].type == 'goal') {
         this.data.match[this.data.currentMatch].events.splice(MatchTimer.eventId, 1);
         MatchTimer.refreshEventsList();
         MatchTimer.showScreen('gameplayscreen');
@@ -1051,7 +1051,7 @@ MatchTimer.deleteGoal = function() {
 };
 
 MatchTimer.deleteCard = function() {
-    if(MatchTime.editEvent == true && this.data.match[this.data.currentMatch].events[MatchTimer.eventId].type == 'card') {
+    if(MatchTimer.editEvent == true && this.data.match[this.data.currentMatch].events[MatchTimer.eventId].type == 'card') {
         this.data.match[this.data.currentMatch].events.splice(MatchTimer.eventId, 1);
         MatchTimer.refreshEventsList();
         MatchTimer.showScreen('gameplayscreen');
