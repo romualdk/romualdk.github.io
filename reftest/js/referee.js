@@ -997,7 +997,7 @@ MatchTimer.refreshEventsList = function() {
                 MatchTimer.prevVal2 = event.val2;
                 MatchTimer.prevVal3 = event.val3;
 
-                $(".goalscreen .deletecard").removeClass("disabled");
+                $(".cardscreen .deletecard").removeClass("disabled");
                 MatchTimer.showScreen("cardscreen");
             }
         });
