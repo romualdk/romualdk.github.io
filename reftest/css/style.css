@@ -116,6 +116,7 @@ label {
   border: 0;
   margin-top: 16px;
   margin-bottom: 16px;
+  padding: 8px;
   outline-color: transparent;
   outline-style: none;
 }
