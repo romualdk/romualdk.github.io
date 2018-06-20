@@ -614,17 +614,37 @@ MatchTimer.addCard = function() {
         return false;
     }
 
-    MatchTimer.addEvent("card", type + " " + player + " (" + team + ")");
 
-    MatchTimer.showScreen("gameplayscreen");
+    if(MatchTimer.editEvent == true) {
+        // Edytuj
+        MatchTimer.addEvent("card", type + " " + player + " (" + team + ")", type, team, player);
 
-    $(".cardscreen .cardtype option:selected").removeAttr("selected");
-    $(".cardscreen .cardteam option:selected").removeAttr("selected");
-    $(".cardscreen .cardplayer option:selected").removeAttr("selected");
+        MatchTimer.showScreen("gameplayscreen");
 
-    $(".cardscreen .cardtype option:disabled").prop("selected", true);
-    $(".cardscreen .cardteam option:disabled").prop("selected", true);
-    $(".cardscreen .cardplayer option:disabled").prop("selected", true);
+        $(".cardscreen .cardtype option:selected").removeAttr("selected");
+        $(".cardscreen .cardteam option:selected").removeAttr("selected");
+        $(".cardscreen .cardplayer option:selected").removeAttr("selected");
+
+        $(".cardscreen .cardtype option:disabled").prop("selected", true);
+        $(".cardscreen .cardteam option:disabled").prop("selected", true);
+        $(".cardscreen .cardplayer option:disabled").prop("selected", true);
+    }
+    else {
+        // Dodaj
+        MatchTimer.addEvent("card", type + " " + player + " (" + team + ")", type, team, player);
+
+        MatchTimer.showScreen("gameplayscreen");
+
+        $(".cardscreen .cardtype option:selected").removeAttr("selected");
+        $(".cardscreen .cardteam option:selected").removeAttr("selected");
+        $(".cardscreen .cardplayer option:selected").removeAttr("selected");
+
+        $(".cardscreen .cardtype option:disabled").prop("selected", true);
+        $(".cardscreen .cardteam option:disabled").prop("selected", true);
+        $(".cardscreen .cardplayer option:disabled").prop("selected", true);
+
+    }
+    
 }
 
 
@@ -897,8 +917,6 @@ MatchTimer.addEvent = function(type, description, val1, val2, val3, val4) {
         val4: val4
     };
 
-    //console.log(val1, val2);
-
     if(MatchTimer.eventId > 0) {
         this.data.match[match].events[MatchTimer.eventId] = event;
     }
@@ -908,6 +926,7 @@ MatchTimer.addEvent = function(type, description, val1, val2, val3, val4) {
     }
 
     MatchTimer.eventId = null;
+    MatchTimer.editEvent = false;
     
 
     //MatchTimer.addEventToList(event);
@@ -935,11 +954,8 @@ MatchTimer.refreshEventsList = function() {
 
             var id = this.id.replace("event_", "");
             var event = MatchTimer.data.match[MatchTimer.data.currentMatch].events[id];
-            console.log(event.type)
 
             if(event.type == 'goal') {
-
-                console.log(event);
                 $(".goalscreen select.goalteam").val(event.val1).change();
                 $(".goalscreen select.goalplayer").val(event.val2).change();
 
@@ -949,6 +965,19 @@ MatchTimer.refreshEventsList = function() {
                 MatchTimer.prevVal1 = event.val1;
                 MatchTimer.prevVal2 = event.val2;
                 MatchTimer.showScreen("goalscreen");
+            }
+
+            if(event.type == 'card') {
+                $(".cardscreen select.cardtype").val(event.val1).change();
+                $(".cardscreen select.cardteam").val(event.val2).change();
+                $(".cardscreen select.cardplayer").val(event.val3).change();
+
+                MatchTimer.editEvent = true;
+                MatchTimer.eventId = id;
+                MatchTimer.prevVal1 = event.val1;
+                MatchTimer.prevVal2 = event.val2;
+                MatchTimer.prevVal3 = event.val3;
+                MatchTimer.showScreen("cardscreen");
             }
         });
     }
