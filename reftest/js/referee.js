@@ -114,7 +114,8 @@ MatchTimer.init = function() {
       });
 
       $(".goalscreen .deletegoal").click(function() {
-        MatchTimer.deleteGoal();
+        //MatchTimer.deleteGoal();
+        MatchTimer.showScreen('confirmgoaldeletescreen');
       });
 
 
@@ -128,7 +129,8 @@ MatchTimer.init = function() {
       });
 
       $(".cardscreen .deletecard").click(function() {
-        MatchTimer.deleteCard();
+        //MatchTimer.deleteCard();
+        MatchTimer.showScreen('confirmcarddeletescreen');
       });
 
       $(".emailscreen .title .return").click(function() {
@@ -137,6 +139,14 @@ MatchTimer.init = function() {
 
       $(".confirmdeletescreen .title .return").click(function() {
         MatchTimer.showScreen("gameplayscreen");
+      });
+
+      $(".confirmgoaldeletescreen .title .return").click(function() {
+        MatchTimer.showScreen("goalscreen");
+      });
+
+      $(".confirmcarddeletescreen .title .return").click(function() {
+        MatchTimer.showScreen("cardscreen");
       });
 
 
@@ -152,6 +162,14 @@ MatchTimer.init = function() {
         $(".gameplayscreen .events").empty();
 
         MatchTimer.setDeleteButtonState();
+      });
+
+      $(".confirmgoaldeletescreen .confirmgoaldelete").click(function() {
+        MatchTimer.deleteCard();
+      });
+
+      $(".confirmcarddeletescreen .confirmcarddelete").click(function() {
+        MatchTimer.deleteCard();
       });
 
 

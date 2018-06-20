@@ -292,6 +292,10 @@ label.emaillist {
   color: #fff;
 }
 
+button.deletegoal,
+button.deletecard,
+button.confirmgoaldelete,
+button.confirmcarddelete,
 button.confirmdelete,
 .controls button.delete {
   background-color: #ff5f5f;
