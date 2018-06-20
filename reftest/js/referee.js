@@ -172,6 +172,14 @@ MatchTimer.init = function() {
         MatchTimer.deleteCard();
       });
 
+    
+
+    $(".matchnotes").on("change keyup paste", function() {
+        var match = this.data.currentMatch;
+
+        MatchTimer.data.match[match].notes = $(this).val();
+    }
+
 
     $("button.newmatch").click(function() {
         MatchTimer.showScreen("newmatchscreen");
@@ -224,6 +232,7 @@ MatchTimer.addMatch = function(team1, team2) {
             timerTime: 0,
             renderedTime: null,
             isRunning: false,
+            notes: '',
             team1: {
                 name: team1,
                 points: 0
@@ -399,7 +408,7 @@ MatchTimer.setMatch = function(key) {
 
     MatchTimer.setDeleteButtonState();
 
-
+    $(".matchnotes").val(this.data.match[key].notes);
 
     // goal selects
     $(".goalscreen select.goalteam").empty();
