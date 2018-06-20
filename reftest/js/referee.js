@@ -178,7 +178,7 @@ MatchTimer.init = function() {
         var match = this.data.currentMatch;
 
         MatchTimer.data.match[match].notes = $(this).val();
-    }
+    });
 
 
     $("button.newmatch").click(function() {
