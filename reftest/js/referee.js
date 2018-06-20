@@ -365,7 +365,6 @@ MatchTimer.setMatch = function(key) {
     $(".matchlistscreen").addClass("disabled");
 
     MatchTimer.setDeleteButtonState();
-    console.log('TEST');
 
 
 
@@ -868,10 +867,11 @@ MatchTimer.addEvent = function(type, description, val1, val2, val3, val4) {
     //console.log(val1, val2);
 
     if(MatchTimer.eventId > 0) {
-        this.data.match[match].events[this.data.match[match].events.length] = event;
+        this.data.match[match].events[MatchTimer.eventId] = event;
     }
     else {
-        this.data.match[match].events[MatchTimer.eventId] = event;
+        this.data.match[match].events[this.data.match[match].events.length] = event;
+        
     }
 
     MatchTimer.eventId = null;
