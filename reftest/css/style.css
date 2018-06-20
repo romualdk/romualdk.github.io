@@ -106,6 +106,14 @@ label {
   font-size: 18px;
 }
 
+.matchnotes {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  resize: none;
+  border: 1px solid #5f5f5f;
+}
+
 button,
 select,
 input,
