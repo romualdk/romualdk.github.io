@@ -761,7 +761,7 @@ MatchTimer.reset = function() {
     $(".card").click(function() {
         if(MatchTimer.data.match[MatchTimer.data.currentMatch].isRunning) {
 
-            $(".goalscreen .deletecard").not(".disabled").addClass("disabled");
+            $(".cardscreen .deletecard").not(".disabled").addClass("disabled");
             MatchTimer.showScreen("cardscreen");
 
             //MatchTimer.addEvent("card", "Kartka");
@@ -1021,15 +1021,29 @@ MatchTimer.refreshEventsList = function() {
 
 
 MatchTimer.deleteGoal = function() {
-    this.data.match[this.data.currentMatch].events.splice(MatchTimer.eventId, 1);
-    MatchTimer.refreshEventsList();
-    MatchTimer.showScreen('gameplayscreen');
+    if(MatchTime.editEvent == true && this.data.match[this.data.currentMatch].events[MatchTimer.eventId].type == 'goal') {
+        this.data.match[this.data.currentMatch].events.splice(MatchTimer.eventId, 1);
+        MatchTimer.refreshEventsList();
+        MatchTimer.showScreen('gameplayscreen');
+
+        $(".goalscreen select.goalteam").val('').change();
+        $(".goalscreen select.goalplayer").val('').change();
+        MatchTimer.editEvent = false; 
+    }
 };
 
 MatchTimer.deleteCard = function() {
-    this.data.match[this.data.currentMatch].events.splice(MatchTimer.eventId, 1);
-    MatchTimer.refreshEventsList();
-    MatchTimer.showScreen('gameplayscreen');
+    if(MatchTime.editEvent == true && this.data.match[this.data.currentMatch].events[MatchTimer.eventId].type == 'card') {
+        this.data.match[this.data.currentMatch].events.splice(MatchTimer.eventId, 1);
+        MatchTimer.refreshEventsList();
+        MatchTimer.showScreen('gameplayscreen');
+
+        $(".cardscreen select.cardtype").val('').change();
+        $(".cardscreen select.cardteam").val('').change();
+        $(".cardscreen select.cardplayer").val('').change();
+        MatchTimer.editEvent = false;
+    }
+    
 };
 
 
