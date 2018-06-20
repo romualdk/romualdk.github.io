@@ -365,6 +365,7 @@ MatchTimer.setMatch = function(key) {
     $(".matchlistscreen").addClass("disabled");
 
     MatchTimer.setDeleteButtonState();
+    console.log('TEST');
 
 
 
