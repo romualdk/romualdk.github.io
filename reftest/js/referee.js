@@ -487,7 +487,7 @@ MatchTimer.addGoal = function() {
     // Edytuj
     if(MatchTimer.editEvent == true) {
 
-
+/*
         if(MatchTimer.data.match[MatchTimer.data.currentMatch].events[MatchTimer.eventId].val1 != team) {
             if(teamNo == 1) {
                 MatchTimer.data.match[MatchTimer.data.currentMatch].team1.points += 1;
@@ -497,7 +497,7 @@ MatchTimer.addGoal = function() {
                 MatchTimer.data.match[MatchTimer.data.currentMatch].team2.points += 1;
                 MatchTimer.data.match[MatchTimer.data.currentMatch].team1.points -= 1;
             }
-        }
+        }*/
 
         
 
@@ -559,13 +559,13 @@ MatchTimer.addGoal = function() {
     
     
         if(addEvent) {
-            if(teamNo == 1) {
+            /*if(teamNo == 1) {
                 MatchTimer.data.match[MatchTimer.data.currentMatch].team1.points += 1;
             }
             else if(teamNo == 2) {
                 MatchTimer.data.match[MatchTimer.data.currentMatch].team2.points += 1;
             }
-    
+    */
             MatchTimer.refreshPointsView();
             
             MatchTimer.showScreen("gameplayscreen");
@@ -835,6 +835,20 @@ MatchTimer.refreshTimerView = function() {
 
 MatchTimer.refreshPointsView = function() {
     var match = MatchTimer.data.match[MatchTimer.data.currentMatch];
+
+    match.team1.points += 0;
+    match.team2.points += 0;
+
+    for(var i in match.events) {
+        if(match.events[i].val1 == match.team1.name) {
+            match.team1.points += 1;
+        }
+        else if(match.events[i].val1 == match.team2.name) {
+            match.team2.points += 1;
+        }
+    }
+
+
     var result = match.team1.points + ":" + match.team2.points;
 
     $(".gameplayscreen .result.field div").text(result);
