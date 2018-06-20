@@ -7,7 +7,6 @@ var cacheName = 'cache_' + version;
 var dataCacheName = 'cache_data_' + version;
 
 var filesToCache = [
-  '/',
   'index.html',
   'js/app.js',
   'js/jquery.min.js',
