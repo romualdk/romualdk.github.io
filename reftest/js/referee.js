@@ -260,6 +260,8 @@ MatchTimer.showScreen = function(screenName) {
 MatchTimer.setDeleteButtonState = function() {
     var match = this.data.currentMatch;
 
+    console.log(this.data.match[match]);
+
     if(typeof(this.data.match[match]) == "undefined") {
         return false;
     }
