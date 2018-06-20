@@ -107,10 +107,17 @@ MatchTimer.init = function() {
 
       $(".goalscreen .title .return").click(function() {
         MatchTimer.showScreen("gameplayscreen");
+
+        $(".goalscreen select.goalteam").val('').change();
+        $(".goalscreen select.goalplayer").val('').change();
       });
 
       $(".cardscreen .title .return").click(function() {
         MatchTimer.showScreen("gameplayscreen");
+
+        $(".cardscreen select.cardtype").val('').change();
+        $(".cardscreen select.cardteam").val('').change();
+        $(".cardscreen select.cardplayer").val('').change();
       });
 
       $(".emailscreen .title .return").click(function() {
@@ -260,15 +267,12 @@ MatchTimer.showScreen = function(screenName) {
 MatchTimer.setDeleteButtonState = function() {
     var match = this.data.currentMatch;
 
-    console.log(this.data.match[match]);
-
     if(typeof(this.data.match[match]) == "undefined") {
         return false;
     }
 
     var isactive = this.data.match[match].events.length > 0;
 
-    
     if(isactive && !this.data.match[match].isRunning) {
         // DELETE MATCH
         var button = $(".controls .delete")

@@ -2,7 +2,7 @@
 importScripts('js/cache-polyfill.js');
 
 
-var version = '0.5018062006';
+var version = '0.5018062007';
 var cacheName = 'cache_' + version;
 var dataCacheName = 'cache_data_' + version;
 
