@@ -964,6 +964,8 @@ MatchTimer.addEvent = function(type, description, val1, val2, val3, val4) {
     };
 
     if(MatchTimer.eventId > 0) {
+        event.timerTime = this.data.match[match].events[MatchTimer.eventId].timerTime;
+        event.actualTime = this.data.match[match].events[MatchTimer.eventId].actualTime;
         this.data.match[match].events[MatchTimer.eventId] = event;
     }
     else {
