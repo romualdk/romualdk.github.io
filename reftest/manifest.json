@@ -1,7 +1,7 @@
 {
-  "short_name": "Karta sędziego",
+  "short_name": "Karta",
   "name": "Karta sędziego",
-  "description" : "",
+  "description" : "Zapisz przebieg meczu. Jego czas, gole i kary.",
   "display": "standalone",
   "orientation": "portrait",
   "start_url": "index.html",
