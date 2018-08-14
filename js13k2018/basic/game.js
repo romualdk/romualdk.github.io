@@ -1,11 +1,45 @@
 /**
  * SCREEN
  */
-var canvas = document.querySelector('#screen');
+
+var canvas = document.getElementById('screen');
 var ctx = canvas.getContext('2d');
-var screen = {
-    width: 240,
-    height: 240
+
+var gamescreen = document.createElement('canvas');
+var gamectx = gamescreen.getContext("2d");
+gamescreen.width = 240;
+gamescreen.height = 240;
+
+var smoothing = 0;
+
+gamectx.mozImageSmoothingEnabled = smoothing;
+gamectx.msImageSmoothingEnabled = smoothing;
+gamectx.webkitImageSmoothingEnabled = smoothing;
+gamectx.imageSmoothingEnabled = smoothing;
+
+window.addEventListener('resize', resizeCanvas, false);
+
+resizeCanvas();
+
+function resizeCanvas() {
+   
+    var hScale = Math.floor(window.innerWidth / gamescreen.width);
+    var vScale = Math.floor(window.innerHeight / gamescreen.height);
+    var scale = hScale < vScale ? hScale : vScale;
+    scale = scale < 1 ? 1 : scale;
+
+    var realWidth = scale * gamescreen.width;
+    var realHeight = scale * gamescreen.height;
+    var left = Math.floor((window.innerWidth - realWidth) / 2);
+    var top = Math.floor((window.innerHeight - realHeight) / 2);
+
+    canvas.style.width = realWidth + "px";
+    canvas.style.height = realHeight + "px";
+    canvas.style.left = left + "px";
+    canvas.style.top = top + "px";
+
+    canvas.width = realWidth;
+    canvas.height = realHeight;
 }
 
 
@@ -102,8 +136,6 @@ function isMobile() {
      }
    }
 
-console.log(isMobile());
-
 
 
 
@@ -126,6 +158,13 @@ function update(dt) {
         resetControls();
     }
 
+    if(controls.A && speed != 0) {
+        speed = 0;
+    }
+    else if(controls.A && speed == 0) {
+        speed = 45;
+    }
+
 
     angle += speed*dt;
 
@@ -138,10 +177,14 @@ function update(dt) {
 }
 
 function render(dt) {
-    ctx.save();
+    gamectx.save();
+    gamectx.clearRect(0, 0, gamescreen.width, gamescreen.height);
+    gamectx.translate(tileset.width, tileset.height);
+    gamectx.rotate(Math.PI / 180 * angle); 
+    gamectx.drawImage(tileset, 0, 0, tileset.width, tileset.height,  -tileset.width * scale / 2, -tileset.height * scale / 2, tileset.width * scale, tileset.height * scale);
+    gamectx.restore();
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.translate(tileset.width, tileset.height);
-    ctx.rotate(Math.PI / 180 * angle); 
-    ctx.drawImage(tileset, 0, 0, tileset.width, tileset.height,  -tileset.width * scale / 2, -tileset.height * scale / 2, tileset.width * scale, tileset.height * scale);
-    ctx.restore();
+    ctx.drawImage(gamescreen, 0, 0, gamescreen.width, gamescreen.height, 0,0, canvas.width, canvas.height);
+    
 }
