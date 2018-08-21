@@ -505,11 +505,11 @@ function removeObstacle(id) {
 document.addEventListener('touchstart', function(event) {
     if(!isDead) {
         // left half of the window click
-        if(event.clientX < window.innerWidth / 2 && !player.jumping) {
+        if(event.pagetX < window.innerWidth / 2 && !player.jumping) {
             player.jump();
         }
         // right half of the window click
-        else if(event.clientX > window.innerWidth / 2) {
+        else if(event.pageX > window.innerWidth / 2) {
             player.shoot();
         }
     }
