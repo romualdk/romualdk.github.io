@@ -502,7 +502,7 @@ function removeObstacle(id) {
 /**
  * CONTROLS
  */
-document.addEventListener('touch', function(event) {
+document.addEventListener('touchstart', function(event) {
     if(!isDead) {
         // left half of the window click
         if(event.clientX < window.innerWidth / 2 && !player.jumping) {
