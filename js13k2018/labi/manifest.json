@@ -4,7 +4,7 @@
     "start_url": ".",
     "display": "fullscreen",
     "background_color": "#1b1c33",
-    "description": "Simple game in as little as 13KB. Find wifi signal in a maze and become civilized man.",
+    "description": "Simple game in as little as 13KB. Find wifi signal in a maze and become civilized man. Use keyboard, touch or gamepad to play.",
     "orientation": "portrait",
     "icons": [{
       "src": "icon48.png",
