@@ -7,12 +7,12 @@
     "description": "Simple game in as little as 13KB. Find wifi signal in a maze and become civilized man. Use keyboard, touch or gamepad to play.",
     "orientation": "portrait",
     "icons": [{
-      "src": "icon48.png",
+      "src": "media/icon48.png",
       "sizes": "48x48",
       "type": "image/png"
     },
     {
-        "src": "icon72.png",
+        "src": "media/icon72.png",
         "sizes": "72x72",
         "type": "image/png"
       }]
