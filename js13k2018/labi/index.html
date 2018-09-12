@@ -214,10 +214,11 @@ function disconnectgamepad(e) {
 }
 
 function updategamepad(dt) {
-    console.log(gamepad.wait, gamepadwait);
+   /* console.log(gamepad.wait, gamepadwait);
     if(gamepad.length == 0) {
         return false;
-    }
+    }*/
+
 
     if(gamepadwait > 0) {
         gamepadwait -= dt;
