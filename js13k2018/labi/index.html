@@ -213,16 +213,24 @@ function disconnectgamepad(e) {
 }
 
 function updategamepad(dt) {
-    console.log(gamepad.length);
+    /*console.log(gamepad.length);
     if(gamepad.length == 0) {
         return false;
-    }
+    }*/
 
 
     if(gamepadwait > 0) {
         gamepadwait -= dt;
         return false;
     }
+
+    var gamepads = navigator.getGamepads ? navigator.getGamepads() : (navigator.webkitGetGamepads ? navigator.webkitGetGamepads() : []);
+
+    if(gamepads.length == 0) {
+        return false;
+    }
+
+    gamepad = gamepads[0];
 
     if(isactive) {
         if(gamepad[0].buttons[12].pressed) { // up
