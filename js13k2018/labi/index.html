@@ -226,6 +226,7 @@ function updategamepad(dt) {
     if(isactive) {
         if(gamepad[0].buttons[12].pressed) { // up
             sprites[0].move(0,-1);
+            console.log(gamepad[0]);
             gamepadwait = isactive ? 0.175 : 2;
         }
         else if(gamepad[0].buttons[15].pressed) { // right
@@ -322,6 +323,8 @@ document.addEventListener('keypress', function(event) {
     if(isactive == false) {
         return false;
     }
+
+    console.log(event.key);
 
     if(event.key == 'w' || event.key == 'ArrowUp') {
         sprites[0].move(0,-1);
