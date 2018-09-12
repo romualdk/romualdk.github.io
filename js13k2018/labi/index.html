@@ -204,20 +204,19 @@ var gamepadwait = 0;
 
 function connectgamepad(e) {
     console.log("gamepad connected");
-    console.log(e);
     console.log(e.gamepad);
-    gamepad[e.gamepad.index] = e.gamepad;
+    gamepad[0] = e.gamepad;
 }
 
 function disconnectgamepad(e) {
-    delete gamepad[e.gamepad.index];
+    delete gamepad[0];
 }
 
 function updategamepad(dt) {
-   /* console.log(gamepad.wait, gamepadwait);
+    console.log(gamepad.length);
     if(gamepad.length == 0) {
         return false;
-    }*/
+    }
 
 
     if(gamepadwait > 0) {
