@@ -316,7 +316,7 @@ document.addEventListener('click', function(event) {
  * CONTROLS: KEYBOARD
  */
 
-document.addEventListener('keypress', function(event) {
+document.addEventListener('keydown', function(event) {
     if((event.key == " " || event.key == "Enter") && titletext == 'GAME OVER') { // space or enter
         startGame();
     }
