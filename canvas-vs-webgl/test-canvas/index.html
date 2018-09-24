@@ -5,74 +5,26 @@
   <title>Test Canvas</title>
   <script type="text/javascript" src='stats.min.js'></script>
   <script src="kontra.js"></script>
+  <style type="text/css">
+  html, body, canvas {
+    margin: 0;
+    background: #3cbcfc;
+  }
+  </style>
 </head>
 <body>
-  <canvas id="game" width="640" height="480" style="background: #3cbcfc"></canvas>
+  <canvas id="game" style="background: #3cbcfc"></canvas>
   <script id="code">
 const stats = new Stats();
 document.body.appendChild(stats.dom);  
 
 
 
-kontra.init();
+
 
 
 var image = new Image();
 image.src = 'chip.png';
-
-var midX = kontra.canvas.width / 2;
-var midY = kontra.canvas.height / 2;
-
-var fields = [
-  kontra.sprite({
-    x: midX - 75,
-    y: midY + 20,
-    width: 24,
-    height: 24,
-    image: image,
-    mass: 900,
-    size: 3
-  }),
-  kontra.sprite({
-    x: midX + 25,
-    y: midY + 10,
-    width: 24,
-    height: 24,
-    image: image,
-    mass: -50,
-    size: 3
-  })
-];
-
-var pool = kontra.pool({
-  create: kontra.sprite,
-  maxSize: 5000,
-  fill: true
-});
-
-/*
-// redefine sprite update to account for fields
-kontra.sprite.prototype.update = function() {
-  // apply field
-  var totalAccelerationX = 0
-  var totalAccelerationY = 0;
-
-  for (var i = 0, field; field = fields[i]; i++) {
-
-    var vectorX = field.x - this.x;
-    var vectorY = field.y - this.y;
-
-    var force = field.mass / Math.pow(vectorX * vectorX + vectorY * vectorY, 1.5);
-
-    totalAccelerationX += vectorX * force;
-    totalAccelerationY += vectorY * force;
-  }
-
-  this.acceleration.x = totalAccelerationX
-  this.acceleration.y = totalAccelerationY
-
-  this.advance();
-};*/
 
 
 var loop = kontra.gameLoop({
@@ -82,8 +34,6 @@ var loop = kontra.gameLoop({
     updateSprites();
   },
   render: function() {
-    //pool.render();
-
     for(var i in sprites) {
       sprites[i].render();
     }
@@ -92,8 +42,7 @@ var loop = kontra.gameLoop({
   }
 });
 
-
-
+var cx, cy;
 var sprites = [];
 
 function updateSprites(dt) {
@@ -105,19 +54,22 @@ function updateSprites(dt) {
     
 
 
-    sprites[i].x = Math.floor(sprites[i].center[0] + sprites[i].radius * Math.sin(sprites[i].angle * Math.PI / 180));
-    sprites[i].y = Math.floor(sprites[i].center[1] + sprites[i].radius * Math.cos(sprites[i].angle * Math.PI / 180));
+    sprites[i].x = cx + Math.floor(sprites[i].center[0] + sprites[i].radius * Math.sin(sprites[i].angle * Math.PI / 180));
+    sprites[i].y = cy + Math.floor(sprites[i].center[1] + sprites[i].radius * Math.cos(sprites[i].angle * Math.PI / 180));
 
   }
 }
 
-function initSprites() {
+function init() {
+  
+
+
 
   for(var i = 0; i < 1000; i++) {
     sprites[i] = kontra.sprite({
       x: 0,
       y: 0,
-      center: [320 - 40 + Math.round(Math.random()*80), 240 - 40 + Math.round(Math.random()*80)],
+      center: [- 40 + Math.round(Math.random()*80), - 40 + Math.round(Math.random()*80)],
       radius: 50 + Math.round(Math.random() * 200),
       angle: Math.random()*360,
       speed: 1 + Math.round(Math.random()*5),
@@ -129,8 +81,23 @@ function initSprites() {
   }
 }
 
+window.addEventListener('resize', resizeWindow, false);
+
+function resizeWindow() {
+  var canvas = document.getElementById('game');
+  canvas.width = window.innerWidth - 50;
+  canvas.height = window.innerHeight - 50;
+  cx = Math.round(canvas.width / 2);
+  cy = Math.round(canvas.height / 2);
+}
+
 image.onload = function() {
-  initSprites();
+ 
+  resizeWindow();
+
+  kontra.init();
+  init();
+  
   loop.start();
 }
 

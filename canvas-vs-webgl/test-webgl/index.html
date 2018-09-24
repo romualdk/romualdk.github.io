@@ -5,6 +5,12 @@
   <title>Test Webgl</title>
   <script type="text/javascript" src='stats.min.js'></script>
   <script type="text/javascript" src='webgl.js'></script>
+  <style type="text/css">
+    html, body, canvas {
+      margin: 0;
+      background: #3cbcfc;
+    }
+    </style>
 </head>
 <body>
   <canvas id="game" width="640" height="480" style="background: #3cbcfc"></canvas>
@@ -21,12 +27,11 @@ var Sprite = i.Sprite;
 
 var stats = new Stats();
 document.body.appendChild(stats.dom);
-var view = document.getElementById('game');
-var scene = i(view);
-var gl = scene.gl;
-scene.background(0.235, 0.737, 0.988);
-scene.camera.at.set(320, 240);
-scene.camera.to.set(0.5);
+
+var view;
+var scene;
+var gl;
+
 
 
 var atlas;
@@ -50,6 +55,7 @@ var loop = function () {
 var image = new Image();
 image.src = 'chip.png';
 
+var cx, cy;
 var sprites = [];
 
 function updateSprites(dt) {
@@ -60,19 +66,43 @@ function updateSprites(dt) {
     }
 
     sprites[i].position.set(
-        Math.floor(sprites[i].center[0] + sprites[i].radius * Math.sin(sprites[i].angle * Math.PI / 180)),
-        Math.floor(sprites[i].center[1] + sprites[i].radius * Math.cos(sprites[i].angle * Math.PI / 180))
+        cx + Math.floor(sprites[i].center[0] + sprites[i].radius * Math.sin(sprites[i].angle * Math.PI / 180)),
+        cy + Math.floor(sprites[i].center[1] + sprites[i].radius * Math.cos(sprites[i].angle * Math.PI / 180))
         );
   }
 }
 
-function initSprites() {
+
+
+window.addEventListener('resize', resizeWindow, false);
+
+
+function initWindow() {
+  var canvas = document.getElementById('game');
+  canvas.width = window.innerWidth - 50;
+  canvas.height = window.innerHeight - 50;
+  cx = Math.round(canvas.width / 2);
+  cy = Math.round(canvas.height / 2);
+}
+
+function resizeWindow() {
+  var canvas = document.getElementById('game');
+  canvas.width = window.innerWidth - 50;
+  canvas.height = window.innerHeight - 50;
+  cx = Math.round(canvas.width / 2);
+  cy = Math.round(canvas.height / 2);
+
+  scene.camera.at.set(cx + 50, cy + 50);
+}
+
+function init() {
+
   var layer = scene.layer(cl);
 
   for(var i = 0; i < 1000; i++) {
     sprites[i] = Sprite(frame);
     
-    sprites[i].center = [320 - 40 + Math.round(Math.random()*80), 240 - 40 + Math.round(Math.random()*80)];
+    sprites[i].center = [40 + Math.round(Math.random()*80), 40 + Math.round(Math.random()*80)];
     sprites[i].radius = 50 + Math.round(Math.random() * 200);
     sprites[i].angle = Math.random()*360;
     sprites[i].speed = 1 + Math.round(Math.random()*5);
@@ -83,11 +113,22 @@ function initSprites() {
 }
 
 image.onload = function() {
+  initWindow();
+
+  
+  view = document.getElementById('game');
+  scene = i(view);
+  gl = scene.gl;
+  scene.background(0.235, 0.737, 0.988);
+  scene.camera.at.set(cx + 50, cy + 50);
+  scene.camera.to.set(0.5);
+
   atlas = Texture(scene, image, 0.5);
   atlas.anchor = Point(0.5);
   frame = Frame(atlas, Point(), Point(24));
 
-  initSprites();
+  
+  init();
   loop();
 }
 
