@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+  <title>Test Webgl</title>
+  <script type="text/javascript" src='stats.min.js'></script>
+  <script type="text/javascript" src='webgl.js'></script>
+</head>
+<body>
+  <canvas id="game" width="640" height="480" style="background: #3cbcfc"></canvas>
+  <script id="code">
+
+
+var Point = i.Point;
+var Texture = i.Texture;
+var Frame = i.Frame;
+var Sprite = i.Sprite;
+
+
+
+
+var stats = new Stats();
+document.body.appendChild(stats.dom);
+var view = document.getElementById('game');
+var scene = i(view);
+var gl = scene.gl;
+scene.background(0.235, 0.737, 0.988);
+scene.camera.at.set(320, 240);
+scene.camera.to.set(0.5);
+
+
+var atlas;
+var frame;
+
+var add = false;
+var len = 0;
+var cl = 0;
+
+
+var loop = function () {
+    stats.begin();
+
+    updateSprites();
+    
+    scene.render();
+    stats.end();
+    requestAnimationFrame(loop);
+};
+
+var image = new Image();
+image.src = 'chip.png';
+
+var sprites = [];
+
+function updateSprites(dt) {
+  for(var i in sprites) {
+    sprites[i].angle += sprites[i].speed;
+    if(sprites[i].angle >= 360) {
+      sprites[i].angle -= 360;
+    }
+
+    sprites[i].position.set(
+        Math.floor(sprites[i].center[0] + sprites[i].radius * Math.sin(sprites[i].angle * Math.PI / 180)),
+        Math.floor(sprites[i].center[1] + sprites[i].radius * Math.cos(sprites[i].angle * Math.PI / 180))
+        );
+  }
+}
+
+function initSprites() {
+  var layer = scene.layer(cl);
+
+  for(var i = 0; i < 1000; i++) {
+    sprites[i] = Sprite(frame);
+    
+    sprites[i].center = [320 - 40 + Math.round(Math.random()*80), 240 - 40 + Math.round(Math.random()*80)];
+    sprites[i].radius = 50 + Math.round(Math.random() * 200);
+    sprites[i].angle = Math.random()*360;
+    sprites[i].speed = 1 + Math.round(Math.random()*5);
+
+    sprites[i].position.set(sprites[i].center[0],sprites[i].center[1]);
+    layer.add(sprites[i]);
+  }
+}
+
+image.onload = function() {
+  atlas = Texture(scene, image, 0.5);
+  atlas.anchor = Point(0.5);
+  frame = Frame(atlas, Point(), Point(24));
+
+  initSprites();
+  loop();
+}
+
+
+
+
+  </script>
+  
+</body>
+</html>
