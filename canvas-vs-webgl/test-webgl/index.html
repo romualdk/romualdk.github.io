@@ -92,7 +92,7 @@ function resizeWindow() {
   cx = Math.round(canvas.width / 2);
   cy = Math.round(canvas.height / 2);
 
-  scene.camera.at.set(cx + 50, cy + 50);
+  scene.camera.at.set(cx, cy);
 }
 
 function init() {
@@ -120,7 +120,7 @@ image.onload = function() {
   scene = i(view);
   gl = scene.gl;
   scene.background(0.235, 0.737, 0.988);
-  scene.camera.at.set(cx + 50, cy + 50);
+  scene.camera.at.set(cx, cy);
   scene.camera.to.set(0.5);
 
   atlas = Texture(scene, image, 0.5);
