@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>webgl renderer</title>
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="Romuald Kowalczyk">
+    <style>
+        body, canvas, html{
+            display:block;
+            border:0;
+            margin:0;overflow:hidden
+        }
+    </style>
+</head>
+<body>
+<canvas></canvas>
+<script type="text/javascript" src="webgl.js"></script>
+<script type="text/javascript">
+
+
+canvas = document.getElementsByTagName('canvas')[0];
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+var image = new Image();
+image.src = 'tileset.png';
+
+image.onload = function() {
+    var renderer = new WebglRenderer(canvas);
+
+    renderer.loadImage(image);
+    renderer.update();
+}
+
+
+
+</script>
+</body>
+</html>

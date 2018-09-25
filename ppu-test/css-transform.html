@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+  <title>CSS Transform</title>
+  <script type="text/javascript" src='js/stats.min.js'></script>
+  <style type="text/css">
+  html, body {
+    margin: 0;
+    background: #3cbcfc;
+  }
+
+  canvas.sprite {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(100px, 100px);
+  }
+  </style>
+</head>
+<body>
+  <div id="game"  style="background: #3cbcfc">
+
+  </div>
+  <script id="code">
+
+var AMOUNT_SPRITES = 5000;
+
+const stats = new Stats();
+document.body.appendChild(stats.dom);  
+
+var image = new Image();
+image.src = 'img/chip.png';
+
+
+image.onload = function() {
+  resizeWindow();
+  init();
+  loop();
+}
+
+var loop = function () {
+    stats.begin();
+
+    updateSprites();
+    renderSprites();
+
+    stats.end();
+    requestAnimationFrame(loop);
+};
+
+
+
+
+
+
+var game;
+var cx, cy;
+var sprites = [];
+
+function updateSprites(dt) {
+  for(var i in sprites) {
+    sprites[i].angle += sprites[i].speed;
+    if(sprites[i].angle >= 360) {
+      sprites[i].angle -= 360;
+    }
+    
+
+
+    sprites[i].x = cx + Math.floor(sprites[i].center[0] + sprites[i].radius * Math.sin(sprites[i].angle * Math.PI / 180));
+    sprites[i].y = cy + Math.floor(sprites[i].center[1] + sprites[i].radius * Math.cos(sprites[i].angle * Math.PI / 180));
+
+  }
+}
+
+function renderSprites() {
+  for(var i in sprites) {
+    sprites[i].element.style.transform = 'translate(' + sprites[i].x + 'px, ' + sprites[i].y + 'px)';
+  }
+}
+
+function init() {
+  
+  for(var i = 0; i < AMOUNT_SPRITES; i++) {
+    var canvas = document.createElement('canvas');
+    canvas.width  = 24;
+    canvas.height = 24;
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(image, 0,0);
+
+    canvas.className = 'sprite';
+    canvas.id = 'sprite' + i;
+    document.body.appendChild(canvas);
+
+    var spr = document.getElementById('sprite' + i);
+
+
+    sprites[i] = {
+      x: 0,
+      y: 0,
+      center: [- 40 + Math.round(Math.random()*80), - 40 + Math.round(Math.random()*80)],
+      radius: 50 + Math.round(Math.random() * 200),
+      angle: Math.random()*360,
+      speed: 1 + Math.round(Math.random()*5),
+      width: 24,
+      height: 24,
+      element: spr
+    };
+
+  }
+}
+
+window.addEventListener('resize', resizeWindow, false);
+
+function resizeWindow() {
+  game = document.getElementById('game');
+  game.width = window.innerWidth;
+  game.height = window.innerHeight;
+  cx = Math.round(game.width / 2);
+  cy = Math.round(game.height / 2);
+}
+
+
+  </script>
+  
+</body>
+</html>

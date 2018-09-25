@@ -2,9 +2,9 @@
 <html>
 <head>
     <meta charset='UTF-8'>
-  <title>Test Canvas</title>
-  <script type="text/javascript" src='stats.min.js'></script>
-  <script src="kontra.js"></script>
+  <title>Canvas 2d</title>
+  <script type="text/javascript" src='js/stats.min.js'></script>
+  <script type="text/javascript" src="js/kontra.js"></script>
   <style type="text/css">
   html, body, canvas {
     margin: 0;
@@ -19,12 +19,12 @@ const stats = new Stats();
 document.body.appendChild(stats.dom);  
 
 
-
+var AMOUNT_SPRITES = 5000;
 
 
 
 var image = new Image();
-image.src = 'chip.png';
+image.src = 'img/chip.png';
 
 
 var loop = kontra.gameLoop({
@@ -65,7 +65,7 @@ function init() {
 
 
 
-  for(var i = 0; i < 20000; i++) {
+  for(var i = 0; i < AMOUNT_SPRITES; i++) {
     sprites[i] = kontra.sprite({
       x: 0,
       y: 0,

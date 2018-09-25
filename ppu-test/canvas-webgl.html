@@ -2,9 +2,9 @@
 <html>
 <head>
     <meta charset='UTF-8'>
-  <title>Test Webgl</title>
-  <script type="text/javascript" src='stats.min.js'></script>
-  <script type="text/javascript" src='webgl.js'></script>
+  <title>Canvas Webgl</title>
+  <script type="text/javascript" src='js/stats.min.js'></script>
+  <script type="text/javascript" src='js/webgl.js'></script>
   <style type="text/css">
     html, body, canvas {
       margin: 0;
@@ -15,6 +15,8 @@
 <body>
   <canvas id="game" width="640" height="480" style="background: #3cbcfc"></canvas>
   <script id="code">
+
+var AMOUNT_SPRITES = 5000;
 
 
 var Point = i.Point;
@@ -53,7 +55,7 @@ var loop = function () {
 };
 
 var image = new Image();
-image.src = 'chip.png';
+image.src = 'img/chip.png';
 
 var cx, cy;
 var sprites = [];
@@ -99,7 +101,7 @@ function init() {
 
   var layer = scene.layer(cl);
 
-  for(var i = 0; i < 20000; i++) {
+  for(var i = 0; i < AMOUNT_SPRITES; i++) {
     sprites[i] = Sprite(frame);
     
     sprites[i].center = [40 + Math.round(Math.random()*80), 40 + Math.round(Math.random()*80)];
