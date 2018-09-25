@@ -22,17 +22,21 @@
 
 
 canvas = document.getElementsByTagName('canvas')[0];
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.width = 320;
+canvas.height = 240;
 
 var image = new Image();
-image.src = 'tileset.png';
+image.src = 'chip.png';
 
 image.onload = function() {
     var renderer = new WebglRenderer(canvas);
 
-    renderer.loadImage(image);
-    renderer.update();
+
+
+    renderer.addTileset(image);
+    renderer.addSprite(100,100,32,32);
+    renderer.addSprite(10,10,32,32);
+    renderer.render();
 }
 
 

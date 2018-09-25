@@ -1,66 +1,84 @@
 
-const VERTEX_SHADER = `attribute vec2 g;
-attribute vec2 a;
-attribute vec2 t;
-attribute float r;
-attribute vec2 s;
-attribute vec4 u;
-attribute vec4 c;
-attribute float z;
-uniform mat4 m;
-varying vec2 v;
-varying vec4 i;
-void main(){
-v=u.xy+g*u.zw;
-i=c.abgr;
-vec2 p=(g-a)*s;
-float q=cos(r);
-float w=sin(r);
-p=vec2(p.x*q-p.y*w,p.x*w+p.y*q);
-p+=a+t;
-gl_Position=m*vec4(p,z,1);}`;
+// 2D vertex shader source
+const VERTEX_SHADER = `attribute vec2 a_position;
+attribute vec2 a_texCoord;
 
+uniform vec2 u_resolution;
+
+varying vec2 v_texCoord;
+
+void main() {
+   // convert the rectangle from pixels to 0.0 to 1.0
+   vec2 zeroToOne = a_position / u_resolution;
+
+   // convert from 0->1 to 0->2
+   vec2 zeroToTwo = zeroToOne * 2.0;
+
+   // convert from 0->2 to -1->+1 (clipspace)
+   vec2 clipSpace = zeroToTwo - 1.0;
+
+   gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+
+   // pass the texCoord to the fragment shader
+   // The GPU will interpolate this value between points.
+   v_texCoord = a_texCoord;
+}`;
+
+// 2D fragment shader source
 const FRAGMENT_SHADER = `precision mediump float;
-uniform sampler2D x;
-uniform float j;
-varying vec2 v;
-varying vec4 i;
-void main(){
-vec4 c=texture2D(x,v);
-gl_FragColor=c*i;
-if(j>0.0){
-if(c.a<j)discard;
-gl_FragColor.a=1.0;};}`;
+
+// our texture
+uniform sampler2D u_image;
+
+// the texCoords passed in from the vertex shader.
+varying vec2 v_texCoord;
+
+void main() {
+   gl_FragColor = texture2D(u_image, v_texCoord);
+}`;
 
 class WebglRenderer {
     constructor(canvas) {
+        // Get a Webgl context
         this.glCanvas = canvas;
+        this.gl = this.get2DContext(this.glCanvas);
 
-        this.gl = this.glCanvas.getContext('webgl');
+        // Setup shaders and buffers
+        this.init();
+    }
 
-        this.shaderProgram = this.gl.createProgram();
-        this.gl.attachShader(this.shaderProgram, this.compileShader(VERTEX_SHADER, this.gl.VERTEX_SHADER));
-        this.gl.attachShader(this.shaderProgram, this.compileShader(FRAGMENT_SHADER, this.gl.FRAGMENT_SHADER));
-        this.gl.linkProgram(this.shaderProgram);
+    init() {
+        // Setup GLSL program
+        this.program = this.gl.createProgram();
+        this.gl.attachShader(this.program, this.compileShader(VERTEX_SHADER, this.gl.VERTEX_SHADER));
+        this.gl.attachShader(this.program, this.compileShader(FRAGMENT_SHADER, this.gl.FRAGMENT_SHADER));
+        this.gl.linkProgram(this.program);
 
-        this.aspectRatio = this.glCanvas.width / this.glCanvas.height;
-        this.currentRotation = [0, 1];
-        this.currentScale = [1.0, this.aspectRatio];
+        // Look up where the vertex data needs to go
+        this.positionLocation = this.gl.getAttribLocation(this.program, 'a_position');
+        this.texcoordLocation = this.gl.getAttribLocation(this.program, 'a_texCoord');
 
-        this.vertexArray = new Float32Array([
-            -0.5, 0.5, 0.5, 0.5, 0.5, -0.5,
-            -0.5, 0.5, 0.5, -0.5, -0.5, -0.5
-        ]);
-      
-        this.vertexBuffer = this.gl.createBuffer();
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertexBuffer);
-        this.gl.bufferData(this.gl.ARRAY_BUFFER, this.vertexArray, this.gl.STATIC_DRAW);
+        // Create buffer to put three 2d clip space points in
+        this.positionBuffer = this.gl.createBuffer();
+        this.texcoordBuffer = this.gl.createBuffer();
 
-        this.ertexNumComponents = 2;
-        this.vertexCount = this.vertexArray.length / this.vertexNumComponents;
+        this.resolutionLocation = this.gl.getUniformLocation(this.program, "u_resolution");
+    }
 
-        this.currentAngle = 0.0;
-        this.rotationRate = 6;
+
+    /**
+     * Creates a webgl context.
+     * @param {HTMLCanvasElement} canvas The canvas element to get context for.
+     * 
+     * @return {WebgGLRenderingContext} The created context.
+     */
+    get2DContext(canvas) {
+        var gl = null;
+
+        gl = canvas.getContext('webgl')
+            || canvas.getContext('experimental-webgl');
+
+        return gl;
     }
 
     compileShader(source, type) {
@@ -71,46 +89,91 @@ class WebglRenderer {
         return shader;
     }
 
-    update() {
-        this.gl.viewport(0, 0, this.glCanvas.width, this.glCanvas.height);
-        this.gl.clearColor(0.8, 0.9, 1.0, 1.0);
-        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
-
-        this.gl.useProgram(this.shaderProgram);
-
-        this.uScalingFactor = this.gl.getUniformLocation(this.shaderProgram, "uScalingFactor");
-        this.uGlobalColor = this.gl.getUniformLocation(this.shaderProgram, "uGlobalColor");
-        this.uRotationVector = this.gl.getUniformLocation(this.shaderProgram, "uRotationVector");
-
-        this.gl.uniform2fv(this.uScalingFactor, this.currentScale);
-        this.gl.uniform2fv(this.uRotationVector, this.currentRotation);
-        this.gl.uniform4fv(this.uGlobalColor, [0.1, 0.7, 0.2, 1.0]);
-
-        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.vertexBuffer);
-
-        this.aVertexPosition = this.gl.getAttribLocation(this.shaderProgram, "aVertexPosition");
-
-        this.gl.enableVertexAttribArray(this.aVertexPosition);
-        this.gl.vertexAttribPointer(this.aVertexPosition, this.vertexNumComponents, this.gl.FLOAT, false, 0, 0);
-
-        this.gl.drawArrays(this.gl.TRIANGLES, 0, this.vertexCount);
-
-        
-    }
-
-    loadImage(image) {
-        this.texture = this.gl.createTexture();
-        this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
-
+    addTileset(image) {
         const level = 0;
         const internalFormat = this.gl.RGBA;
         const srcFormat = this.gl.RGBA;
         const srcType = this.gl.UNSIGNED_BYTE;
 
-        this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
-        this.gl.texImage2D(this.gl.TEXTURE_2D, level, internalFormat, srcFormat, srcType, image);
+        this.texture = this.gl.createTexture();
+        //this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
 
         
+
+        this.gl.bindTexture(this.gl.TEXTURE_2D, this.texture);
+
+        // Set the parameters so we can render any size image.
+        this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.CLAMP_TO_EDGE);
+        this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.CLAMP_TO_EDGE);
+        this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.NEAREST);
+        this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
+
+        this.gl.texImage2D(this.gl.TEXTURE_2D, level, internalFormat, srcFormat, srcType, image);
+
+    }
+
+    addSprite(x, y, width, height) {
+        let x1 = x;
+        let x2 = x + width;
+        let y1 = y;
+        let y2 = y + height;
+
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.positionBuffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array([
+            x1, y1,
+            x2, y1,
+            x1, y2,
+            x1, y2,
+            x2, y1,
+            x2, y2
+        ]), this.gl.STATIC_DRAW);
+
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.texcoordBuffer);
+        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array([
+            0.0,  0.0,
+            1.0,  0.0,
+            0.0,  1.0,
+            0.0,  1.0,
+            1.0,  0.0,
+            1.0,  1.0
+        ]), this.gl.STATIC_DRAW);
+    }
+
+    render() {
+        this.gl.viewport(0, 0, this.glCanvas.width, this.glCanvas.height);
+
+        this.gl.clearColor(0, 0, 1, 1);
+        this.gl.clear(this.gl.COLOR_BUFFER_BIT);
+
+        this.gl.disable(this.gl.DEPTH_TEST);
+        this.gl.enable(this.gl.BLEND);
+        this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
+
+        this.gl.useProgram(this.program);
+
+        const size = 2;
+        const type = this.gl.FLOAT;
+        const normalize = false;
+        const stride = 0;
+        const offset = 0;
+
+        this.gl.enableVertexAttribArray(this.positionLocation);
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.positionBuffer);
+        this.gl.vertexAttribPointer(this.positionLocation,
+            size, type, normalize, stride, offset);
+        
+        this.gl.enableVertexAttribArray(this.texcoordLocation);
+        this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.texcoordBuffer);
+        this.gl.vertexAttribPointer(this.texcoordLocation,
+            size, type, normalize, stride, offset);
+
+        this.gl.uniform2f(this.resolutionLocation, this.glCanvas.width, this.glCanvas.height);
+
+        const primitiveType = this.gl.TRIANGLES;
+        //const offset = 0;
+        const count = 6;
+
+        this.gl.drawArrays(primitiveType, offset, count);
     }
 
 
