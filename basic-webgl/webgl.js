@@ -11,7 +11,6 @@ const VERTEX_SHADER = `
     void main() {
         gl_Position = vec4((u_matrix * vec3(a_position, 1)).xy, 0, 1);
         v_texcoord = (u_textureMatrix * vec3(a_texcoord, 1)).xy;
-        //v_texcoord = a_texcoord;
     }`;
 
 
@@ -25,15 +24,6 @@ const FRAGMENT_SHADER = `
     void main() {
         gl_FragColor = texture2D(u_texture, v_texcoord);
     }`;
-
-/*
-const FRAGMENT_SHADER = `
-    precision mediump float;
-
-    void main() {
-        gl_FragColor = vec4(1, 0, 0, 1);
-    }`;
-*/
 
 class WebglRenderer {
     constructor(canvas) {
