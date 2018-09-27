@@ -31,6 +31,9 @@ class WebglRenderer {
         this.glCanvas = canvas;
         this.gl = this.getContext(this.glCanvas);
 
+        var available_extensions = this.gl.getSupportedExtensions();
+        console.log(available_extensions);
+
         // Setup shaders and buffers
         this.init();
 

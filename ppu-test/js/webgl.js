@@ -27,15 +27,7 @@ var i = function (t, n) {
         antialias: !1,
         alpha: !1,
         scale: 1
-    }, n), a = r.alpha ? 1 : 770, o = r.scale, s = t.getContext("webgl", r),
-    
-    var available_extensions = s.getSupportedExtensions();
-        console.log(available_extensions);
-    
-    c = s.getExtension("ANGLE_instanced_arrays"), u = function (t, n) {
-        
-        
-        
+    }, n), a = r.alpha ? 1 : 770, o = r.scale, s = t.getContext("webgl", r), c = s.getExtension("ANGLE_instanced_arrays"), u = function (t, n) {
         var e = s.createShader(n);
         return s.shaderSource(e, t), s.compileShader(e), e;
     }, h = s.createProgram();
