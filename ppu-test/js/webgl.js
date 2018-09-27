@@ -28,6 +28,10 @@ var i = function (t, n) {
         alpha: !1,
         scale: 1
     }, n), a = r.alpha ? 1 : 770, o = r.scale, s = t.getContext("webgl", r), c = s.getExtension("ANGLE_instanced_arrays"), u = function (t, n) {
+        
+        var available_extensions = gl.getSupportedExtensions();
+        console.log(available_extensions);
+        
         var e = s.createShader(n);
         return s.shaderSource(e, t), s.compileShader(e), e;
     }, h = s.createProgram();
