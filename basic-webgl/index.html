@@ -37,7 +37,7 @@ var image = new Image();
 image.src = 'tileset.png';
 
 image.onload = function() {
-    var renderer = new WebglRenderer(canvas);
+    renderer = new WebglRenderer(canvas);
 
     renderer.addTileset('t1', image);
 
