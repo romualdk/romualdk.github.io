@@ -1,11 +1,9 @@
 var Webgl = {
     /**
-     * 2D vertex shader
-     * 
      * Attributes
      * ----------------------------------------------------
      * 
-     * vec2 p - quad vertex position
+     * vec2 p - quad vecrtex position
      * x = p.x
      * y = p.y
      * 
@@ -29,75 +27,59 @@ var Webgl = {
      * Uniforms
      * ------------------------------------------------------
      * 
-     * vec2 ss - source (texture) size
+     * vec2 ss - soruce (texture) size
      * w = ss.x
      * h = ss.y
      * 
-     * mat3 pr - projection matrix
-     * 
-     * Varyings
-     * ------------------------------------------------------
-     * 
-     * vec2 uv - texture vertex position
+     * mat3 sp - screen projection matrix
      */
-
     _vertexShader: `
-    attribute vec2 p;
-    attribute vec4 s;
-    attribute vec4 d;
-    attribute vec3 o;
-    uniform vec2 ss;
-    uniform mat3 pr;
-    varying vec2 uv;
+    attribute vec2 position;
+    attribute vec2 anchor;
+    attribute vec2 scale;
+    attribute float rotation;
+    attribute vec2 translation;
+    attribute vec4 uv;
+
+    uniform mat3 projection;
+    uniform vec2 texsize;
+
+    varying vec2 texcoord;
 
     void main() {
-        // Vertex position
-        // -------------------------------------
-        float cos = cos(radians(o.z));
-        float sin = sin(radians(o.z));
-        vec2 ori = o.xy / s.zw; // origin float
+        float q = cos(rotation);
+        float w = sin(rotation);
 
-        // mvoe to origin and scale
-        vec2 pos = (p - ori) * d.zw;
+        // move to anchor and scale
+        vec2 p = (position - anchor) * scale;
 
         // rotate
-        pos = vec2(
-            pos.x * cos - pos.y * sin,
-            pos.x * sin + pos.y * cos
-        );
+        p = vec2(p.x * q - p.y * w, p.x * w + p.y * q);
 
-        // move back from origin and translate
-        pos += ori + d.xy;
+        // move back from anchor and translate
+        p += anchor + translation;
 
-        // apply projection
-        gl_Position = vec4((pr * vec3(pos, 1)).xy, 0, 1);
+        gl_Position = vec4((projection * vec3(p, 1)).xy, 0, 1);
 
-        // UV (texture) vertex positon
-        // -------------------------------------
-        uv = vec2(
-            (p.x * s.z + s.x) / ss.x,
-            (p.y * s.w + s.y) / ss.y
-        );
-    }
-    `,
+        // Texture coordinates
+        texcoord = vec2(
+            (position.x * uv.z + uv.x) / texsize.x,
+            (position.y * uv.w + uv.y) / texsize.y
+            );
+    }`,
 
-    /**
-     * 2D texture fragment shader
-     */
+    // Textrue shader
     _fragmentShader: `
     precision mediump float;
 
     uniform sampler2D u_texture;
 
-    varying vec2 uv;
+    varying vec2 texcoord;    
 
     void main() {
-        gl_FragColor = texture2D(u_texture, uv);
+        gl_FragColor = texture2D(u_texture, texcoord);
     }`,
 
-    /**
-     * Unit quad (2 triangles)
-     */
     _quad: [0,0, 0,1, 1,0, 1,0, 0,1, 1,1],
 
     getContext: function(canvas) {
@@ -108,9 +90,7 @@ var Webgl = {
             || canvas.getContext('experimental-webgl', options);
     
         if(gl && gl instanceof WebGLRenderingContext) {
-            this._setup(gl);
             this.resize(gl, canvas.width, canvas.height);
-            this.clear(gl);
 
             return gl;
         }
@@ -119,19 +99,15 @@ var Webgl = {
         }
     },
 
+    init: function(gl) {
+        this._setup(gl);
+        this.clear(gl);
+    },
+
     resize: function(gl, w, h) {
         gl._width = w;
         gl._height = h;
-
         gl.viewport(0, 0, w, h);
-
-        var projection = [
-            2 / w, 0, 0,
-            0, -2 / h, 0,
-            -1, 1, 1,
-        ];
-
-        gl.uniformMatrix3fv(gl._uniform['pr'].location, false, projection);
     },
 
     clear: function(gl, c) {
@@ -167,7 +143,7 @@ var Webgl = {
         gl.texImage2D(gl.TEXTURE_2D, level, internalFormat, srcFormat, srcType, img);
 
         var texsize = [image.width, image.height];
-        gl.uniform2fv(gl._uniform['ss'].location, new Float32Array(texsize));
+        gl.uniform2fv(gl._uniform['texsize'].location, new Float32Array(texsize));
 
 
         return {
@@ -182,7 +158,7 @@ var Webgl = {
         gl._textureHeight = tls.height;
 
         var texsize = [tls.width, tls.height];
-        gl.uniform2fv(gl._uniform['ss'].location, new Float32Array(texsize));
+        gl.uniform2fv(gl._uniform['texsize'].location, new Float32Array(texsize));
 
 
         return gl.bindTexture(gl.TEXTURE_2D, tls.texture);
@@ -192,18 +168,31 @@ var Webgl = {
      * [sx,sy, sw,sh, x,y, w,h, a, ox,oy]
      */
     drawSprites: function(gl, sprites) {
-        var data = {p: [], s: [], d: [], o: []}
+        // Set uniform
+        var projection = m3.projection(gl._width, gl._height);
+        gl.uniformMatrix3fv(gl._uniform['projection'].location, false, projection);
 
-        // prepare data for every sprite
+        // Prepare data
+        var data = {
+            position: [],
+            anchor: [],
+            scale: [],
+            rotation: [],
+            translation: [],
+            uv: []
+        }
+       
         for(var i in sprites) {
-            var spr = sprites[i];
+            for(var ii = 0; ii < 6; ii++) {
+                // vertex data
+                data.position.push(this._quad[ii*2], this._quad[ii*2 + 1]);
+                data.anchor.push(sprites[i].ox / sprites[i].w, sprites[i].oy / sprites[i].h);
+                data.scale.push(sprites[i].w, sprites[i].h);
+                data.rotation.push(degToRad(sprites[i].a));
+                data.translation.push(sprites[i].x, sprites[i].y);
 
-            // push attributes for every quad vertex
-            for(var ii = 0; ii < this._quad.length; ii++) {
-                data.p.push(this._quad[ii*2], this._quad[ii*2 + 1]);
-                data.s.push(spr.sx, spr.sy, spr.sw, spr.sh);
-                data.d.push(spr.x, spr.y, spr.w, spr.h);
-                data.o.push(spr.ox,spr.oy,spr.a);
+                // uv (texture) data
+                data.uv.push(sprites[i].sx, sprites[i].sy, sprites[i].sw, sprites[i].sh);
             }
         }
 
@@ -213,7 +202,7 @@ var Webgl = {
         }
 
         // Draw
-        gl.drawArrays(gl.TRIANGLES, 0, this._quad.length * sprites.length);
+        gl.drawArrays(gl.TRIANGLES, 0, 6 * sprites.length);
     },
 
     _setup: function(gl) {
@@ -234,8 +223,9 @@ var Webgl = {
         // Prepare attributes
         gl._attrib = {};
         
-        var attribs = ['p', 's', 'd', 'o'];
-        var sizes = [2,4,4,3];
+        var attribs = ['position', 'anchor', 'scale',
+        'rotation', 'translation', 'uv'];
+        var sizes = [2,2,2,1,2,4];
 
         for(var i in attribs) {
             this._setAttrib(gl, attribs[i], sizes[i]);
@@ -244,7 +234,7 @@ var Webgl = {
         // Prepare uniforms
         gl._uniform = {};
 
-        var uniforms = ['ss', 'pr'];
+        var uniforms = ['projection', 'texsize'];
 
         for(var i in uniforms) {
             gl._uniform[uniforms[i]] = {

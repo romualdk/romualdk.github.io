@@ -24,12 +24,15 @@ var AMOUNT_SPRITES = 512;
 var stats = new Stats();
 document.body.appendChild(stats.dom);
 
-var renderer;
+var ppu = Webgl;
+var ctx;
+var tls;
 
 var loop = function () {
     stats.begin();
 
-    renderer.clear();
+    //renderer.clear();
+    ppu.clear(ctx);
     updateSprites();
     drawSprites();
     stats.end();
@@ -57,9 +60,10 @@ function updateSprites(dt) {
 }
 
 function drawSprites() {
-  for(var i in sprites) {
+  ppu.drawSprites(ctx, sprites);
+  /*for(var i in sprites) {
     renderer.draw(0,0, 24,24, sprites[i].x,sprites[i].y, sprites[i].width,sprites[i].height);
-  }
+  }*/
 }
 
 
@@ -86,14 +90,21 @@ function resizeWindow() {
 function init() {
   for(var i = 0; i < AMOUNT_SPRITES; i++) {
     sprites[i] = {
+      sx: 0,
+      sy: 0,
+      sw: 24,
+      sh: 24,
       x: 0,
       y: 0,
+      w: 24,
+      h: 24,
+      ox: 0,
+      oy: 0,
+      a: 0,
       center: [- 40 + Math.round(Math.random()*80), - 40 + Math.round(Math.random()*80)],
       radius: 50 + Math.round(Math.random() * 200),
       angle: Math.random()*360,
       speed: 1 + Math.round(Math.random()*5),
-      width: 24,
-      height: 24
     };
   }
 }
@@ -103,8 +114,9 @@ image.onload = function() {
 
   
   canvas = document.getElementById('game');
-  renderer = new WebglRenderer(canvas);
-  renderer.addTileset('t1', image);
+  ctx = ppu.getContext(canvas);
+  tls = ppu.getTileset(ctx, image);
+  ppu.setTileset(ctx, tls);
   
   init();
   loop();

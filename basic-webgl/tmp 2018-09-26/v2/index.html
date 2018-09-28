@@ -26,7 +26,8 @@
 </head>
 <body>
 <canvas width="320", height="240"></canvas>
-<script type="text/javascript" src="webgl-dist.js"></script>
+<script type="text/javascript" src="math.js"></script>
+<script type="text/javascript" src="webgl.js"></script>
 <script type="text/javascript">
 
 
@@ -38,6 +39,7 @@ image.src = 'tileset.png';
 image.onload = function() {
     var ppu = Webgl;
     var ctx = ppu.getContext(canvas);
+    ppu.init(ctx);
     var tls = ppu.getTileset(ctx, image);
     ppu.setTileset(ctx, tls);
 
