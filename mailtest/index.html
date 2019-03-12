@@ -2,31 +2,25 @@
 <head>
 </head>
 <body>
-  <script src="smtpv3.js"></script>
+  <script src=" https://smtpjs.com/v3/smtp.js"></script>
   <script type="text/javascript">
-    //var securityToken = "95d48787-a60d-4f8a-aabe-26849cdb857b";
-    var securityToken = "08aa551c-2513-4c50-abd7-e1f6125199af";
-    
+    var token = "08aa551c-2513-4c50-abd7-e1f6125199af";
+    var to = "romuald.kowalczyk@gmail.com";
+    var from = "rk.app.mailer@gmail.com";
+    var subject = "Test";
     var body = '<html><head><meta charset="utf-8"><title>TEST 2018-03-12: MEGAMEBLE vs MANTIKA</title></head><body><h1>MEGAMEBLE 6:4 MANTIKA'
     +'</h1><h2>2018-03-12</h2><table><tr><td>00:00</td><td>Start</td><td>18:42</td></tr><tr><td>00:04</td><td>Gol MEGAMEBLE (Marek Dam)</td><td>18:42</td></tr><tr><td>00:09</td><td>Gol MEGAMEBLE (Paweł Radzikowski)</td><td>18:42</td></tr><tr><td>00:14</td><td>Czerwona kartka Jacek Dobrowolski (MEGAMEBLE)</td><td>18:42</td></tr><tr><td>00:14</td><td>Stop</td><td>18:42</td></tr><tr><td>00:14</td><td>Start</td><td>18:42</td></tr><tr><td>00:17</td><td>Gol MANTIKA (Michał Gipsiak)</td><td>18:42</td></tr><tr><td>00:21</td><td>Gol MEGAMEBLE (Emil Adamczuk)</td><td>18:42</td></tr><tr><td>00:25</td><td>Gol MANTIKA (Przemysław Prętkiewicz)</td><td>18:43</td></tr><tr><td>00:29</td><td>Żółta kartka Mateusz Kamiński (MANTIKA)</td><td>18:43</td></tr><tr><td>00:32</td><td>Gol MEGAMEBLE (Bartek Kwiatkowski)</td><td>18:43</td></tr><tr><td>00:36</td><td>Gol MEGAMEBLE (Michał Tarczyk)</td><td>18:43</td></tr><tr><td>00:41</td><td>Gol MEGAMEBLE (Michał Tarczyk)</td><td>18:43</td></tr><tr><td>00:47</td><td>Gol MANTIKA (Marcin Sandomirski)</td><td>18:43</td></tr><tr><td>00:52</td><td>Gol MANTIKA (Mateusz Sielski)</td><td>18:43</td></tr><tr><td>00:56</td><td>Żółta kartka Piotr Gipsiak (MANTIKA)</td><td>18:43</td></tr><tr><td>00:59</td><td>Stop</td><td>18:43</td></tr><tr><td>00:59</td><td>Start</td><td>18:53</td></tr><tr><td>00:59</td><td>Stop</td><td>18:53</td></tr></table></body></html>';
-/*
-    Email.send("rk.app.mailer@gmail.com",
-        "romuald.kowalczyk@gmail.com",
-        "test",
-        body,
-        {
-            token: securityToken
-        });*/
 
-    
-         // v3
-         Email.send({
-            SecureToken : securityToken,
-            To : "romuald.kowalczyk@gmail.com",
-            From : "rk.app.mailer@gmail.com",
-            Subject : "test",
-            Body : body
-        });
+
+    Email.send({
+      SecureToken : token,
+      To : to,
+      From : from,
+      Subject : subject,
+      Body : body
+  }).then(
+    message => alert(message)
+  );
   </script>
 </body>
 </html>
