@@ -1,0 +1,67 @@
+<html>
+<head>
+  <meta charset="utf-8">
+<head>
+<body>
+<script type="text/javascript">
+
+var Email = {
+  url: "http://xrom.webd.pro/mailer/mail.php"
+}
+
+Email.send = function(data) {  
+  var req = new XMLHttpRequest()
+  req.onreadystatechange = function () {  }
+  req.open("POST", this.url,  true)
+
+  req.onreadystatechange = function (aEvt) {
+    /*if (req.readyState == 4) {
+      if(req.status == 200)
+        console.log('Email: ' + req.responseText);
+      else
+        console.log("Email: Błąd podczas ładowania strony")
+    }*/
+  };
+
+  req.send(JSON.stringify(data));
+}
+
+
+
+let from = 'rk.app.mailer@gmail.com'
+let fromName = 'Karta sędziego'
+let to = 'romuald.kowalczyk@gmail.com'
+let subject = 'Karta siędziego JS'
+let body = `<html>
+<head>
+  <title>Test mail</title>
+</head>
+<body>
+  <p>Here are the birthdays upcoming in August!</p>
+  <table>
+    <tr>
+      <th>Person</th><th>Day</th><th>Month</th><th>Year</th>
+    </tr>
+    <tr>
+      <td>Johny</td><td>10th</td><td>August</td><td>1970</td>
+    </tr>
+    <tr>
+      <td>Sally</td><td>17th</td><td>August</td><td>1973</td>
+    </tr>
+  </table>
+</body>
+</html>`
+
+let data  = {
+    'from': from,
+    'fromName': fromName,
+    'to': to,
+    'subject': subject,
+    'body': body
+  };
+
+Email.send(data);
+  
+</script>
+</body>
+</html>
