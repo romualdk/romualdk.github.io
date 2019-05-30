@@ -1,9 +1,0 @@
-{
-    "senderEmail": "rk.app.mailer@gmail.com",
-    "securityToken": "95d48787-a60d-4f8a-aabe-26849cdb857b",
-    "email": ["romuald.kowalczyk@gmail.com", "Romek"],
-    "emails": [
-        ["qrakis@pix.art.pl", "qrks"],
-        ["r.kowalczyk@infosystems.pl", "ifs"]
-    ]
-}
