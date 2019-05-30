@@ -1,8 +1,6 @@
 # romualdk.github.io
 
-Games
-
-2018
+Games 2018
 
 https://romualdk.github.io/games/2018/mozilla-runner/
 
