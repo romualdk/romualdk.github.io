@@ -1,0 +1,210 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.column {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+}
+
+
+.info {
+  height: 100%;
+  
+}
+
+.btn-left {
+  border-radius: 4px 0 0 4px;
+  border-right: 0;
+  float: left;
+  width: 33%;
+}
+
+.btn-middle {
+  border-radius: 0;
+  border-right: 0;
+  float: left;
+  width: 33%;
+  background: #fff;
+}
+
+.btn-right {
+  border-radius: 0 4px 4px 0;
+  border-left: 0;
+  float: left;
+  width: 33%;
+  background: #fff;
+}
+
+ button {
+  display: block;
+  padding: 0;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  background: #fafafa;
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+  color: rgba(0,0,0,.54);
+}
+
+.btn-left {
+  cursor: pointer;
+}
+.btn-left:hover {
+  background: #e1e1e1;
+}
+
+button svg {
+  height: 50%;
+  width: auto;
+}
+
+.info .xmark path,
+.info .omark path {
+  stroke: #545454;
+}
+
+
+.omark path {
+  stroke-width: 16px;
+  stroke-dasharray: 301.635;
+  stroke-dashoffset: 0;
+  fill-opacity: 0;
+  
+}
+
+.xmark path {
+  stroke-width: 16px;
+  stroke-dasharray: 135.764;
+  stroke-dashoffset: 0;
+}
+
+.content .omark path {
+  stroke-dashoffset: -301.635;
+  animation: dash 0.5s ease 0s 1 forwards;
+}
+
+.content path.x1 {
+  stroke-dashoffset: 135.764;
+  animation: dash 0.5s ease 0s 1 forwards;
+}
+.content path.x2 {
+  stroke-dashoffset: 135.764;
+  animation: dash 0.5s ease 0.25s 1 forwards;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+
+.content .xmark,
+.content .omark {
+  width: 75%;
+  height: 75%;
+}
+
+.content .xmark {
+  stroke:  #545454;
+}
+
+.content .omark {
+  stroke: rgb(242, 235, 211);
+}
+
+@media (min-width: 640px) {
+  .column {
+    width: 640px;
+  }
+}
+
+.content table {
+  width: 100%;
+  text-align: center;
+}
+
+.content .column {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  height: 100%;
+}
+table td {
+  text-align: center;
+  vertical-align: middle;
+  border: 6px solid #0da192;
+  width: 33%;
+  height: 33%;
+}
+
+table tr:first-child td {
+  border-top: 0;
+}
+table tr td:first-child {
+  border-left: 0;
+}
+table tr:last-child td {
+  border-bottom: 0;
+}
+table tr td:last-child {
+  border-right: 0;
+}
+
+.header {
+  flex-flow: row wrap;
+}
+
+.half {
+  flex: 1 200px;
+  height: 100%;
+  height: 12vh;
+  margin: 8px;
+}
+
+.game {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  font-family: arial,sans-serif;
+  min-width: 240px;
+  min-height: 320px;
+}
+
+.game .row {
+  min-height: 4em;
+  display: flex;
+}
+
+.game .row.header {
+  flex: 0 1 auto;
+}
+
+.game .row.content {
+  flex: 1 1 auto;
+  background: #14bdac;
+  
+}
+
+.game .row.footer {
+  flex: 0 1 auto;
+  height: 12vh;
+  margin: 8px;
+}
+
+.reset {
+  text-align: center;
+  font-weight: bold;
+}
