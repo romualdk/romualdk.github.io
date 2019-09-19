@@ -13,23 +13,19 @@ html, body {
 }
 
 
-.info {
-  height: 100%;
-  
-}
 
 .btn-left {
   border-radius: 4px 0 0 4px;
   border-right: 0;
   float: left;
-  width: 33%;
+  width: 33.33%;
 }
 
 .btn-middle {
   border-radius: 0;
   border-right: 0;
   float: left;
-  width: 33%;
+  width: 33.33%;
   background: #fff;
 }
 
@@ -37,7 +33,7 @@ html, body {
   border-radius: 0 4px 4px 0;
   border-left: 0;
   float: left;
-  width: 33%;
+  width: 33.33%;
   background: #fff;
 }
 
@@ -120,12 +116,6 @@ button svg {
   stroke: rgb(242, 235, 211);
 }
 
-@media (min-width: 640px) {
-  .column {
-    width: 640px;
-  }
-}
-
 .content table {
   width: 100%;
   text-align: center;
@@ -163,15 +153,21 @@ table tr td:last-child {
   border-right: 0;
 }
 
-.header {
-  flex-flow: row wrap;
+.row.header {
+  display: block;
+  padding: 8px;
 }
 
-.half {
-  flex: 1 200px;
-  height: 100%;
+
+.info {
   height: 12vh;
-  margin: 4px 8px;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.info + .info {
+  margin-top: 8px;
 }
 
 .game {
@@ -183,28 +179,26 @@ table tr td:last-child {
   min-height: 320px;
 }
 
-.game .row {
-  min-height: 4em;
-  display: flex;
-}
-
-.game .row.header {
-  flex: 0 1 auto;
-}
-
 .game .row.content {
   flex: 1 1 auto;
   background: #14bdac;
-  
+}
+
+.row.content .board {
+  max-width: 640px;
+  margin: 0 auto;
 }
 
 .game .row.footer {
   flex: 0 1 auto;
-  height: 12vh;
-  margin: 8px;
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
 .reset {
   text-align: center;
   font-weight: bold;
+  margin: 8px;
+  height: 12vh;
 }
