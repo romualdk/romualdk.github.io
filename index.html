@@ -19,8 +19,8 @@
       <meta name=msapplication-TileImage content=img/icon_144.png>
       <meta name=msapplication-TileColor content=#2196F3>
       <meta name="theme-color" content="#ffffff">
-      <link href="/pwa/css/style.css" rel="stylesheet">
-      <script src='/pwa/js/pwacompat.min.js' async></script>
+      <link href="css/style.css" rel="stylesheet">
+      <script src='/js/pwacompat.min.js' async></script>
   </head>
   <body>
     <div class="wrapper">
@@ -273,14 +273,14 @@
       </div>
     </div>
 
-    <script src="/pwa/js/jquery.min.js"></script>
-    <script src="/pwa/js/email.js"></script>
-    <script src="/pwa/js/download.js"></script>
-    <script src="/pwa/js/referee.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/email.js"></script>
+    <script src="/js/download.js"></script>
+    <script src="/js/referee.js"></script>
 
     <script>
       if('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/pwa/sw.js', { scope: '/pwa/' })
+        navigator.serviceWorker.register('/sw.js', { scope: '/' })
           .then(function(registration) {
                 console.log('Service Worker Registered');
           });

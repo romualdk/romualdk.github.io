@@ -1,10 +1,11 @@
 {
-  "short_name": "Tic Tac Toe",
-  "name": "Tic Tac Toe",
-  "description" : "Classic Tic Tac Toe game",
+  "short_name": "Karta sędziego",
+  "name": "Karta sędziego",
+  "description" : "",
   "display": "standalone",
   "orientation": "portrait",
-  "start_url": "index.html",
+  "start_url": "/?homescreen=1",
+  "scope": "/",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "icons": [
