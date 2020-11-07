@@ -17,21 +17,22 @@
  *
  */
 
-const version = "0.6.18";
+const version = "0.1.1";
 const cacheName = `airhorner-${version}`;
 self.addEventListener('install', e => {
   e.waitUntil(
     caches.open(cacheName).then(cache => {
       return cache.addAll([
         `/`,
-        `/index.html`,
-        `/css/style.css`,
-        `/js/referee.js`,
-        `/js/jquery.min.js`,
-        `/js/download.js`,
-        `/js/pwacompat.min.js`,
-        `/data/config.json`,
-        `/data/data.json`
+        `/pwa/`,
+        `/pwa/index.html`,
+        `/pwa/css/style.css`,
+        `/pwa/js/referee.js`,
+        `/pwa/js/jquery.min.js`,
+        `/pwa/js/download.js`,
+        `/pwa/js/pwacompat.min.js`,
+        `/pwa/data/config.json`,
+        `/pwa/data/data.json`
       ])
           .then(() => self.skipWaiting());
     })
