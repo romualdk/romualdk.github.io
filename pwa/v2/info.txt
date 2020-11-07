@@ -1,0 +1,87 @@
+https://material.io/
+
+ 360-handset -  360p,  4 columns, 16p margins / gutters
+ 720-tablet  -  720p,  8 columns, 24p margins / gutters
+1280-desktop - 1280p, 12 columns, 24p margins / gutters
+
+
+AF PIASTÓW	AFP
+BORDEAUX	BRD
+FC Żbików	FCŻ
+GUNNERS		GUN
+Kings Team	KTM
+Lyon		LYN
+MANCHESTER	MCR
+MANTIKA		MTK
+MEGAMEBLE	MGM
+OSTOJA		OST
+PIERO		PRO
+ProskoVo FC	PVO
+RAKI		RKI
+REAL		RAL
+SZNAJDER	SZN
+WPR		WPR
+ŻBIKI		ŻBI
+
+
+# Referee Card
+
+## Screens
+
+* Games list
+* New game
+* Game
+  * Dashboard
+  * Details
+  * Goal
+  * Penalty
+  * Send email
+
+## Game
+
+### Dashboard
+
+* Board
+  * Date
+  * Teams
+  * Scores
+  * Referee
+* Timer
+  * Time
+  * Start / Stop
+* Actions
+  * Goal
+  * Penalty
+
+### Details
+
+* Board
+  * Date
+  * Teams
+  * Scores
+  * Referee
+* Events
+  * Time
+  * Team
+  * Player
+  * Type
+  * Description
+* Remarks
+
+### Goal
+
+* Team
+* Player
+
+### Penalty
+
+* Team
+* Player
+* Type
+
+### Game actions
+
+* Send email
+* Download
+* Share?
+* Delete
