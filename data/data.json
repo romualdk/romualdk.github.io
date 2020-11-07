@@ -1,5 +1,6 @@
 {
     "team":{
+        "AAA": ["aaa", "bbb"],
         "BORDEAUX": [
             "Celej Sebastian",
 			"Cylc Bartłomiej",
