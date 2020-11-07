@@ -4,8 +4,8 @@
   "description" : "",
   "display": "standalone",
   "orientation": "portrait",
-  "start_url": "/?homescreen=1",
-  "scope": "/",
+  "start_url": "/pwa/?homescreen=1",
+  "scope": "/pwa/",
   "theme_color": "#ffffff",
   "background_color": "#ffffff",
   "icons": [
