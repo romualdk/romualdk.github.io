@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Material Modal Drawer Example</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+  <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" />
+  <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+  <style>
+    .avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.mdc-drawer__header {
+  text-align: center;
+}
+.avatar-big {
+  vertical-align: middle;
+  margin: 20px 10px 0 10px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.mdc-fab {
+  position: fixed;
+  bottom: 45px;
+  right: 24px;
+  z-index: 997;
+}
+
+.avicon {
+  font-size: 60px;
+}
+
+.fullwidth {
+  width: 100%;
+}
+  </style>
+</head>
+
+  <body>
+    
+  <aside class="mdc-drawer mdc-drawer--modal">
+    <div class="mdc-drawer__header">
+        <img src="https://i.pravatar.cc/150" alt="Avatar" class="avatar-big">
+      <h3 class="mdc-drawer__title">Kowalczyk Romuald</h3>
+      <h6 class="mdc-drawer__subtitle">Pruszkowska Liga Szóstek</h6>
+    </div>
+    <div class="mdc-drawer__content">
+      <nav class="mdc-list">
+      
+        <a class="mdc-list-item" href="#" tabindex="0" aria-current="page">
+          <span class="mdc-list-item__ripple"></span>
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">alarm</i>
+          <span class="mdc-list-item__text">Teraz</span>
+        </a>
+        <a class="mdc-list-item" href="#" tabindex="0" aria-current="page">
+          <span class="mdc-list-item__ripple"></span>
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">view_list</i>
+          <span class="mdc-list-item__text">Mecze</span>
+        </a>
+        <a class="mdc-list-item mdc-list-item--activated" href="#" tabindex="0">
+          <span class="mdc-list-item__ripple"></span>
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">people</i>
+          <span class="mdc-list-item__text">Zawodnicy</span>
+        </a>
+        <hr class="mdc-list-divider">
+        <a class="mdc-list-item" href="#">
+          <span class="mdc-list-item__ripple"></span>
+          <i class="material-icons mdc-list-item__graphic" aria-hidden="true">settings</i>
+          <span class="mdc-list-item__text">Ustawienia</span>
+        </a>
+      </nav>
+    </div>
+  </aside>
+
+  <div class="mdc-drawer-scrim"></div>
+  
+  <div class="mdc-drawer-app-content">
+    
+    <header class="mdc-top-app-bar mdc-top-app-bar--fixed">
+      <div class="mdc-top-app-bar__row">
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-start">
+          <button class="material-icons mdc-top-app-bar__navigation-icon mdc-icon-button">menu</button>
+          <span class="mdc-top-app-bar__title">Zawodnicy</span>
+        </section>
+        <section class="mdc-top-app-bar__section mdc-top-app-bar__section--align-end" role="toolbar">
+          <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Search">search</button>
+          <button class="material-icons mdc-top-app-bar__action-item mdc-icon-button" aria-label="Options">more_vert</button>
+        </section>
+      </div>
+    </header>
+    
+    <main class="mdc-top-app-bar--fixed-adjust">
+      <!-- 
+      <div class="mdc-layout-grid">
+
+
+      <ul class="mdc-list mdc-list--two-line">
+        <li class="mdc-list-item">
+          <span class="mdc-list-item__graphic">A</span>
+          <i class="material-icons mdc-list-item__graphic avicon" aria-hidden="true">account_circle</i>
+          <span class="mdc-list-item__ripple"></span>
+          <span class="mdc-list-item__text">
+            <span class="mdc-list-item__primary-text">Adamczuk Emil</span>
+            <span class="mdc-list-item__secondary-text">Megameble</span>
+          </span>
+        </li>
+        <li class="mdc-list-item">
+          <span class="mdc-list-item__graphic"></span>
+          <span class="mdc-list-item__graphic"><img src="https://i.pravatar.cc/50?aa" alt="Avatar" class="avatar"> </span>
+          <span class="mdc-list-item__ripple"></span>
+          <span class="mdc-list-item__text">
+            <span class="mdc-list-item__primary-text">Anyszewski Kamil</span>
+            <span class="mdc-list-item__secondary-text">FC Żbików</span>
+          </span>
+        </li>
+        <li class="mdc-list-item">
+          <span class="mdc-list-item__graphic">B</span>
+          <span class="mdc-list-item__graphic"><img src="https://i.pravatar.cc/50?b" alt="Avatar" class="avatar"> </span>
+          <span class="mdc-list-item__ripple"></span>
+          <span class="mdc-list-item__text">
+            <span class="mdc-list-item__primary-text">Biliński Kamil</span>
+            <span class="mdc-list-item__secondary-text">FC Żbików</span>
+          </span>
+        </li>
+        <li class="mdc-list-item">
+          <span class="mdc-list-item__graphic"></span>
+          <span class="mdc-list-item__graphic"><img src="https://i.pravatar.cc/50?bb" alt="Avatar" class="avatar"> </span>
+          <span class="mdc-list-item__ripple"></span>
+          <span class="mdc-list-item__text">
+            <span class="mdc-list-item__primary-text">Bomba Adam</span>
+            <span class="mdc-list-item__secondary-text">Kings Team</span>
+          </span>
+        </li>
+        <li class="mdc-list-item">
+          <span class="mdc-list-item__graphic"></span>
+          <span class="mdc-list-item__graphic"><img src="https://i.pravatar.cc/50?bbb" alt="Avatar" class="avatar"> </span>
+          <span class="mdc-list-item__ripple"></span>
+          <span class="mdc-list-item__text">
+            <span class="mdc-list-item__primary-text">Boryń Rafał</span>
+            <span class="mdc-list-item__secondary-text">Lyon</span>
+          </span>
+        </li>
+        <li class="mdc-list-item">
+          <span class="mdc-list-item__graphic"></span>
+          <span class="mdc-list-item__graphic"><img src="https://i.pravatar.cc/50?bbx" alt="Avatar" class="avatar"> </span>
+          <span class="mdc-list-item__ripple"></span>
+          <span class="mdc-list-item__text">
+            <span class="mdc-list-item__primary-text">Bylinka Dariusz</span>
+            <span class="mdc-list-item__secondary-text">Lyon</span>
+          </span>
+        </li>
+        <li class="mdc-list-item">
+          <span class="mdc-list-item__graphic">C</span>
+          <span class="mdc-list-item__graphic"><img src="https://i.pravatar.cc/50?c" alt="Avatar" class="avatar"> </span>
+          <span class="mdc-list-item__ripple"></span>
+          <span class="mdc-list-item__text">
+            <span class="mdc-list-item__primary-text">Celej Sebastian</span>
+            <span class="mdc-list-item__secondary-text">BORDEAUX</span>
+          </span>
+        </li>
+        <li class="mdc-list-item">
+          <span class="mdc-list-item__graphic"></span>
+          <span class="mdc-list-item__graphic"><img src="https://i.pravatar.cc/50?d" alt="Avatar" class="avatar"> </span>
+          <span class="mdc-list-item__ripple"></span>
+          <span class="mdc-list-item__text">
+            <span class="mdc-list-item__primary-text">Cylc Bartłomiej</span>
+            <span class="mdc-list-item__secondary-text">BORDEAUX</span>
+          </span>
+        </li>
+        <li class="mdc-list-item">
+          <span class="mdc-list-item__graphic"></span>
+          <span class="mdc-list-item__graphic"><img src="https://i.pravatar.cc/50?e" alt="Avatar" class="avatar"> </span>
+          <span class="mdc-list-item__ripple"></span>
+          <span class="mdc-list-item__text">
+            <span class="mdc-list-item__primary-text">Ćwiliński Michał</span>
+            <span class="mdc-list-item__secondary-text">BORDEAUX</span>
+          </span>
+        </li>
+        <li class="mdc-list-item">
+          <span class="mdc-list-item__graphic"></span>
+          <span class="mdc-list-item__graphic"><img src="https://i.pravatar.cc/50?f" alt="Avatar" class="avatar"> </span>
+          <span class="mdc-list-item__ripple"></span>
+          <span class="mdc-list-item__text">
+            <span class="mdc-list-item__primary-text">Czarnecki Adam</span>
+            <span class="mdc-list-item__secondary-text">GUNNERS</span>
+          </span>
+        </li>
+      </ul>
+
+</div>-->
+    </main>
+    
+  </div>
+
+<script>
+
+const dataUrl = 'http://xrom.webd.pro/referee/api.php'
+
+fetch(dataUrl)
+  .then(response => response.json())
+  .then(data => parseData(data));
+
+
+function parseData(data) {
+  var flat = []
+
+  for(var i in data.team) {
+    for(var j in data.team[i]) {
+      flat.push({
+        name: data.team[i][j],
+        team: i
+      })
+    }
+  }
+
+  flat.sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' }))
+  flat = flat.filter(function(a) {
+    return a.name !== 'INNY' && a.name !== 'SAMOBÓJ'
+  })
+  
+  let grouped = flat.reduce((r, e) => {
+    let alphabet = e.name[0];
+    if (!r[alphabet]) r[alphabet] = { alphabet, record: [e] }
+    else r[alphabet].record.push(e);
+    return r;
+  }, {});
+
+  let result = Object.values(grouped);
+  
+  viewPlayersList(result)
+}
+
+function viewPlayersList(players) {
+  var list = `<ul class="mdc-list mdc-list--two-line">`
+
+  console.log(players)
+
+  for(var l in players) {
+    for(var p in players[l].record) {
+      var letter = parseInt(p) === 0 ? players[l].alphabet : ''
+      
+
+      list += `<li class="mdc-list-item">
+          <span class="mdc-list-item__graphic">${letter}</span>
+          <span class="mdc-list-item__graphic"><img src="https://eu.ui-avatars.com/api/?name=${players[l].record[p].name}" alt="" class="avatar"> </span>
+          <span class="mdc-list-item__ripple"></span>
+          <span class="mdc-list-item__text">
+            <span class="mdc-list-item__primary-text">${players[l].record[p].name}</span>
+            <span class="mdc-list-item__secondary-text">${players[l].record[p].team}</span>
+          </span>
+        </li>`
+    }
+  }
+
+  list += `</ul>`
+
+  var main = document.querySelector('main')
+  main.innerHTML = list
+}
+
+const drawer = mdc.drawer.MDCDrawer.attachTo(document.querySelector('.mdc-drawer'));
+const topAppBar = mdc.topAppBar.MDCTopAppBar.attachTo(document.querySelector('.mdc-top-app-bar'));
+topAppBar.listen('MDCTopAppBar:nav', () => {
+  drawer.open = !drawer.open;
+});
+
+
+
+</script>
+  </body>
+</html>
