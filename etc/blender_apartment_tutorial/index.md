@@ -27,13 +27,9 @@ Wtedy zniknie okienko i będzie widać w całości główne okno projektu.
 ![Blender empty project](blender_empty_project.png)
 
 Domyślnie w projekcie znajdują się 3 obiekty:
-
-* Sześcian (Mesh - Cube)
-![Cube](cube.png)
-* Kamera (Camera)
-![Camera](camera.png)
-* Światło (Light - Point)
-![light](light.png)
+* Sześcian
+* Kamera
+* Światło
 
 Oprócz tego zawsze widoczny jest też **Kursor 3D** (to biało-czerwone kółko w środku).
 
