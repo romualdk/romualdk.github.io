@@ -261,8 +261,6 @@ Punkt odniesienia obiektu jest widoczny jako pomarańczowa kropka.
 
 ![](add_mesh_plane.png)
 
-
-
 ![](mesh_plane.png)
 
 2. Zmień punkt odniesienia na lewy dolny róg
