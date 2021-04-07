@@ -26,7 +26,7 @@
 
 # Instalacja Blendera
 
-Wejdź na stronę: https://www.blender.org/download/
+Wejdź na stronę: [https://www.blender.org/download/](https://www.blender.org/download/)
 i pobierz plik instalacyjny.
 
 ![Download Blender](download_blender.png)
