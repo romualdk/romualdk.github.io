@@ -233,6 +233,14 @@ Po zmianie widoku na wybrany możesz go dowolnie zmieniać obracając i przesuwa
 
 # Modelowanie
 
+## Kopiowanie obiektów
+
+* **SHIFT + D** - kopiuje obiekt (Duplicate = Powiel)
+
+Po wciśnięciu możesz przesuwać obiekt i potwierdzić **LPM** (Lewy Przycisk Myszy).
+
+Ale najlepiej jest od razu potwierdzić i później przesunąć obiekt wpisując nową pozycję.
+
 ## Przesuwanie, skalowanie i obracanie obiektu
 
 Wciśnij jeden z poniższych klawiszy, żeby wywołać akcję.
