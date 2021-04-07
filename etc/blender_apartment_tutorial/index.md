@@ -33,6 +33,123 @@ Domyślnie w projekcie znajdują się 3 obiekty:
 
 Oprócz tego zawsze widoczny jest też **Kursor 3D** (to biało-czerwone kółko w środku).
 
+# Model mieszkania
+
+## Początek
+
+```
+1. Utwórz nowy projekt: File - New - General
+2. Zaznacz sześcian kliknięciem LPM (Lewy Przycisk Myszy)
+3. Usuń sześcian klawiszem DEL
+```
+
+![](create_new_project.png)
+
+![](new_project.png)
+
+![](empty_project.png)
+
+## Podłoga
+
+```
+1. Dodaj płaszczyznę: Add - Mesh - Plane
+2. Zmień punkt odniesienia na lewy dolny róg
+   a. Wciśnij TAB
+   b. Zaznacz wierzchołek w lewym dolnym rogu
+   c. Wybierz: Mesh - Snap - Cursor to Selected
+   d. Wciśnij TAB
+   e. Wybierz: Object - Set Origin - Origin to 3D Cursor
+3. Odkryj panel przekształcania obiektu
+4. Zmień pozycję na 0, 0
+5. Zmień wymiary na 4, 6
+```
+
+1. Dodaj płaszczyznę: **Add - Mesh - Plane**
+
+![](add_mesh_plane.png)
+
+![](mesh_plane.png)
+
+2. Zmień punkt odniesienia na lewy dolny róg
+
+a. Wciśnij TAB
+
+![](plane_edit_mode.png)
+
+b. Zaznacz wierzchołek w lewym dolnym rogu
+
+![](plane_select_vertex.png)
+
+c. Wybierz: Mesh - Snap - Cursor to Selected
+
+![](plane_cursor_to_selected.png)
+
+![](plane_cursor_moved.png)
+
+d. Wciśnij TAB
+
+![](plane_object_mode.png)
+
+e. Wybierz: Object - Set Origin - Origin to 3D Cursor
+
+![](plane_origin_to_cursor.png)
+
+![](plane_origin_moved.png)
+
+3. Odkryj panel przekształcania obiektu
+
+![](plane_panel.png)
+
+4. Zmień pozycję na 0, 0
+
+![](plane_position.png)
+
+5. Zmień wymiary na 4, 6
+
+![](plane_dimensions.png)
+
+## Pierwsza ściana
+
+```
+1. Dodaj sześcian: Add - Mesh - Cube
+2. Zmień punkt odniesienia na lewy dolny róg
+3. Zmień pozycję na 0, 0, 0
+4. Zmień wymiary na 0.25, 6, 2.7
+```
+![](add_mesh_cube.png)
+
+![](mesh_cube.png)
+
+![](mesh_cube_origin.png)
+
+![](mesh_cube_position.png)
+
+![](mesh_cube_dimensions.png)
+
+## Druga ściana
+
+```
+1. Zaznacz pierwszą ścianę
+2. Skopiuj ścianę: SHIFT + D i kliknij LPM (Lewy Przycisk Myszy)
+3. Zmień pozycję na 0.25, 5.75, 0
+4. Zmień wymiary na 3.5, 0.25, 2.7
+```
+
+![](2nd_wall.png)
+
+![](2nd_wall_position.png)
+
+![](2nd_wall_dimensions.png)
+
+## ...
+
+W ten sposób można modelować kolejne ściany / obiekty.
+
+W każdym momencie możesz przesuwać / obracać scenę, żeby sprawdzić efekty.
+
+![](floor_and_two_walls.png)
+
+
 # Obsługa Blendera
 
 ## Zaznaczanie obiektów
@@ -92,7 +209,7 @@ Każdego z powyższych widoków można używać do modelowania sceny, ale używa
 
 ## Obracanie sceny
 
-Wciśnij **ŚPM** (Środkowy Przycisk Myszy - rolka) i trzymająć go przeciągnij kursor.
+Wciśnij **ŚPM** (Środkowy Przycisk Myszy - rolka) i trzymając go przeciągnij kursor.
 
 W ten sposób obracasz scenę.
 
@@ -220,122 +337,3 @@ Punkt odniesienia obiektu przeniesie się w miejsce **Kursora 3D**, czyli w miej
 ![](moved_origin_to_cursor.png)
 
 Punkt odniesienia obiektu jest widoczny jako pomarańczowa kropka.
-
-
-# Model mieszkania
-
-## Początek
-
-```
-1. Utwórz nowy projekt: File - New - General
-2. Zaznacz sześcian kliknięciem LPM (Lewy Przycisk Myszy)
-3. Usuń sześcian klawiszem DEL
-```
-
-![](create_new_project.png)
-
-![](new_project.png)
-
-![](empty_project.png)
-
-## Podłoga
-
-```
-1. Dodaj płaszczyznę: Add - Mesh - Plane
-2. Zmień punkt odniesienia na lewy dolny róg
-   a. Wciśnij TAB
-   b. Zaznacz wierzchołek w lewym dolnym rogu
-   c. Wybierz: Mesh - Snap - Cursor to Selected
-   d. Wciśnij TAB
-   e. Wybierz: Object - Set Origin - Origin to 3D Cursor
-3. Odkryj panel przekształcania obiektu
-4. Zmień pozycję na 0, 0
-5. Zmień wymiary na 4, 6
-```
-
-1. Dodaj płaszczyznę: **Add - Mesh - Plane**
-
-![](add_mesh_plane.png)
-
-![](mesh_plane.png)
-
-2. Zmień punkt odniesienia na lewy dolny róg
-
-a. Wciśnij TAB
-
-![](plane_edit_mode.png)
-
-b. Zaznacz wierzchołek w lewym dolnym rogu
-
-![](plane_select_vertex.png)
-
-c. Wybierz: Mesh - Snap - Cursor to Selected
-
-![](plane_cursor_to_selected.png)
-
-![](plane_cursor_moved.png)
-
-d. Wciśnij TAB
-
-![](plane_object_mode.png)
-
-e. Wybierz: Object - Set Origin - Origin to 3D Cursor
-
-![](plane_origin_to_cursor.png)
-
-![](plane_origin_moved.png)
-
-3. Odkryj panel przekształcania obiektu
-
-![](plane_panel.png)
-
-4. Zmień pozycję na 0, 0
-
-![](plane_position.png)
-
-5. Zmień wymiary na 4, 6
-
-![](plane_dimensions.png)
-
-## Pierwsza ściana
-
-```
-1. Dodaj sześcian: Add - Mesh - Cube
-2. Zmień punkt odniesienia na lewy dolny róg
-3. Zmień pozycję na 0, 0, 0
-4. Zmień wymiary na 0.25, 6, 2.7
-```
-![](add_mesh_cube.png)
-
-![](mesh_cube.png)
-
-![](mesh_cube_origin.png)
-
-![](mesh_cube_position.png)
-
-![](mesh_cube_dimensions.png)
-
-## Druga ściana
-
-```
-1. Zaznacz pierwszą ścianę
-2. Skopiuj ścianę: SHIFT + D i kliknij LPM (Lewy Przycisk Myszy)
-3. Zmień pozycję na 0.25, 5.75, 0
-4. Zmień wymiary na 3.5, 0.25, 2.7
-```
-
-![](2nd_wall.png)
-
-![](2nd_wall_position.png)
-
-![](2nd_wall_dimensions.png)
-
-## ...
-
-W ten sposób można modelować kolejne ściany / obiekty.
-
-W każdym momencie możesz przesuwać / obracać scenę, żeby sprawdzić efekty.
-
-![](floor_and_two_walls.png)
-
-
