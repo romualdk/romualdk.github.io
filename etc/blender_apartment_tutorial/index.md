@@ -1,3 +1,29 @@
+<!-- TOC -->
+
+- [Instalacja Blendera](#instalacja-blendera)
+- [Nowy projekt](#nowy-projekt)
+- [Model mieszkania](#model-mieszkania)
+  - [Początek](#początek)
+  - [Podłoga](#podłoga)
+  - [Pierwsza ściana](#pierwsza-ściana)
+  - [Druga ściana](#druga-ściana)
+  - [...](#)
+- [Obsługa Blendera](#obsługa-blendera)
+  - [Zaznaczanie obiektów](#zaznaczanie-obiektów)
+  - [Panele po prawej stronie](#panele-po-prawej-stronie)
+  - [Ikony pomocnicze](#ikony-pomocnicze)
+- [Manipulowanie sceną](#manipulowanie-sceną)
+  - [Obracanie sceny](#obracanie-sceny)
+  - [Przesuwanie sceny](#przesuwanie-sceny)
+  - [Wybór widoku](#wybór-widoku)
+- [Modelowanie](#modelowanie)
+  - [Kopiowanie obiektów](#kopiowanie-obiektów)
+  - [Przesuwanie, skalowanie i obracanie obiektu](#przesuwanie-skalowanie-i-obracanie-obiektu)
+  - [Punkt odniesienia](#punkt-odniesienia)
+
+<!-- /TOC -->
+
+
 # Instalacja Blendera
 
 Wejdź na stronę: https://www.blender.org/download/
@@ -275,7 +301,7 @@ Obiekt został przesunięty tylko w osi **X**.
 
 ![](moved_object.png)
 
-### Przekształcenie o wpisaną wartość
+Aby zmienić pozycję i wymiary przez wpisanie wartości:
 
 Możesz przekształcić (przesunąć, skalować, obrócić) obiekt o wybraną wartość.
 
@@ -289,7 +315,7 @@ Np.
  R, Z, 45, LPM - obraca o 45° w osi Z 
 ```
 
-### Przekształcenie przez panel
+Aby zmienić pozycję i wymiary obiektu przez panel:
 
 W prawym górnym rogu można odkryć panel, który ułatwia zmianę parametrów obiektu (wymiary, pozycję, obrót).
 
@@ -314,7 +340,7 @@ Czyli mając sześcian w pozycji 0, 0, 0 (X, Y, Z) to jego środek będzie w tej
 
 To jest niewygodne w przypadku modelowania mieszkania, ponieważ łatwiej jest ustalać pozycję obiektów, gdy mają punkt odniesienia w lewym dolnym rogu.
 
-### Zmiana punktu odniesienia
+Aby zmienić punkt odniesieina:
 
 Zaznacz obiekt i wciśnij klawisz **TAB** - włączył się tryb, który służy do modelowania wybranego obiektu (czyli np. można zmienić jego kształt, ale już nie można zmieniać jego pozycji i wielkości).
 
