@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+      <meta charset="utf-8">
+      <title>My Runs 2021</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+      <link rel="preconnect" href="https://fonts.gstatic.com">
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap" rel="stylesheet">
+
+  <style type="text/css">
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+h1 {
+  margin: 16px;
+  font-size: 48px;
+}
+
+
+body {
+  font-family: 'Roboto', sans-serif;
+ 
+  text-align: center;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    text-align: center;
+    margin: 0 auto;
+}
+
+table td {
+  padding: 2px;
+  color: white;
+}
+
+table th {
+  color: #a5a5a5;
+  padding: 2px;
+}
+
+table tbody th {
+  padding-right: 8px;
+}
+
+table thead th {
+  padding-bottom: 8px;
+}
+
+table th.month {
+  text-align: left;
+}
+
+td.min .cell { background-color:#e81d61; }
+td.below .cell { background-color: #00bad3; }
+td.normal .cell { background-color: #278ef2; }
+td.above .cell { background-color: #8ac249;}
+td.max .cell { background-color: #374046; }
+
+td.total { color: #a5a5a5; text-align: right; padding-left: 16px; }
+
+.cell {
+  height: 36px;
+  width: 36px;
+  line-height: 36px;
+  font-size: 16px;
+  border-radius: 50%;
+}
+
+  </style>
+  </head>
+  <body>
+
+<script type="text/javascript">
+
+const myData = [
+  {
+    year: 2021,
+    month: 1,
+    day: 1,
+    type: "run",
+    distance: 8.31,
+    time: "00:53:00",
+    steps: 9672
+  },
+  {
+    year: 2021,
+    month: 1,
+    day: 2,
+    type: "walk",
+    distance: 4.23,
+    time: "00:49:04",
+    steps: 8601
+  }
+]
+
+const ALL = 'ALL'
+const RUN = 'run'
+const WALK = 'walk'
+
+const TYPE = {}
+TYPE[ALL] = ALL
+TYPE[RUN] = RUN
+TYPE[WALK] = WALK
+
+const DISTANCE = 'distance'
+const TIME = 'time'
+const STEPS = 'steps'
+
+const VALUE = {}
+VALUE[DISTANCE] = DISTANCE
+VALUE[TIME] = TIME
+VALUE[STEPS] = STEPS
+
+const UNIT = {}
+UNIT[DISTANCE] = 'km'
+UNIT[TIME] = ''
+UNIT[STEPS] = 'steps'
+
+
+function timeStringToFloat(time) {
+  var hoursMinutes = time.split(/[.:]/)
+  var hours = parseInt(hoursMinutes[0], 10)
+  var minutes = hoursMinutes[1] ? parseInt(hoursMinutes[1], 10) : 0
+  var seconds = hoursMinutes[2] ? parseInt(hoursMinutes[2], 10) : 0
+  return hours + minutes / 60 + seconds / 3600
+}
+
+const TO_NUMBER = {}
+TO_NUMBER[DISTANCE] = (v) => v
+TO_NUMBER[TIME] = timeStringToFloat
+TO_NUMBER[STEPS] = (v) => v
+
+const TO_STRING = {}
+TO_STRING[DISTANCE] = (v) => Math.round(v)
+TO_STRING[TIME] = (v) => Math.round(v)
+TO_STRING[STEPS] = (v) => Math.round(v / 1000) + 'k'
+
+
+const numberOfMonths = 12
+const numberOfDays = 31
+
+function prepareData(arr, year, type = ALL, metric = DISTANCE) {
+  let farr = arr.filter((v) => { return v.year === year } )
+
+  if (type !== ALL) {
+    farr = farr.filter((v) => { return v.type === type } )
+  }
+
+  let data = []
+
+  for (let i in farr) {
+    if (farr[i][metric]) {
+      let m = farr[i].month
+      let d = farr[i].day
+
+      if(!data[m]) {
+        data[m] = []
+      }
+
+      if(!data[m][d]) {
+        data[m][d] = 0
+      }
+      
+      data[m][d] += TO_NUMBER[metric](farr[i][metric])
+    }
+  }
+
+
+  return data;
+}
+
+function daysInMonth (month, year) {
+    return new Date(year, month, 0).getDate();
+}
+
+
+const year = 2021
+const type = ALL
+const value = TIME
+const data = prepareData(myData, year, type, value)
+
+//adapted from https://blog.poettner.de/2011/06/09/simple-statistics-with-php/
+function Median(data) {
+  return Quartile_50(data);
+}
+
+function Quartile_25(data) {
+  return Quartile(data, 0.25);
+}
+
+function Quartile_50(data) {
+  return Quartile(data, 0.5);
+}
+
+function Quartile_75(data) {
+  return Quartile(data, 0.75);
+}
+
+function Quartile(data, q) {
+  data=Array_Sort_Numbers(data);
+  var pos = ((data.length) - 1) * q;
+  var base = Math.floor(pos);
+  var rest = pos - base;
+  if( (data[base+1]!==undefined) ) {
+    return data[base] + rest * (data[base+1] - data[base]);
+  } else {
+    return data[base];
+  }
+}
+
+function Array_Sort_Numbers(inputarray){
+  return inputarray.sort(function(a, b) {
+    return a - b;
+  });
+}
+
+function Array_Sum(t){
+   return t.reduce(function(a, b) { return a + b; }, 0); 
+}
+
+function Array_Average(data) {
+  return Array_Sum(data) / data.length;
+}
+
+function Array_Stdev(tab){
+   var i,j,total = 0, mean = 0, diffSqredArr = [];
+   for(i=0;i<tab.length;i+=1){
+       total+=tab[i];
+   }
+   mean = total/tab.length;
+   for(j=0;j<tab.length;j+=1){
+       diffSqredArr.push(Math.pow((tab[j]-mean),2));
+   }
+   return (Math.sqrt(diffSqredArr.reduce(function(firstEl, nextEl){
+            return firstEl + nextEl;
+          })/tab.length));  
+}
+
+function getStates(data) {
+  let nums = data.flat()
+
+  let min = 0
+  let q25 = Quartile_25(nums)
+  let q50 = Quartile_50(nums)
+  let q75 = Quartile_75(nums)
+  let max = Math.max.apply(Math, nums)
+
+  let pt1 = min
+  let pt2 = q25 + (q50 - q25) / 2
+  let pt3 = q50 + (q75 - q50) / 2
+  let pt4 = max
+
+  let states = [
+    [pt1, pt1, "MIN"],
+    [pt1, pt2, "BELOW"],
+    [pt2, pt3, "NORMAL"],
+    [pt3, Math.floor(pt4), "ABOVE"],
+    [Math.floor(pt4), pt4, "MAX"]
+  ]
+
+  return states
+}
+
+let states = getStates(data)
+
+function numberToState(num, states, func = Math.round) {
+  if (num === null) {
+    return "EMPTY"
+  }
+
+  for (var i in states) {
+    let n = func(num)
+    let min = func(states[i][0])
+    let max = func(states[i][1])
+
+    if (n >= min && n <= max) {
+      return states[i][2]
+    }
+  }
+
+  return 'UNKNOWN'
+}
+
+
+
+const monthsPL = ['S', 'L', 'M', 'K', 'M', 'C', 'L', 'S', 'W', 'P', 'L', 'G']
+const monthsPL_SHORT = ['STY', 'LUT', 'MAR', 'KWI', 'MAJ', 'CZE', 'LIP', 'SIE', 'WRZ', 'PAŹ', 'LIS', 'GRU']
+const monthsEN = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D']
+
+const months = monthsPL_SHORT
+
+const colors = [];
+
+let uom = UNIT[value]
+
+let rows = '';
+
+for (let m = 1; m <= numberOfMonths; m++) {
+  rows += `<tr>
+      <th class="month" scope="row">${months[m-1]}</th>`;
+
+  for (let d = 1; d <= numberOfDays; d++) {
+    let metric = data[m] ? (data[m][d] ? data[m][d] : null ) : null
+    let state = numberToState(metric, states)
+    metric = state !== "EMPTY" && state !== "UNKNOWN" ? TO_STRING[value](metric) : 0
+
+    rows += `<td class="${state.toLowerCase()}"><div class="cell">${metric}</div></td>`;
+  }
+
+  let total = data[m] ? Math.round(data[m].reduce((a, b) => a + b)) : 0
+  let totalValue = TO_STRING[value](total)
+
+  rows += `<td class="total">${totalValue} ${uom}</td>`;
+
+  rows += `</tr>`;
+}
+
+let table = `<table>
+  <thead>
+      <tr>
+          <th></th>`
+
+for (let d = 1; d <= numberOfDays; d++) {
+  table += `<th scope="col">${d}</th>`
+}
+
+table += `<th scope="col">Total</th>`
+
+table += `</tr>
+  </thead>
+  <tbody>
+    ${rows}
+  </tbody>
+  </tabel>`;
+
+
+let content = `<h1>${year}</h1>${table}`;
+
+document.getElementsByTagName('body')[0].innerHTML += content;
+
+
+</script>
+  </body>
+</html>
