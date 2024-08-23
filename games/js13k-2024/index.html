@@ -1,0 +1,133 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Triskai-deka-phobia</title>
+  <link rel="shortcut icon" href="icon.svg" type="image/svg">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<!-- Game screen context -->
+<div id="ctx">
+
+  <!-- Timer -->
+  <svg style="translate: 18px 25px">
+    <circle cx="52" cy="52" r="50" fill="black" stroke="#3770ea" stroke-width="4" />
+    <circle id="timer" cx="52" cy="52" r="40" fill="none" stroke="white" stroke-width="8" stroke-dasharray="360" stroke-dashoffset="0" transform="rotate(-90, 52, 52)">
+    </circle>
+    <rect x="22" y="37" width="28" height="40" fill="white" stroke="black" stroke-width="2" rx="4" ry="4" transform="rotate(-10)" />
+    <rect x="58" y="19" width="28" height="40" fill="white" stroke="black" stroke-width="2" rx="4" ry="4" transform="rotate(15)" />
+  </svg>
+
+  <!-- Stage info bar -->
+  <div class="button stage" style="translate: 155px 25px">
+    <div class="bg"></div>
+    <div class="surface">
+    <svg width="100%" height="100%">
+      <text id="stage" class="icon" x="50%" y="50%">Stage 13</text>
+    </svg>
+  </div>
+  </div>
+
+  <!-- CPU icon, and heal and action bards -->
+  <div id="cpu" style="top: 145px; width: 100%; height: 250px">
+    <svg width="100%" height="100%" style="position: absolute">
+      <!-- Portrait -->
+      <circle class="portrait" id="cpucircle" cx="580" cy="125" r="120" stroke-width="3" />
+      <g class="slime">
+        <path class="outerbody" d="M 110 30 Q 200 30 210 160 Q 210 210 120 210 Q 20 210 30 140 Q 60 30 110 30" fill="#6dd6fd" />
+        <path class="innerbody" d="M 110 45 Q 195 35 205 160 Q 210 210 120 210 Q 25 205 40 135 Q 70 40 110 45" fill="#329fdc" />
+        <circle class="outerbody" cx="100" cy="70" r="20" fill="#6dd6fd" transform="scale(1 0.8)" />
+        <circle class="glow" cx="102" cy="59" r="10" fill="white" />
+      
+        <circle class="eye" r="20" fill="#6dd6fd" transform="rotate(25) translate(113 70) scale(0.6 1)" />
+        <circle class="eye" r="20" fill="#053c5f" transform="rotate(25) translate(110 70) scale(0.6 1)" />
+        <circle class="retina" cx="75" cy="105" r="6" fill="white" />
+      
+        <circle class="eye" r="20" fill="#6dd6fd" transform="rotate(-20) translate(128 160) scale(0.6 1)" />
+        <circle class="eye" r="20" fill="#053c5f" transform="rotate(-20) translate(125 160) scale(0.6 1)" />
+        <circle class="retina" cx="170" cy="105" r="6" fill="white" />
+      
+        <circle class="mouth" r="30" fill="#6dd6fd" transform="rotate(30) translate(203 88) scale(0.5 1)" />
+        <circle class="mouth" r="30" fill="#053c5f" transform="rotate(30) translate(200 85) scale(0.5 1)" />
+      </g>
+      <!-- Name -->
+      <text id="cpuinfo" class="name" x="18" y="55">CPU</text>
+      <!-- Health bar area -->
+      <text class="info" x="18" y="110">HP</text>
+      <rect x="74" y="95" width="360" height="40" fill="#262c45" />
+      <!-- Action bar area -->
+      <text class="info" x="18" y="155">AT</text>
+      <rect x="74" y="145" width="360" height="24" fill="#262c45" />
+    </svg>
+
+    <!-- Health bar -->
+    <svg id="cpuhpbar" style="left: 78; top: 99; width: 352; height: 40">
+      <rect class="hp" x="0" y="0" width="352" height="32" fill="#f00" />
+      <rect class="hp" x="0" y="0" width="352" height="8" fill="#d00" />
+    </svg>
+
+    <!-- Action bar -->
+    <svg id="cpuactionbar" style="left: 78; top: 149; width: 352; height: 18">
+      <rect x="0" y="0" width="352" height="16" fill="#ffe415" />
+      <rect x="0" y="0" width="352" height="6" fill="#e27f1b" />
+    </svg>
+  </div>
+
+  <!-- Player icon, and heal and action bars -->
+  <div id="player" style="top: 1000px; width: 100%; height: 250px">
+    <svg width="100%" height="100%" style="position: absolute">
+      <circle class="portrait" id="playercircle" cx="150" cy="125" r="120" stroke-width="3" />
+    
+      <text id="playerinfo" class="name" x="290" y="55">Player</text>
+    
+      <text class="info" x="290" y="110">HP</text>
+      <rect x="346" y="95" width="360" height="40" fill="#262c45" />
+    
+      <text class="info" x="290" y="155">AT</text>
+      <rect x="346" y="145" width="360" height="24" fill="#262c45" />
+    </svg>
+
+    <!-- Health bar -->
+    <svg id="playerhpbar" style="left: 350; top: 99; width: 352; height: 40">
+      <rect class="hp" x="0" y="0" width="352" height="32" fill="#f00" />
+      <rect class="hp" x="0" y="0" width="352" height="8" fill="#d00" />
+    </svg>
+
+    <!-- Action bar -->
+    <svg id="playeractionbar" style="left: 350; top: 149; width: 352; height: 18">
+      <rect x="0" y="0" width="352" height="16" fill="#ffe415" />
+      <rect x="0" y="0" width="352" height="6" fill="#e27f1b" />
+    </svg>
+  </div>
+
+  <!-- Player hand spots -->
+  <div class="spot" id="attack" style="translate: 70px 770px">
+    <svg width="100%" height="100%">
+      <text class="icon" x="50%" y="50%">⚔</text>
+    </svg>
+  </div>
+
+  <div class="spot" id="shamrock" style="translate: 285px 770px">
+    <svg width="100%" height="100%">
+      <text class="icon" x="50%" y="50%">☘</text>
+    </svg>
+  </div>
+
+  <div class="spot" id="defense" style="translate: 500px 770px">
+    <svg width="100%" height="100%">
+      <text class="icon" x="50%" y="50%">⛨</text>
+    </svg>
+  </div>
+
+  <!-- Pointing hands icons - visible when player should select a card -->
+  <div id="hands">
+    <div class="hand" style="left: 250px; top: 450px;">☚</div>
+    <div class="hand" style="left: 550px; top: 450px;">☚</div>
+  </div>
+
+</div>
+
+<script type="text/javascript" src="zzfx.js"></script>
+<script type="text/javascript" src="index.js"></script>
+</body>
+</html>
