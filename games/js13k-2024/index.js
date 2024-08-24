@@ -514,6 +514,7 @@ function addDecksIfEmpty() {
 }
 
 function showCard(card, move, end) {
+  console.log('show card')
   hands.style.display = "none"
 
   card.style.zIndex = 500
@@ -579,9 +580,10 @@ function playerPickCard() {
 
   activeTime = false
   pauseActionBars()
-  playSound(sfxPick)
+  // playSound(sfxPick)
 
   if(this.classList.contains('attack')) {
+    console.log('attack')
     var c = attackDeck.pop()
 
     var l = playerAttackHand.length
