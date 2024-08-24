@@ -543,15 +543,6 @@ function moveToHand(card, x, y, z, end) {
   })
 }
 
-function endTurn() {
-  console.log('endTurn')
-  addDecksIfEmpty()
-  changeTurn()
-  toggleHands()
-  resetTimer()
-  resumeActionBars()
-}
-
 function pauseActionBars() {
   playerActionBarAnimation.pause()
   cpuActionBarAnimation.pause()
@@ -560,6 +551,15 @@ function pauseActionBars() {
 function resumeActionBars() {
   playerActionBarAnimation.play()
   cpuActionBarAnimation.play()
+}
+
+function endTurn() {
+  console.log('endTurn')
+  addDecksIfEmpty()
+  changeTurn()
+  toggleHands()
+  resetTimer()
+  resumeActionBars()
 }
 
 function playerPickCard() {
