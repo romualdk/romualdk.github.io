@@ -578,6 +578,8 @@ function playerPickCard() {
     return false
   }
 
+  console.log('player pick card b')
+
   activeTime = false
   pauseActionBars()
   // playSound(sfxPick)
