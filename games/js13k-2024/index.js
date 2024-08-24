@@ -218,6 +218,7 @@ function resetTimer() {
 }
 
 function onTimer() {
+  console.log('onTimer')
   toggleCircles()
   toggleHands()
 
