@@ -19,6 +19,10 @@ div, svg {
   position: absolute;
 }
 
+.hidden {
+  display: none;
+}
+
 #ctx {
   background-color: #00000050;
   left: 0;
@@ -217,8 +221,6 @@ text.info {
   fill: #fff;
   font-size: 128px;
 }
-
-#hands {  display: none; }
 
 .hand {
   position: absolute;

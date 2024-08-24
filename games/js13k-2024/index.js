@@ -255,7 +255,11 @@ function changeTurn() {
 }
 
 function toggleHands() {
-  hands.style.display = turn == 0 && activeTime == true ? 'block' : 'none'
+  hands.classList.remove('hidden')
+
+  if(turn == 1) {
+    hands.classList.add('hidden')
+  }
 }
 
 function toggleCircles() {
@@ -514,7 +518,10 @@ function addDecksIfEmpty() {
 }
 
 function showCard(card, move, end) {
-  hands.style.display = 'none'
+  //hands.style.display = 'none'
+  if(!hands.classList.contains('hidden')) {
+    hands.classList.add('hidden')
+  }
 
   card.style.zIndex = 500
 
@@ -572,6 +579,7 @@ function resumeActionBars() {
 }
 
 function playerPickCard() {
+  console.log('player pick card')
   if (turn == 1 || activeTime == false || isActionTime == true) {
     return false
   }
