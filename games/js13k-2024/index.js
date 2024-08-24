@@ -54,7 +54,6 @@ function playSound(sfx) {
 var turn = 0 // 0 = Player, 1 = CPU
 // Bnuch of flags to control who can do what
 var isActionTime = false
-var isCpuAction = false
 
 // Player
 var playerName = 'Isoldee'
@@ -189,7 +188,6 @@ function resetGame() {
 
   turn = 0
   isActionTime = false
-  isCpuAction = false
   toggleCircles()
 
   addShamrocks(SHAMROCKS_ON_START)
@@ -231,11 +229,11 @@ function onTimer() {
 var cpuMoveTimout = null
 
 function CPU() {
+  console.log('CPU', 'isActionTime', isActionTime)
   if(isActionTime == true) {
     return false
   }
 
-  isCpuAction = true
   clearTimeout(cpuMoveTimout)
   cpuMoveTimout = setTimeout(() => { cpuPickCard() }, 500 + Math.floor(Math.random() * 1000))
 }
@@ -546,15 +544,12 @@ function moveToHand(card, x, y, z, end) {
 }
 
 function endTurn() {
+  console.log('endTurn')
   addDecksIfEmpty()
   changeTurn()
   toggleHands()
   resetTimer()
   resumeActionBars()
-
-  if(turn == 1 && isCpuAction == true) {
-    isCpuAction = false
-  }
 }
 
 function pauseActionBars() {
