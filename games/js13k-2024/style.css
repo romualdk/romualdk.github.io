@@ -19,10 +19,6 @@ div, svg {
   position: absolute;
 }
 
-.hidden {
-  display: none;
-}
-
 #ctx {
   background-color: #00000050;
   left: 0;

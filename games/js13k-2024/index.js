@@ -255,13 +255,7 @@ function changeTurn() {
 }
 
 function toggleHands() {
-  console.log(hands.classList)
-  hands.classList.remove('hidden')
-  console.log(hands.classList)
-
-  if(turn == 1) {
-    hands.classList.add('hidden')
-  }
+  hands.style.display = turn == 0 ? "block" : "none"
 }
 
 function toggleCircles() {
@@ -520,10 +514,7 @@ function addDecksIfEmpty() {
 }
 
 function showCard(card, move, end) {
-  //hands.style.display = 'none'
-  if(!hands.classList.contains('hidden')) {
-    hands.classList.add('hidden')
-  }
+  hands.style.display = "none"
 
   card.style.zIndex = 500
 
