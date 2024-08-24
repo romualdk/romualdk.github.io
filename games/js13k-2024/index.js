@@ -255,7 +255,9 @@ function changeTurn() {
 }
 
 function toggleHands() {
+  console.log(hands.classList)
   hands.classList.remove('hidden')
+  console.log(hands.classList)
 
   if(turn == 1) {
     hands.classList.add('hidden')
