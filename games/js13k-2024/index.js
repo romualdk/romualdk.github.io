@@ -219,6 +219,7 @@ function resetTimer() {
 
 function onTimer() {
   console.log('onTimer')
+  console.log(timerAnim)
   toggleCircles()
   toggleHands()
 
