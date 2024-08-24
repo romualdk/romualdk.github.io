@@ -38,8 +38,8 @@ text {
 .card {
   position: absolute;
   display: block;
-  width: 120;
-  height: 160;
+  width: 120px;
+  height: 160px;
   background: #fff;
   border-radius: 12px;
   padding: 5px;
