@@ -256,6 +256,7 @@ function changeTurn() {
 
 function toggleHands() {
   hands.style.display = turn == 0 ? "block" : "none"
+  activeTime = turn == 0 ? true : false
 }
 
 function toggleCircles() {
