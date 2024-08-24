@@ -576,6 +576,7 @@ function resumeActionBars() {
 function playerPickCard() {
   console.log('player pick card')
   console.log(turn, activeTime, isActionTime)
+  activeTime = hands.style.display == "none" ? false : true
   if (turn == 1 || activeTime == false || isActionTime == true) {
     return false
   }
