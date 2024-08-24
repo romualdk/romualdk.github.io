@@ -53,7 +53,6 @@ function playSound(sfx) {
 // This is not related with action (attack) because it has own timer (AT)
 var turn = 0 // 0 = Player, 1 = CPU
 // Bnuch of flags to control who can do what
-var activeTime = false
 var isActionTime = false
 var isCpuAction = false
 
@@ -189,7 +188,6 @@ function resetGame() {
   cpuDefenseHand = []
 
   turn = 0
-  activeTime = false
   isActionTime = false
   isCpuAction = false
   toggleCircles()
@@ -222,8 +220,6 @@ function resetTimer() {
 }
 
 function onTimer() {
-  activeTime = turn == 0 ? true : false
-
   toggleCircles()
   toggleHands()
 
@@ -256,7 +252,6 @@ function changeTurn() {
 
 function toggleHands() {
   hands.style.display = turn == 0 ? "block" : "none"
-  activeTime = turn == 0 ? true : false
 }
 
 function toggleCircles() {
@@ -515,7 +510,6 @@ function addDecksIfEmpty() {
 }
 
 function showCard(card, move, end) {
-  console.log('show card')
   hands.style.display = "none"
 
   card.style.zIndex = 500
@@ -574,21 +568,15 @@ function resumeActionBars() {
 }
 
 function playerPickCard() {
-  console.log('player pick card')
-  console.log(turn, activeTime, isActionTime)
-  activeTime = hands.style.display == "none" ? false : true
+  var activeTime = hands.style.display == "none" ? false : true
   if (turn == 1 || activeTime == false || isActionTime == true) {
     return false
   }
 
-  console.log('player pick card b')
-
-  activeTime = false
   pauseActionBars()
-  // playSound(sfxPick)
+  playSound(sfxPick)
 
   if(this.classList.contains('attack')) {
-    console.log('attack')
     var c = attackDeck.pop()
 
     var l = playerAttackHand.length
@@ -649,7 +637,6 @@ function cpuPickCard() {
     return false
   }
 
-  activeTime = false
   pauseActionBars()
   playSound(sfxPick)
 
