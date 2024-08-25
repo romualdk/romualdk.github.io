@@ -19,14 +19,31 @@ div, svg {
   position: absolute;
 }
 
+#scr {
+  height: 100vh;
+  width: calc(100vh * 9 / 16);
+
+  font-size: 10vw;
+
+  /* align center */
+  margin: auto;
+  position: absolute;
+  top: 0px; right: 0px; bottom: 0px; left: 0px;
+
+  background-color: #00000050;
+}
+
+
 #ctx {
   background-color: #00000050;
-  left: 0;
-  top: 0;
+  transform-origin: 0px 0px;
+  left: 0px;
+  top: 0px;
   width: 730px;
   height: 1270px;
   overflow: hidden;
 }
+
 
 text {
   text-anchor: middle;

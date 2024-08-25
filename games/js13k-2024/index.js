@@ -128,17 +128,13 @@ resizeWindow()
 
 function resizeWindow() {
   var wh = window.innerHeight
-  var ch = ctx.offsetHeight
-  var ww = window.innerWidth;
-  var cw = ctx.offsetWidth
+  var ch = 1270
+  var ww = window.innerWidth
+  var cw = 730
 
   windowScale = Math.floor(wh / ch * 100)
-  var x = (wh - ch) / 2
-  var y = (ww - cw) / 2
 
   ctx.style.transform = `scale(${windowScale}%)`
-  ctx.style.top = `${x}px`
-  ctx.style.left = `${y}px`
 }
 
 function screenShake() {
