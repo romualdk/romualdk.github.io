@@ -18,20 +18,6 @@ body {
 div, svg {
   position: absolute;
 }
-/*
-#scr {
-  height: 100vh;
-  width: calc(100vh * 9 / 16);
-
-  font-size: 10vw;
-
-  margin: auto;
-  position: absolute;
-  top: 0px; right: 0px; bottom: 0px; left: 0px;
-
-  background-color: #00000050;
-}*/
-
 
 #ctx {
   background-color: #00000050;

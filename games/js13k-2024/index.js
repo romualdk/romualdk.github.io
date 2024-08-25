@@ -132,8 +132,8 @@ function resizeWindow() {
   var contentWidth = ctx.offsetWidth
   var contentHeight = ctx.offsetHeight
   
-  scale = Math.min(availableWidth / contentWidth, availableHeight / contentHeight)
-  ctx.style.transform = `scale(${scale})`
+  scale = Math.round(Math.min(availableWidth / contentWidth, availableHeight / contentHeight) * 100)
+  ctx.style.transform = `scale(${scale}%)`
 
   var x = (availableWidth - contentWidth) / 2
   var y = (availableHeight - contentHeight) / 2
@@ -148,7 +148,7 @@ function screenShake() {
     var x = Math.round(Math.random() * 6) - 3
     var y = Math.round(Math.random() * 6) - 3
     var a = Math.round(Math.random() * 2) - 1
-    shakeKeyframes.push({transform: `translate(${x}px, ${y}px) scale(${scale}) rotate(${a}deg)`})
+    shakeKeyframes.push({transform: `translate(${x}px, ${y}px) scale(${scale}%) rotate(${a}deg)`})
   }
 
   ctx.animate(shakeKeyframes, {duration: 500})
