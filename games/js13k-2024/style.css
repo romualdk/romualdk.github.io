@@ -239,24 +239,12 @@ text.info {
   100% {translate: 40px 0px}
 }
 
-circle.portrait {
-  /* fill: #263998; */
-  fill: #33295e;
-  stroke: #3770ea;
+#cputurn,
+#playerturn {
+  display: none;
 }
 
-circle.portrait.active {
-  stroke: white;
-  stroke-width: 4;
-}
-
-.slime {
-  transform: scale(0.8);
-  animation: 3s ease-in-out bounce infinite;
-}
-
-@keyframes bounce {
-  0% {translate: 500px 95px; scale: 0.8 0.6}
-  30% {translate: 520px 50px; scale: 0.6 0.8}
-  100% {translate: 500px 95px; scale: 0.8 0.6}
+#cputurn.active,
+#playerturn.active {
+  display: block;
 }
