@@ -145,13 +145,13 @@ function updateStageInfo() {
 function progressPlayer() {
   playerLv += 1
   playerMaxHP = 20 + playerLv * 5
-  playerAttack = 2 + playerLv * 1.5
+  playerAttack = 6 + playerLv * 3
 }
 
 function progressCpu() {
   cpuLv = stageNumber + Math.round(Math.random(stageNumber * 4))
-  cpuMaxHP = 10 + cpuLv * 10
-  cpuAttack = 2 + cpuLv * 8
+  cpuMaxHP = cpuLv * 10
+  cpuAttack = cpuLv * 4
   cpuActionBarDuration = 8 + Math.round(Math.random(6))
 }
 
