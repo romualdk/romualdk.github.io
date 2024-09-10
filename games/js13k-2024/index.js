@@ -566,7 +566,7 @@ function playerPickCard() {
 
   pauseActionBars()
   playSound(sfxPick)
-  vibrate(100)
+  vibrate(50)
 
   if(this.classList.contains('attack')) {
     var c = attackDeck.pop()
@@ -578,7 +578,7 @@ function playerPickCard() {
 
     showCard(c, () => { moveToHand(c, x, y, l, () => {
           playerAttackHand.push(c)
-          vibrate(100)
+          vibrate(50)
           flushHandIfNeeded(playerAttackHand)
           endTurn()
       })}
@@ -594,7 +594,7 @@ function playerPickCard() {
 
     showCard(c, () => { moveToHand(c, x, y, l, () => {
         playerDefenseHand.push(c)
-        vibrate(100)
+        vibrate(50)
         flushHandIfNeeded(playerDefenseHand)
         endTurn()
       })}
@@ -612,7 +612,7 @@ function playerPickCard() {
     showCard(c, () => { moveToHand(c, x, y, l, () => {
         playerLuckyHand.push(c)
         playSound(sfxLuck)
-        vibrate(100)
+        vibrate(50)
         endTurn()
       })}
     )
@@ -634,7 +634,7 @@ function cpuPickCard() {
 
   pauseActionBars()
   playSound(sfxPick)
-  vibrate(100)
+  vibrate(50)
 
   var type = Math.round(Math.random(1))
   var deck = type == 0 ? attackDeck : defenseDeck
@@ -655,7 +655,7 @@ function cpuPickCard() {
   if(c.classList.contains('attack')) {
     showCard(c, () => { moveToHand(c, x, y, l, () => {
         cpuAttackHand.push(c)
-        vibrate(100)
+        vibrate(50)
         c.style.display = 'none'
         flushHandIfNeeded(cpuAttackHand)
         endTurn()
@@ -665,7 +665,7 @@ function cpuPickCard() {
   else if (c.classList.contains('defense')) {
     showCard(c, () => { moveToHand(c, x, y, l, () => {
         cpuDefenseHand.push(c)
-        vibrate(100)
+        vibrate(50)
         c.style.display = 'none'
         flushHandIfNeeded(cpuDefenseHand)
         endTurn()
@@ -677,7 +677,7 @@ function cpuPickCard() {
         cpuLuckyHand.push(c)
         c.style.display = 'none'
         playSound(sfxLuck)
-        vibrate(100)
+        vibrate(50)
         endTurn()
       })}
     )
@@ -694,7 +694,7 @@ function playerUseShamrockOrDie(deathCard, luckyHand) {
     if(IMMORTALS) {
       moveToHand(deathCard, 297, 810, 500, () => {
         playSound(sfxLuck)
-        vibrate(100)
+        vibrate(50)
         deathCard.remove()
         endTurn()
       })
@@ -711,7 +711,7 @@ function playerUseShamrockOrDie(deathCard, luckyHand) {
     moveToHand(deathCard, 297, 810, 500, () => {
       var shamrock = luckyHand.pop()
       playSound(sfxLuck)
-      vibrate(100)
+      vibrate(50)
       shamrock.remove()
       deathCard.remove()
       endTurn()
@@ -724,7 +724,7 @@ function cpuUseShamrockOrDie(deathCard, luckyHand) {
     if(IMMORTALS) {
       moveToHand(deathCard, 475, 185, 50, () => {
         playSound(sfxLuck)
-        vibrate(100)
+        vibrate(50)
         deathCard.remove()
         endTurn()
       })
@@ -742,7 +742,7 @@ function cpuUseShamrockOrDie(deathCard, luckyHand) {
     moveToHand(deathCard, 475, 185, 50, () => {
       var shamrock = luckyHand.pop()
       playSound(sfxLuck)
-      vibrate(100)
+      vibrate(50)
       shamrock.remove()
       deathCard.remove()
       endTurn()
