@@ -7,7 +7,7 @@
 [Kenney Game Jam 2025 entry](https://romualdk.itch.io/superforte-magisto) |
 [📁 Github source code](https://github.com/romualdk/Kenney-Jam-2025-POWER)
 
-[![screenshot](https://raw.githubusercontent.com/romualdk/Kenney-Jam-2025-POWER/refs/heads/main/screenshot.png)
+[![screenshot](https://raw.githubusercontent.com/romualdk/Kenney-Jam-2025-POWER/refs/heads/main/screenshot.png)](https://romualdk.github.io/games/superforte-magisto/)
 
 ## Triskai-deka-phobia
 
