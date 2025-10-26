@@ -1,6 +1,15 @@
 # My games
 
-## Triskai-deka-phobia card game
+## Super Forte Magisto
+
+[👉 🎮 PLAY](https://romualdk.github.io/games/superforte-magisto/)
+
+[Kenney Game Jam 2025 entry](https://romualdk.itch.io/superforte-magisto) |
+[📁 Github source code](https://github.com/romualdk/Kenney-Jam-2025-POWER)
+
+[![screenshot](https://raw.githubusercontent.com/romualdk/Kenney-Jam-2025-POWER/refs/heads/main/screenshot.png)
+
+## Triskai-deka-phobia
 
 [👉 🎮 PLAY](https://romualdk.github.io/games/js13k-2024/)
 
