@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moja Kuchnia - Przepisy 1-osobowe</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    
+    <style>
+        body { background-color: #f8f9fa; font-family: 'Segoe UI', sans-serif; }
+        .card-img-top { height: 220px; object-fit: cover; }
+        .border-dashed { border: 2px dashed #dee2e6 !important; transition: 0.3s; }
+        .border-dashed:hover { background-color: #e9ecef; border-color: #adb5bd !important; }
+        .recipe-card { transition: transform 0.2s ease-in-out; }
+        .recipe-card:hover { transform: translateY(-5px); }
+        .btn-filter.active { background-color: #212529 !important; color: white !important; border-color: #212529 !important; }
+        /* Styl dla list składników */
+        .list-group-item { border: none; padding: 0.25rem 0; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    
+    <header class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-dark">Moja Kuchnia</h1>
+        <p class="lead text-muted">Przejrzyste przepisy na ulubione dania</p>
+    </header>
+
+    <div class="row mb-5 justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="input-group shadow-sm mb-3">
+                <span class="input-group-text bg-white border-end-0">
+                    <i class="bi bi-search text-muted"></i>
+                </span>
+                <input type="text" id="recipeSearch" class="form-control border-start-0 ps-0" placeholder="Szukaj przepisu...">
+            </div>
+            
+            <div id="filterButtons" class="d-flex flex-wrap justify-content-center gap-2">
+                <button class="btn btn-sm btn-outline-dark rounded-pill px-3 btn-filter active" data-filter="all">Wszystkie</button>
+                <button class="btn btn-sm btn-outline-danger rounded-pill px-3 btn-filter" data-filter="mięso">Mięso</button>
+                <button class="btn btn-sm btn-outline-warning text-dark rounded-pill px-3 btn-filter" data-filter="makaron">Makaron</button>
+                <button class="btn btn-sm btn-outline-success rounded-pill px-3 btn-filter" data-filter="wege">Wege</button>
+                <button class="btn btn-sm btn-outline-info text-dark rounded-pill px-3 btn-filter" data-filter="ryba">Ryby</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-lg-4 g-4" id="recipeGrid">
+        
+        <div class="col recipe-card" data-tags="mięso makaron">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://plus.unsplash.com/premium_photo-1664472619078-9db415ebef44?w=500" class="card-img-top" alt="Spaghetti Bolognese">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">mięso</span>
+                        <span class="badge rounded-pill bg-warning text-dark">makaron</span>
+                    </div>
+                    <h5 class="card-title">Spaghetti Bolognese</h5>
+                    <hr>
+                    <h6>Składniki (1 os.):</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 100g makaronu</li>
+                        <li class="list-group-item">• 150g mielonej wołowiny</li>
+                        <li class="list-group-item">• 200ml przecieru</li>
+                        <li class="list-group-item">• 1/2 cebuli i czosnek</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Podsmaż mięso, dodaj przecier i duś 15 min. Podawaj z makaronem.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="mięso wege">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1520218576172-c1a2df3fa5fc?w=500" class="card-img-top" alt="Szakszuka">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">mięso</span>
+                        <span class="badge rounded-pill bg-warning text-dark">jajka</span>
+                    </div>
+                    <h5 class="card-title">Szakszuka z Chorizo</h5>
+                    <hr>
+                    <h6>Składniki (1 os.):</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 2 jajka</li>
+                        <li class="list-group-item">• 50g chorizo</li>
+                        <li class="list-group-item">• 1/2 czerwonej papryki</li>
+                        <li class="list-group-item">• 200g pomidorów</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Podsmaż chorizo i paprykę. Wlej pomidory i wbij jajka.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="mięso makaron">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1608756687911-aa1599ab3bd9?w=500" class="card-img-top" alt="Carbonara">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-warning text-dark">makaron</span>
+                        <span class="badge rounded-pill bg-danger">mięso</span>
+                    </div>
+                    <h5 class="card-title">Spaghetti Carbonara</h5>
+                    <hr>
+                    <h6>Składniki (1 os.):</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 100g makaronu</li>
+                        <li class="list-group-item">• 50g boczku</li>
+                        <li class="list-group-item">• 1 duże jajko</li>
+                        <li class="list-group-item">• 30g sera Pecorino</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Wymieszaj jajko z serem. Dodaj do makaronu z boczkiem (bez ognia).</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="mięso">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1545093149-618ce3bcf49d?w=500" class="card-img-top" alt="Chilli con carne">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">mięso</span>
+                    </div>
+                    <h5 class="card-title">Chilli con carne</h5>
+                    <hr>
+                    <h6>Składniki (1 os.):</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 150g wołowiny</li>
+                        <li class="list-group-item">• 1/2 puszki fasoli</li>
+                        <li class="list-group-item">• 100ml pomidorów</li>
+                        <li class="list-group-item">• 1 tortilla pszenna</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Smaż mięso z przyprawami. Dodaj fasolę i pomidory. Duś 20 min.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="ryba">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500" class="card-img-top" alt="Łosoś">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-info text-dark">ryba</span>
+                    </div>
+                    <h5 class="card-title">Łosoś z batatami</h5>
+                    <hr>
+                    <h6>Składniki (1 os.):</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 150g łososia</li>
+                        <li class="list-group-item">• 1 duży batat</li>
+                        <li class="list-group-item">• 1 świeży ogórek</li>
+                        <li class="list-group-item">• 2 łyżki jogurtu</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Piecz rybę i bataty 20 min w 200°C. Ogórka wymieszaj z jogurtem.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="mięso">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500" class="card-img-top" alt="Kurczak">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">mięso</span>
+                    </div>
+                    <h5 class="card-title">Kurczak z puree</h5>
+                    <hr>
+                    <h6>Składniki (1 os.):</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 2 podudzia</li>
+                        <li class="list-group-item">• 3 ziemniaki</li>
+                        <li class="list-group-item">• 100g buraczków tartych</li>
+                        <li class="list-group-item">• Masło i mleko (do puree)</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Piecz kurczaka 45 min. Ziemniaki ubij na gładką masę.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="mięso">
+  <div class="card h-100 shadow-sm border-0">
+    <div class="position-relative">
+      <img src="https://images.unsplash.com/photo-1588166524941-3bf61a9c41db?q=80&w=500&auto=format&fit=crop" 
+           class="card-img-top" 
+           alt="Curry z kurczakiem">
+    </div>
+    <div class="card-body">
+      <div class="mb-2">
+        <span class="badge rounded-pill bg-danger">mięso</span>
+        <span class="badge rounded-pill bg-warning text-dark">ryż</span>
+        <span class="badge rounded-pill bg-info text-dark">orient</span>
+      </div>
+      <h5 class="card-title">Curry z kurczakiem</h5>
+      <hr>
+      <h6>Składniki (1 os.):</h6>
+      <ul class="list-group mb-3">
+        <li class="list-group-item">• 150g piersi z kurczaka</li>
+        <li class="list-group-item">• 50g ryżu basmati</li>
+        <li class="list-group-item">• 100ml mleczka kokosowego</li>
+        <li class="list-group-item">• 1/2 czerwonej papryki</li>
+        <li class="list-group-item">• 1 łyżeczka żółtej pasty curry</li>
+      </ul>
+      <h6>Przygotowanie:</h6>
+      <p class="small text-muted mb-0">
+        Kurczaka podsmaż z pastą curry. Dodaj pokrojoną paprykę, zalej mleczkiem i duś 10 min. Podawaj z ugotowanym ryżem.
+      </p>
+    </div>
+  </div>
+</div>
+
+        <div class="col recipe-card" data-tags="mięso">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=500" class="card-img-top" alt="Burger">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">mięso</span>
+                    </div>
+                    <h5 class="card-title">Burger z frytkami</h5>
+                    <hr>
+                    <h6>Składniki (1 os.):</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 180g wołowiny</li>
+                        <li class="list-group-item">• 1 bułka brioche</li>
+                        <li class="list-group-item">• 150g frytek</li>
+                        <li class="list-group-item">• Ser cheddar i sałata</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Smaż burgera, frytki upiecz. Złóż bułkę z serem i warzywami.</p>
+                </div>
+            </div>
+        </div>
+
+        
+
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const searchInput = document.getElementById('recipeSearch');
+    const filterButtons = document.querySelectorAll('.btn-filter');
+    const recipeCards = document.querySelectorAll('.recipe-card');
+    const addNewBtn = document.getElementById('addNewCard');
+    let currentFilter = 'all';
+
+    function updateDisplay() {
+        const query = searchInput.value.toLowerCase();
+        recipeCards.forEach(card => {
+            const title = card.querySelector('.card-title').textContent.toLowerCase();
+            const tags = card.getAttribute('data-tags');
+            const matchesSearch = title.includes(query);
+            const matchesFilter = (currentFilter === 'all' || tags.includes(currentFilter));
+            card.style.display = (matchesSearch && matchesFilter) ? 'block' : 'none';
+        });
+        addNewBtn.style.display = (query === "" && currentFilter === 'all') ? 'block' : 'none';
+    }
+
+    searchInput.addEventListener('input', updateDisplay);
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            currentFilter = this.getAttribute('data-filter');
+            updateDisplay();
+        });
+    });
+</script>
+
+</body>
+</html>
