@@ -24,46 +24,278 @@
     
     <header class="text-center mb-5">
         <h1 class="display-4 fw-bold text-dark">Moja Kuchnia</h1>
-        <p class="lead text-muted">Przejrzyste przepisy na ulubione dania</p>
+        <p class="lead text-muted">Przejrzyste przepisy na ulubione dania (1 os.)</p>
     </header>
 
     <div class="row mb-5 justify-content-center">
-        <div class="col-md-8 text-center">
+        <div class="col-md-9 text-center">
             <div class="input-group shadow-sm mb-3">
                 <span class="input-group-text bg-white border-end-0">
                     <i class="bi bi-search text-muted"></i>
                 </span>
-                <input type="text" id="recipeSearch" class="form-control border-start-0 ps-0" placeholder="Szukaj przepisu...">
+                <input type="text" id="recipeSearch" class="form-control border-start-0 ps-0" placeholder="Szukaj przepisu (np. kurczak, jajka)...">
             </div>
             
             <div id="filterButtons" class="d-flex flex-wrap justify-content-center gap-2">
                 <button class="btn btn-sm btn-outline-dark rounded-pill px-3 btn-filter active" data-filter="all">Wszystkie</button>
-                <button class="btn btn-sm btn-outline-danger rounded-pill px-3 btn-filter" data-filter="mięso">Mięso</button>
-                <button class="btn btn-sm btn-outline-warning text-dark rounded-pill px-3 btn-filter" data-filter="makaron">Makaron</button>
+                <button class="btn btn-sm btn-outline-primary rounded-pill px-3 btn-filter" data-filter="śniadanie">Śniadania</button>
+                <button class="btn btn-sm btn-outline-danger rounded-pill px-3 btn-filter" data-filter="obiad">Obiady</button>
+                <button class="btn btn-sm btn-outline-warning text-dark rounded-pill px-3 btn-filter" data-filter="kanapki">Kanapki</button>
+                <div class="vr mx-2"></div>
                 <button class="btn btn-sm btn-outline-success rounded-pill px-3 btn-filter" data-filter="wege">Wege</button>
-                <button class="btn btn-sm btn-outline-info text-dark rounded-pill px-3 btn-filter" data-filter="ryba">Ryby</button>
+                <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 btn-filter" data-filter="mięso">Mięso</button>
             </div>
         </div>
     </div>
 
     <div class="row row-cols-1 row-cols-lg-4 g-4" id="recipeGrid">
         
-        <div class="col recipe-card" data-tags="mięso makaron">
+        <div class="col recipe-card" data-tags="śniadanie mięso">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1525351484333-20563878e672?w=500" class="card-img-top" alt="Jajecznica">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-primary">śniadanie</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Jajecznica na bogato</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 3 jajka</li>
+                        <li class="list-group-item">• 1 parówka lub kiełbaska</li>
+                        <li class="list-group-item">• 1/2 pomidora i szczypiorek</li>
+                        <li class="list-group-item">• Masło do smażenia</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Podsmaż pokrojoną kiełbaskę. Wbij jajka, zetnij lekko, dodaj warzywa na koniec.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="śniadanie wege">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1590412200988-a436970781fa?w=500" class="card-img-top" alt="Szakszuka">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-primary">śniadanie</span>
+                        <span class="badge rounded-pill bg-success">wege</span>
+                    </div>
+                    <h5 class="card-title">Szakszuka</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 2 jajka</li>
+                        <li class="list-group-item">• 1/2 puszki pomidorów</li>
+                        <li class="list-group-item">• 1/4 papryki i cebula</li>
+                        <li class="list-group-item">• Kumin, papryka słodka</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Udusić warzywa z przyprawami. Zrobić wgłębienia, wbić jajka i dusić pod przykryciem.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="śniadanie wege słodkie">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1598886367836-8c9e54823871?w=500" class="card-img-top" alt="Dutch Baby">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-primary">śniadanie</span>
+                        <span class="badge rounded-pill bg-success">słodkie</span>
+                    </div>
+                    <h5 class="card-title">Dutch Baby</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 1 jajko, 1/4 szkl. mleka</li>
+                        <li class="list-group-item">• 1/4 szkl. mąki</li>
+                        <li class="list-group-item">• Łyżka masła, cukier puder</li>
+                        <li class="list-group-item">• Owoce do podania</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Rozgrzej patelnię w 220°C. Wlej ciasto na gorące masło, piecz 15-20 min.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="śniadanie wege słodkie">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=500" class="card-img-top" alt="Croissant">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-primary">śniadanie</span>
+                        <span class="badge rounded-pill bg-success">słodkie</span>
+                    </div>
+                    <h5 class="card-title">Croissanty na słodko</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 1-2 croissanty</li>
+                        <li class="list-group-item">• Dżem truskawkowy</li>
+                        <li class="list-group-item">• Masło</li>
+                        <li class="list-group-item">• Kawa z mlekiem</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Podgrzej rogaliki w piekarniku, podawaj chrupiące z dodatkami.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="śniadanie wege">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1626379961674-6831d102dc4e?w=500" class="card-img-top" alt="Croissant wytrawny">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-primary">śniadanie</span>
+                        <span class="badge rounded-pill bg-success">wege</span>
+                    </div>
+                    <h5 class="card-title">Croissant wytrawny</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 1 duży croissant</li>
+                        <li class="list-group-item">• 1/2 awokado</li>
+                        <li class="list-group-item">• Plaster sera żółtego</li>
+                        <li class="list-group-item">• Jajko (opcjonalnie)</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Przekrój croissanta, ułóż ser i awokado. Można zapiec chwilę w piecu.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="śniadanie wege słodkie">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500" class="card-img-top" alt="Brioche">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-primary">śniadanie</span>
+                        <span class="badge rounded-pill bg-success">słodkie</span>
+                    </div>
+                    <h5 class="card-title">Brioche z twarogiem</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 2 kromki chałki/brioche</li>
+                        <li class="list-group-item">• 100g twarożku śmietank.</li>
+                        <li class="list-group-item">• Dżem wiśniowy</li>
+                        <li class="list-group-item">• Miód</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Pieczywo zrumień w tosterze. Posmaruj grubo twarogiem i dżemem.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="śniadanie mięso orient">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1594833939525-24d9c79e64bd?w=500" class="card-img-top" alt="Ryż smażony">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-primary">śniadanie</span>
+                        <span class="badge rounded-pill bg-danger">orient</span>
+                    </div>
+                    <h5 class="card-title">Ryż śniadaniowy</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 100g ryżu (wczorajszego)</li>
+                        <li class="list-group-item">• 1 jajko sadzone</li>
+                        <li class="list-group-item">• 50g boczku, kimchi</li>
+                        <li class="list-group-item">• Szczypiorek, sos sojowy</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Podsmaż boczek z kimchi, dodaj ryż. Podawaj z jajkiem sadzonym na wierzchu.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="śniadanie wege słodkie">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500" class="card-img-top" alt="Pancakes">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-primary">śniadanie</span>
+                        <span class="badge rounded-pill bg-success">słodkie</span>
+                    </div>
+                    <h5 class="card-title">Pancakes</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• Ciasto na maślance/mleku</li>
+                        <li class="list-group-item">• Twarożek waniliowy</li>
+                        <li class="list-group-item">• Dżem jagodowy</li>
+                        <li class="list-group-item">• Syrop klonowy</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Smaż małe placuszki na suchej patelni. Podawaj w wieżyczce z dodatkami.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="śniadanie wege słodkie">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1562096739-1658428258d4?w=500" class="card-img-top" alt="Gofry">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-primary">śniadanie</span>
+                        <span class="badge rounded-pill bg-success">słodkie</span>
+                    </div>
+                    <h5 class="card-title">Gofry domowe</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 2 gofry (domowe/kupne)</li>
+                        <li class="list-group-item">• Twarożek słodki</li>
+                        <li class="list-group-item">• Dżem brzoskwiniowy</li>
+                        <li class="list-group-item">• Cukier puder</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Gofry podgrzej w tosterze by były chrupiące. Nałóż ser i dżem.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="śniadanie wege słodkie">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1519676867240-f031338c0356?w=500" class="card-img-top" alt="Naleśniki">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-primary">śniadanie</span>
+                        <span class="badge rounded-pill bg-success">słodkie</span>
+                    </div>
+                    <h5 class="card-title">Naleśniki z serem</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 2 usmażone naleśniki</li>
+                        <li class="list-group-item">• 150g sera białego z cukrem</li>
+                        <li class="list-group-item">• Dżem lub owoce</li>
+                        <li class="list-group-item">• Śmietana 12%</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Naleśniki posmaruj serem, zwiń w rulon i podsmaż na maśle.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad mięso makaron">
             <div class="card h-100 shadow-sm border-0">
                 <img src="https://plus.unsplash.com/premium_photo-1664472619078-9db415ebef44?w=500" class="card-img-top" alt="Spaghetti Bolognese">
                 <div class="card-body">
                     <div class="mb-2">
-                        <span class="badge rounded-pill bg-danger">mięso</span>
-                        <span class="badge rounded-pill bg-warning text-dark">makaron</span>
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
                     </div>
                     <h5 class="card-title">Spaghetti Bolognese</h5>
                     <hr>
-                    <h6>Składniki (1 os.):</h6>
+                    <h6>Składniki:</h6>
                     <ul class="list-group mb-3">
                         <li class="list-group-item">• 100g makaronu</li>
                         <li class="list-group-item">• 150g mielonej wołowiny</li>
-                        <li class="list-group-item">• 200ml przecieru</li>
-                        <li class="list-group-item">• 1/2 cebuli i czosnek</li>
+                        <li class="list-group-item">• 200ml przecieru, czosnek</li>
+                        <li class="list-group-item">• Parmezan</li>
                     </ul>
                     <h6>Przygotowanie:</h6>
                     <p class="small text-muted mb-0">Podsmaż mięso, dodaj przecier i duś 15 min. Podawaj z makaronem.</p>
@@ -71,17 +303,17 @@
             </div>
         </div>
 
-        <div class="col recipe-card" data-tags="mięso makaron">
+        <div class="col recipe-card" data-tags="obiad mięso makaron">
             <div class="card h-100 shadow-sm border-0">
                 <img src="https://images.unsplash.com/photo-1512058560366-cd24270083cd?w=500" class="card-img-top" alt="Makaron chiński">
                 <div class="card-body">
                     <div class="mb-2">
-                        <span class="badge rounded-pill bg-danger">mięso</span>
-                        <span class="badge rounded-pill bg-warning text-dark">makaron</span>
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
                     </div>
                     <h5 class="card-title">Makaron po chińsku</h5>
                     <hr>
-                    <h6>Składniki (1 os.):</h6>
+                    <h6>Składniki:</h6>
                     <ul class="list-group mb-3">
                         <li class="list-group-item">• 80g makaronu jajecznego</li>
                         <li class="list-group-item">• 150g kurczaka</li>
@@ -89,27 +321,27 @@
                         <li class="list-group-item">• Sos sojowy i imbir</li>
                     </ul>
                     <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Smaż kurczaka z warzywami na dużym ogniu. Dodaj ugotowany makaron i sos.</p>
+                    <p class="small text-muted mb-0">Smaż kurczaka z warzywami na dużym ogniu (stir-fry). Dodaj makaron i sos.</p>
                 </div>
             </div>
         </div>
 
-        <div class="col recipe-card" data-tags="mięso makaron">
+        <div class="col recipe-card" data-tags="obiad mięso makaron">
             <div class="card h-100 shadow-sm border-0">
                 <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500" class="card-img-top" alt="Ravioli">
                 <div class="card-body">
                     <div class="mb-2">
-                        <span class="badge rounded-pill bg-warning text-dark">makaron</span>
-                        <span class="badge rounded-pill bg-danger">mięso</span>
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
                     </div>
                     <h5 class="card-title">Ravioli Carbonara</h5>
                     <hr>
-                    <h6>Składniki (1 os.):</h6>
+                    <h6>Składniki:</h6>
                     <ul class="list-group mb-3">
                         <li class="list-group-item">• 125g ravioli z serem</li>
-                        <li class="list-group-item">• 40g guanciale/boczku</li>
-                        <li class="list-group-item">• 1 żółtko</li>
-                        <li class="list-group-item">• Pecorino Romano</li>
+                        <li class="list-group-item">• 40g boczku</li>
+                        <li class="list-group-item">• 1 żółtko, parmezan</li>
+                        <li class="list-group-item">• Pieprz</li>
                     </ul>
                     <h6>Przygotowanie:</h6>
                     <p class="small text-muted mb-0">Ugotuj ravioli. Wymieszaj z podsmażonym boczkiem i emulsją z jajka i sera.</p>
@@ -117,407 +349,644 @@
             </div>
         </div>
 
-        <div class="col recipe-card" data-tags="makaron wege">
+        <div class="col recipe-card" data-tags="obiad mięso">
             <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=500" class="card-img-top" alt="Biang Biang">
+                <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=500" class="card-img-top" alt="Udka">
                 <div class="card-body">
                     <div class="mb-2">
-                        <span class="badge rounded-pill bg-warning text-dark">makaron</span>
-                        <span class="badge rounded-pill bg-success">wege</span>
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
                     </div>
-                    <h5 class="card-title">Bang Bang Noodles</h5>
+                    <h5 class="card-title">Pieczone udka kurczaka</h5>
                     <hr>
-                    <h6>Składniki (1 os.):</h6>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item">• Szeroki makaron pszenny</li>
-                        <li class="list-group-item">• Olej chilli i czosnek</li>
-                        <li class="list-group-item">• Ocet ryżowy i cukier</li>
-                        <li class="list-group-item">• Szczypiorek</li>
-                    </ul>
-                    <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Zalej przyprawy gorącym olejem. Wymieszaj z grubym makaronem.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col recipe-card" data-tags="mięso">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1532550907401-a500c9a57435?w=500" class="card-img-top" alt="Udka z ziemniakami">
-                <div class="card-body">
-                    <div class="mb-2">
-                        <span class="badge rounded-pill bg-danger">mięso</span>
-                    </div>
-                    <h5 class="card-title">Pieczone udka</h5>
-                    <hr>
-                    <h6>Składniki (1 os.):</h6>
+                    <h6>Składniki:</h6>
                     <ul class="list-group mb-3">
                         <li class="list-group-item">• 2 udka z kurczaka</li>
-                        <li class="list-group-item">• 3-4 ziemniaki</li>
-                        <li class="list-group-item">• Surówka z marchewki</li>
-                        <li class="list-group-item">• Zioła prowansalskie</li>
+                        <li class="list-group-item">• 4 ziemniaki</li>
+                        <li class="list-group-item">• Surówka z kapusty</li>
+                        <li class="list-group-item">• Przyprawa do kurczaka</li>
                     </ul>
                     <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Piecz udka z ziemniakami 50 min w 190°C. Podawaj ze świeżą surówką.</p>
+                    <p class="small text-muted mb-0">Piecz udka z ziemniakami ok. 50 min w 190°C. Podawaj z surówką.</p>
                 </div>
             </div>
         </div>
 
-        <div class="col recipe-card" data-tags="mięso">
+        <div class="col recipe-card" data-tags="obiad mięso">
             <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=500" class="card-img-top" alt="Buffalo wings">
+                <img src="https://images.unsplash.com/photo-1527477396000-e27163b481c2?w=500" class="card-img-top" alt="Wings">
                 <div class="card-body">
                     <div class="mb-2">
-                        <span class="badge rounded-pill bg-danger">mięso</span>
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
                     </div>
                     <h5 class="card-title">Buffalo Wings</h5>
                     <hr>
-                    <h6>Składniki (1 os.):</h6>
+                    <h6>Składniki:</h6>
                     <ul class="list-group mb-3">
-                        <li class="list-group-item">• 6 skrzydełek</li>
-                        <li class="list-group-item">• Sos typu Frank's</li>
-                        <li class="list-group-item">• 150g frytek</li>
-                        <li class="list-group-item">• Colesław (kapusta, majonez)</li>
+                        <li class="list-group-item">• 6-8 skrzydełek</li>
+                        <li class="list-group-item">• Sos ostry (np. Frank's)</li>
+                        <li class="list-group-item">• Masło</li>
+                        <li class="list-group-item">• Seler naciowy + dip blue cheese</li>
                     </ul>
                     <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Skrzydełka upiecz na chrupiąco, obtocz w ostrym sosie. Podawaj z frytkami.</p>
+                    <p class="small text-muted mb-0">Upiecz skrzydełka na chrupko. Wymieszaj z gorącym sosem maślanym.</p>
                 </div>
             </div>
         </div>
 
-        <div class="col recipe-card" data-tags="mięso makaron">
+        <div class="col recipe-card" data-tags="obiad mięso zupa">
             <div class="card h-100 shadow-sm border-0">
                 <img src="https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=500" class="card-img-top" alt="Ramen">
                 <div class="card-body">
                     <div class="mb-2">
-                        <span class="badge rounded-pill bg-danger">mięso</span>
-                        <span class="badge rounded-pill bg-warning text-dark">orient</span>
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
                     </div>
-                    <h5 class="card-title">Ramen Nowy Dwór</h5>
+                    <h5 class="card-title">Domowy Ramen</h5>
                     <hr>
-                    <h6>Składniki (1 os.):</h6>
+                    <h6>Składniki:</h6>
                     <ul class="list-group mb-3">
-                        <li class="list-group-item">• Bulion drobiowy/wieprzowy</li>
-                        <li class="list-group-item">• Makaron ramen</li>
-                        <li class="list-group-item">• Boczek chashu i jajko</li>
-                        <li class="list-group-item">• Pasta miso i nori</li>
+                        <li class="list-group-item">• Bulion mięsny</li>
+                        <li class="list-group-item">• Makaron alkaliczny</li>
+                        <li class="list-group-item">• Boczek pieczony, jajko</li>
+                        <li class="list-group-item">• Nori, szczypior, sezam</li>
                     </ul>
                     <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Złóż miskę z gorącego wywaru, makaronu i dodatków. Dopraw olejem sezamowym.</p>
+                    <p class="small text-muted mb-0">Złóż miskę: gorący wywar, makaron, dodatki. Skrop olejem sezamowym.</p>
                 </div>
             </div>
         </div>
 
-        <div class="col recipe-card" data-tags="mięso">
+        <div class="col recipe-card" data-tags="obiad wege makaron">
             <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=500" class="card-img-top" alt="Pho">
+                <img src="https://images.unsplash.com/photo-1608756687911-aa1599ab3bd9?w=500" class="card-img-top" alt="Carbonara Bób">
                 <div class="card-body">
                     <div class="mb-2">
-                        <span class="badge rounded-pill bg-danger">mięso</span>
-                        <span class="badge rounded-pill bg-info text-dark">zupa</span>
-                    </div>
-                    <h5 class="card-title">Pho Ha Long</h5>
-                    <hr>
-                    <h6>Składniki (1 os.):</h6>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item">• Wywar wołowy aromatyczny</li>
-                        <li class="list-group-item">• Cienkie plastry wołowiny</li>
-                        <li class="list-group-item">• Makaron ryżowy</li>
-                        <li class="list-group-item">• Kolendra, limonka i chilli</li>
-                    </ul>
-                    <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Zalej makaron i surową wołowinę wrzącym wywarem. Dodaj zioła i sok z limonki.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col recipe-card" data-tags="mięso">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=500" class="card-img-top" alt="Kurczak prowansalski">
-                <div class="card-body">
-                    <div class="mb-2">
-                        <span class="badge rounded-pill bg-danger">mięso</span>
-                    </div>
-                    <h5 class="card-title">Kurczak prowansalski</h5>
-                    <hr>
-                    <h6>Składniki (1 os.):</h6>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item">• 1 pierś z kurczaka</li>
-                        <li class="list-group-item">• Pomidory koktajlowe</li>
-                        <li class="list-group-item">• Oliwki i zioła prowansalskie</li>
-                        <li class="list-group-item">• Białe wino (opcjonalnie)</li>
-                    </ul>
-                    <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Dusić kurczaka z pomidorami i ziołami pod przykryciem ok. 20 min.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col recipe-card" data-tags="ryba">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500" class="card-img-top" alt="Łosoś curry">
-                <div class="card-body">
-                    <div class="mb-2">
-                        <span class="badge rounded-pill bg-info text-dark">ryba</span>
-                        <span class="badge rounded-pill bg-warning text-dark">ryż</span>
-                    </div>
-                    <h5 class="card-title">Łosoś w sosie curry</h5>
-                    <hr>
-                    <h6>Składniki (1 os.):</h6>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item">• 150g łososia</li>
-                        <li class="list-group-item">• 1/2 puszki mleczka kokos.</li>
-                        <li class="list-group-item">• 1 łyżka pasty curry</li>
-                        <li class="list-group-item">• 50g ryżu</li>
-                    </ul>
-                    <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Łososia dusić w sosie curry z mleczkiem kokosowym. Podawać z ryżem.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col recipe-card" data-tags="mięso">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1544124499-58912cbddaad?w=500" class="card-img-top" alt="Bitki wieprzowe">
-                <div class="card-body">
-                    <div class="mb-2">
-                        <span class="badge rounded-pill bg-danger">mięso</span>
-                    </div>
-                    <h5 class="card-title">Bitki wieprzowe</h5>
-                    <hr>
-                    <h6>Składniki (1 os.):</h6>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item">• 150g schabu lub szynki</li>
-                        <li class="list-group-item">• 3 ziemniaki (puree)</li>
-                        <li class="list-group-item">• 1 ogórek kiszony</li>
-                        <li class="list-group-item">• Sos własny</li>
-                    </ul>
-                    <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Mięso rozbić, podsmażyć i dusić do miękkości. Podawać z puree i ogórkiem.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col recipe-card" data-tags="wege makaron">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141?w=500" class="card-img-top" alt="Gnocchi">
-                <div class="card-body">
-                    <div class="mb-2">
-                        <span class="badge rounded-pill bg-success">wege</span>
-                        <span class="badge rounded-pill bg-warning text-dark">makaron</span>
-                    </div>
-                    <h5 class="card-title">Gnocchi alla Norma</h5>
-                    <hr>
-                    <h6>Składniki (1 os.):</h6>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item">• 200g kopytek/gnocchi</li>
-                        <li class="list-group-item">• 1/2 bakłażana</li>
-                        <li class="list-group-item">• Sos pomidorowy</li>
-                        <li class="list-group-item">• Ricotta solona lub feta</li>
-                    </ul>
-                    <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Podsmaż bakłażana, dodaj sos i gnocchi. Posyp serem na talerzu.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col recipe-card" data-tags="mięso">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=500" class="card-img-top" alt="Łopatka">
-                <div class="card-body">
-                    <div class="mb-2">
-                        <span class="badge rounded-pill bg-danger">mięso</span>
-                    </div>
-                    <h5 class="card-title">Pieczona łopatka</h5>
-                    <hr>
-                    <h6>Składniki (1 os.):</h6>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item">• 200g łopatki wieprzowej</li>
-                        <li class="list-group-item">• 3 ziemniaki</li>
-                        <li class="list-group-item">• 100g buraczków</li>
-                        <li class="list-group-item">• Czosnek i majeranek</li>
-                    </ul>
-                    <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Łopatkę piecz długo w 160°C pod przykryciem. Ziemniaki dopiecz obok.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col recipe-card" data-tags="mięso">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1561651823-34feb02250e4?w=500" class="card-img-top" alt="Kebab">
-                <div class="card-body">
-                    <div class="mb-2">
-                        <span class="badge rounded-pill bg-danger">mięso</span>
-                    </div>
-                    <h5 class="card-title">Kebab Domowy</h5>
-                    <hr>
-                    <h6>Składniki (1 os.):</h6>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item">• 150g kurczaka (gyros)</li>
-                        <li class="list-group-item">• Chlebek pita / tortilla</li>
-                        <li class="list-group-item">• Surówka z kapusty</li>
-                        <li class="list-group-item">• Sos czosnkowy</li>
-                    </ul>
-                    <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Mięso mocno wysmaż. Podgrzej pieczywo, dodaj warzywa i sosy.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col recipe-card" data-tags="mięso">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1547592110-803653efffbe?w=500" class="card-img-top" alt="Grochówka">
-                <div class="card-body">
-                    <div class="mb-2">
-                        <span class="badge rounded-pill bg-danger">mięso</span>
-                        <span class="badge rounded-pill bg-info text-dark">zupa</span>
-                    </div>
-                    <h5 class="card-title">Grochówka z chlebem</h5>
-                    <hr>
-                    <h6>Składniki (1 os.):</h6>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item">• 1/2 szklanki grochu łuskanego</li>
-                        <li class="list-group-item">• 50g boczku wędzonego</li>
-                        <li class="list-group-item">• 1 ziemniak, majeranek</li>
-                        <li class="list-group-item">• 2 kromki chleba</li>
-                    </ul>
-                    <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Gotuj groch z boczkiem i ziemniakiem do rozgotowania. Podaj z chlebem.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col recipe-card" data-tags="mięso">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1547928576-a4a33237eceb?w=500" class="card-img-top" alt="Hotpot">
-                <div class="card-body">
-                    <div class="mb-2">
-                        <span class="badge rounded-pill bg-danger">mięso</span>
-                        <span class="badge rounded-pill bg-info text-dark">orient</span>
-                    </div>
-                    <h5 class="card-title">Gulu Gulu Hotpot</h5>
-                    <hr>
-                    <h6>Składniki (1 os.):</h6>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item">• Pikantna baza do hotpota</li>
-                        <li class="list-group-item">• Cienkie plastry wołowiny</li>
-                        <li class="list-group-item">• Grzyby i tofu</li>
-                        <li class="list-group-item">• Kapusta pak choi</li>
-                    </ul>
-                    <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Zagotuj bulion z bazą. Wrzucaj składniki i gotuj krótko w naczyniu.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col recipe-card" data-tags="mięso makaron">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=500" class="card-img-top" alt="Kopytka z kurczakiem">
-                <div class="card-body">
-                    <div class="mb-2">
-                        <span class="badge rounded-pill bg-danger">mięso</span>
-                        <span class="badge rounded-pill bg-warning text-dark">kopytka</span>
-                    </div>
-                    <h5 class="card-title">Kurczak z kopytkami</h5>
-                    <hr>
-                    <h6>Składniki (1 os.):</h6>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item">• 150g kurczaka</li>
-                        <li class="list-group-item">• 200g kopytek</li>
-                        <li class="list-group-item">• Sos pomidorowy z koperkiem</li>
-                        <li class="list-group-item">• Śmietanka 30%</li>
-                    </ul>
-                    <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Kurczaka usmaż, zalej sosem z koperkiem. Wymieszaj z kopytkami.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col recipe-card" data-tags="wege makaron">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1608756687911-aa1599ab3bd9?w=500" class="card-img-top" alt="Carbonara bób">
-                <div class="card-body">
-                    <div class="mb-2">
-                        <span class="badge rounded-pill bg-warning text-dark">makaron</span>
+                        <span class="badge rounded-pill bg-danger">obiad</span>
                         <span class="badge rounded-pill bg-success">wege</span>
                     </div>
                     <h5 class="card-title">Carbonara z bobem</h5>
                     <hr>
-                    <h6>Składniki (1 os.):</h6>
+                    <h6>Składniki:</h6>
                     <ul class="list-group mb-3">
-                        <li class="list-group-item">• 100g makaronu</li>
-                        <li class="list-group-item">• 100g bobu (ugotowany)</li>
-                        <li class="list-group-item">• 1 jajko i Pecorino</li>
-                        <li class="list-group-item">• Pieprz czarny</li>
+                        <li class="list-group-item">• 100g spaghetti</li>
+                        <li class="list-group-item">• 100g bobu (gotowany)</li>
+                        <li class="list-group-item">• 1 jajko, Pecorino</li>
+                        <li class="list-group-item">• Dużo pieprzu</li>
                     </ul>
                     <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Zamiast boczku użyj młodego bobu. Połącz z makaronem i emulsją jajeczną.</p>
+                    <p class="small text-muted mb-0">Wymieszaj gorący makaron z bobem i masą jajeczną (poza ogniem).</p>
                 </div>
             </div>
         </div>
 
-        <div class="col recipe-card" data-tags="mięso">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500" class="card-img-top" alt="Pałki z kurczaka">
-                <div class="card-body">
-                    <div class="mb-2">
-                        <span class="badge rounded-pill bg-danger">mięso</span>
-                    </div>
-                    <h5 class="card-title">Pałki z kurczaka</h5>
-                    <hr>
-                    <h6>Składniki (1 os.):</h6>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item">• 3 pałki z kurczaka</li>
-                        <li class="list-group-item">• 3 ziemniaki (puree)</li>
-                        <li class="list-group-item">• 100g buraczków tartych</li>
-                        <li class="list-group-item">• Papryka słodka, czosnek</li>
-                    </ul>
-                    <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Upiecz pałki na złoto. Podawaj z kremowym puree i buraczkami.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col recipe-card" data-tags="wege">
-            <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1518977676601-b53f02ac6d31?w=500" class="card-img-top" alt="Pieczone ziemniaki">
-                <div class="card-body">
-                    <div class="mb-2">
-                        <span class="badge rounded-pill bg-success">wege</span>
-                    </div>
-                    <h5 class="card-title">Ziemniaki z dodatkami</h5>
-                    <hr>
-                    <h6>Składniki (1 os.):</h6>
-                    <ul class="list-group mb-3">
-                        <li class="list-group-item">• 2 duże ziemniaki</li>
-                        <li class="list-group-item">• Gzik lub masło czosnkowe</li>
-                        <li class="list-group-item">• Szczypiorek</li>
-                        <li class="list-group-item">• Twarożek ze śmietaną</li>
-                    </ul>
-                    <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Ziemniaki upiecz w folii (45-60 min). Przekrój i nałóż gzik z ziołami.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="col recipe-card" data-tags="mięso">
+        <div class="col recipe-card" data-tags="obiad mięso">
             <div class="card h-100 shadow-sm border-0">
                 <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=500" class="card-img-top" alt="Kurczak szpinak">
                 <div class="card-body">
                     <div class="mb-2">
-                        <span class="badge rounded-pill bg-danger">mięso</span>
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
                     </div>
                     <h5 class="card-title">Kurczak ze szpinakiem</h5>
                     <hr>
-                    <h6>Składniki (1 os.):</h6>
+                    <h6>Składniki:</h6>
                     <ul class="list-group mb-3">
-                        <li class="list-group-item">• 150g piersi z kurczaka</li>
-                        <li class="list-group-item">• Garść świeżego szpinaku</li>
-                        <li class="list-group-item">• 3 suszone pomidory</li>
-                        <li class="list-group-item">• 50ml śmietanki 30%</li>
+                        <li class="list-group-item">• 1 pierś z kurczaka</li>
+                        <li class="list-group-item">• Szpinak świeży</li>
+                        <li class="list-group-item">• Suszone pomidory</li>
+                        <li class="list-group-item">• Śmietanka 30%</li>
                     </ul>
                     <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Smaż kurczaka, dodaj pomidory i szpinak. Zalej śmietanką i zredukuj sos.</p>
+                    <p class="small text-muted mb-0">Usmaż kawałki kurczaka, dodaj warzywa, zalej śmietanką i zredukuj sos.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad mięso tradycyjne">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=500" class="card-img-top" alt="Obiad kaszuba">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Obiad kaszuba</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• Ziemniaki tłuczone z boczkiem</li>
+                        <li class="list-group-item">• 1-2 jajka sadzone</li>
+                        <li class="list-group-item">• Ogórek kiszony</li>
+                        <li class="list-group-item">• Szklanka kefiru</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Klasyk: ziemniaki okraszone skwarkami z cebulą, jajko z płynnym żółtkiem.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad mięso">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=500" class="card-img-top" alt="Żeberka">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Pieczone żeberka</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 300g żeberek wieprzowych</li>
+                        <li class="list-group-item">• Marynata BBQ/miodowa</li>
+                        <li class="list-group-item">• Ziemniaki</li>
+                        <li class="list-group-item">• Surówka coleslaw</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Piecz żeberka do miękkości (ok 1.5h). Podawaj z ziemniakami i surówką.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad ryba">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=500" class="card-img-top" alt="Fish and Chips">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-info text-dark">ryba</span>
+                    </div>
+                    <h5 class="card-title">Ryba w panierce</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• Filet z białej ryby</li>
+                        <li class="list-group-item">• Bułka tarta/panko, jajko</li>
+                        <li class="list-group-item">• Frytki</li>
+                        <li class="list-group-item">• Puree z groszku z miętą</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Rybę usmaż na złoto w panierce. Groszek zblenduj z masłem.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad ryba">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500" class="card-img-top" alt="Łosoś">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-info text-dark">ryba</span>
+                    </div>
+                    <h5 class="card-title">Łosoś smażony</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 150g filetu z łososia</li>
+                        <li class="list-group-item">• Ryż jaśminowy</li>
+                        <li class="list-group-item">• Sos czosnkowy</li>
+                        <li class="list-group-item">• Sałatka pomidor/ogórek</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Łososia usmaż od strony skóry. Podawaj z ryżem i sałatką.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad mięso">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=500" class="card-img-top" alt="Tacos">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Tacos</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 3 muszle taco/małe tortille</li>
+                        <li class="list-group-item">• 150g mięsa mielonego</li>
+                        <li class="list-group-item">• Kukurydza, sałata, ser</li>
+                        <li class="list-group-item">• Salsa i limonka</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Mięso usmaż z przyprawą taco. Napełnij muszle składnikami.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad mięso">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1529042410759-befb1204b468?w=500" class="card-img-top" alt="Klopsiki">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Klopsiki "IKEA"</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 8-10 klopsików mięsnych</li>
+                        <li class="list-group-item">• Sos śmietanowy pieczeniowy</li>
+                        <li class="list-group-item">• Puree ziemniaczane</li>
+                        <li class="list-group-item">• Dżem borówkowy/żurawina</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Klopsiki duś w sosie. Podawaj klasycznie z dżemem i puree.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad mięso wege">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1518977676601-b53f02ac6d31?w=500" class="card-img-top" alt="Ziemniaki">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-success">opcje</span>
+                    </div>
+                    <h5 class="card-title">Ziemniaki z dodatkami</h5>
+                    <hr>
+                    <h6>Opcje do wyboru:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">a) Śledź w śmietanie</li>
+                        <li class="list-group-item">b) Boczek z cebulką</li>
+                        <li class="list-group-item">c) Gzik ze szczypiorkiem</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Duże ziemniaki upiecz w mundurkach (ok. 1h). Natnij i nałóż farsz.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad wege">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1585703900468-13c7a978ad86?w=500" class="card-img-top" alt="Frytki TexMex">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-success">wege</span>
+                    </div>
+                    <h5 class="card-title">Frytki Tex-mex</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• Porcja frytek</li>
+                        <li class="list-group-item">• Ser żółty tarty, śmietana</li>
+                        <li class="list-group-item">• Pico de gallo, guacamole</li>
+                        <li class="list-group-item">• Natka pietruszki</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Gorące frytki posyp serem, zapiecz chwilę. Nałóż zimne dodatki na wierzch.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad mięso">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=500" class="card-img-top" alt="Kurczak rożno">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Kurczak z rożna</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 1/2 kurczaka pieczonego</li>
+                        <li class="list-group-item">• Frytki</li>
+                        <li class="list-group-item">• Keczup/Majonez</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Danie klasyk. Kup gotowego lub upiecz w marynacie z papryki. Podaj z frytkami.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad mięso">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1616550710609-b467618451c8?w=500" class="card-img-top" alt="Gnocchi kurczak">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Gnocchi z kurczakiem</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 150g kurczaka</li>
+                        <li class="list-group-item">• Gnocchi/kopytka</li>
+                        <li class="list-group-item">• Sos śmietanowo-pomidorowy</li>
+                        <li class="list-group-item">• Mizeria (ogórek + śmietana)</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Kurczaka usmaż, połącz z sosem i kluskami. Podawaj z mizerią obok.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad mięso">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=500" class="card-img-top" alt="Curry">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Kurczak Curry</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 150g piersi kurczaka</li>
+                        <li class="list-group-item">• Pasta curry i mleczko kokos.</li>
+                        <li class="list-group-item">• Ryż basmati</li>
+                        <li class="list-group-item">• Warzywa (cukinia, papryka)</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Kurczaka duś w sosie kokosowym z warzywami. Podawaj z ryżem.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad mięso zupa">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1582878826629-29b7ad1cdc43?w=500" class="card-img-top" alt="Pho">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Zupa Pho</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• Bulion wołowy (korzenny)</li>
+                        <li class="list-group-item">• Makaron ryżowy</li>
+                        <li class="list-group-item">• Surowa wołowina (plastry)</li>
+                        <li class="list-group-item">• Limonka, zioła, chilli</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Zalej makaron i mięso wrzącym bulionem (mięso się sparzy). Dodaj zioła.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad mięso">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500" class="card-img-top" alt="Pałki">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Pałki pieczone</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 3 pałki z kurczaka</li>
+                        <li class="list-group-item">• Ziemniaki na puree</li>
+                        <li class="list-group-item">• Buraczki tarte smażone</li>
+                        <li class="list-group-item">• Majeranek, czosnek</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Pałki upiecz na złoto. Podawaj z aksamitnym puree i ciepłymi buraczkami.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad mięso">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=500" class="card-img-top" alt="Chilli">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Chilli con carne</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 150g mięsa mielonego woł.</li>
+                        <li class="list-group-item">• Fasola czerwona, kukurydza</li>
+                        <li class="list-group-item">• Pomidory puszka, kumin</li>
+                        <li class="list-group-item">• Ryż lub nachos</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Duś mięso z warzywami i przyprawami do zgęstnienia. Podawaj z ryżem.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad mięso">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=500" class="card-img-top" alt="Kurczak prowansalski">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Kurczak prowansalski</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• Pierś z kurczaka</li>
+                        <li class="list-group-item">• Pomidory, cukinia</li>
+                        <li class="list-group-item">• Zioła prowansalskie</li>
+                        <li class="list-group-item">• Bagietka lub ryż</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Duś kurczaka w pomidorach z dużą ilością ziół.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad mięso orient">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1525755662778-989d8100694f?w=500" class="card-img-top" alt="Kung Pao">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Kurczak Kung Pao</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 150g kurczaka</li>
+                        <li class="list-group-item">• Orzeszki ziemne</li>
+                        <li class="list-group-item">• Papryka chilli, sos sojowy</li>
+                        <li class="list-group-item">• Ryż</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Szybko smażony kurczak z orzeszkami i ostrym sosem.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="obiad mięso makaron">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500" class="card-img-top" alt="Makaron Brokuł">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-danger">obiad</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Makaron z kurczakiem</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• 100g makaronu (penne)</li>
+                        <li class="list-group-item">• 150g kurczaka</li>
+                        <li class="list-group-item">• Brokuł (różyczki)</li>
+                        <li class="list-group-item">• Sos śmietanowy czosnkowy</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Kurczaka usmaż, dodaj brokuł i duś w śmietanie. Wymieszaj z makaronem.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="kanapki wege">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?w=500" class="card-img-top" alt="Twaróg">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-warning text-dark">kanapki</span>
+                        <span class="badge rounded-pill bg-success">wege</span>
+                    </div>
+                    <h5 class="card-title">Kanapka z twarogiem</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• Pieczywo razowe</li>
+                        <li class="list-group-item">• Twaróg półtłusty</li>
+                        <li class="list-group-item">• Rzodkiewka, cebula czerwona</li>
+                        <li class="list-group-item">• Szczypiorek, sól</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Twaróg rozgnieć ze śmietaną. Nałóż grubo na chleb, posyp warzywami.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="kanapki mięso">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1619860860774-1e2e17343432?w=500" class="card-img-top" alt="Pasztet">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-warning text-dark">kanapki</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Kanapka z pasztetem</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• Świeży chleb</li>
+                        <li class="list-group-item">• Pasztet domowy/kupny</li>
+                        <li class="list-group-item">• Ogórek kiszony</li>
+                        <li class="list-group-item">• Masło</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Klasyk: chleb z masłem, pasztet i plastry ogórka kiszonego.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="kanapki ryba">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1517243916719-21dfd57ba7e0?w=500" class="card-img-top" alt="Śledź">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-warning text-dark">kanapki</span>
+                        <span class="badge rounded-pill bg-info text-dark">ryba</span>
+                    </div>
+                    <h5 class="card-title">Kanapka ze śledziem</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• Ciemne pieczywo</li>
+                        <li class="list-group-item">• Filet śledziowy w śmietanie</li>
+                        <li class="list-group-item">• Cebulka</li>
+                        <li class="list-group-item">• Koperek</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Nałóż sałatkę śledziową na pieczywo. Oprósz pieprzem.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="kanapki mięso">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1628840042765-356cda07504e?w=500" class="card-img-top" alt="Szynka Ser">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-warning text-dark">kanapki</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Szynka i Ser</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• Bułka lub chleb</li>
+                        <li class="list-group-item">• Szynka wiejska, ser żółty</li>
+                        <li class="list-group-item">• Pomidor, cebulka</li>
+                        <li class="list-group-item">• Majonez</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Ulubiona kompozycja z wędliną, serem i świeżym pomidorem.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="kanapki mięso">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1554433607-66b5efe9d304?w=500" class="card-img-top" alt="Fresh Sandwich">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-warning text-dark">kanapki</span>
+                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                    </div>
+                    <h5 class="card-title">Kanapka wiosenna</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• Pieczywo jasne</li>
+                        <li class="list-group-item">• Sałata, szynka, ser</li>
+                        <li class="list-group-item">• Ogórek zielony</li>
+                        <li class="list-group-item">• Rzodkiewka</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Lekka kanapka z dużą ilością chrupiącej sałaty i świeżym ogórkiem.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col recipe-card" data-tags="kanapki ryba">
+            <div class="card h-100 shadow-sm border-0">
+                <img src="https://images.unsplash.com/photo-1549405096-7443152c286a?w=500" class="card-img-top" alt="Makrela">
+                <div class="card-body">
+                    <div class="mb-2">
+                        <span class="badge rounded-pill bg-warning text-dark">kanapki</span>
+                        <span class="badge rounded-pill bg-info text-dark">ryba</span>
+                    </div>
+                    <h5 class="card-title">Pasta z makreli</h5>
+                    <hr>
+                    <h6>Składniki:</h6>
+                    <ul class="list-group mb-3">
+                        <li class="list-group-item">• Wędzona makrela</li>
+                        <li class="list-group-item">• Jajko gotowane, ogórek kisz.</li>
+                        <li class="list-group-item">• Majonez, musztarda</li>
+                        <li class="list-group-item">• Pieczywo</li>
+                    </ul>
+                    <h6>Przygotowanie:</h6>
+                    <p class="small text-muted mb-0">Wymieszaj składniki na pastę. Smaruj grubo pieczywo.</p>
                 </div>
             </div>
         </div>
