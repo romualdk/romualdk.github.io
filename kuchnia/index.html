@@ -37,13 +37,18 @@
             </div>
             
             <div id="filterButtons" class="d-flex flex-wrap justify-content-center gap-2">
-                <button class="btn btn-sm btn-outline-dark rounded-pill px-3 btn-filter active" data-filter="all">Wszystkie</button>
-                <button class="btn btn-sm btn-outline-primary rounded-pill px-3 btn-filter" data-filter="śniadanie">Śniadania</button>
-                <button class="btn btn-sm btn-outline-danger rounded-pill px-3 btn-filter" data-filter="obiad">Obiady</button>
-                <button class="btn btn-sm btn-outline-warning text-dark rounded-pill px-3 btn-filter" data-filter="kanapki">Kanapki</button>
-                <div class="vr mx-2"></div>
-                <button class="btn btn-sm btn-outline-success rounded-pill px-3 btn-filter" data-filter="wege">Wege</button>
-                <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 btn-filter" data-filter="mięso">Mięso</button>
+                <button class="btn btn-sm btn-outline-dark rounded-pill px-3 btn-filter active" data-filter="all">🍽️ Wszystkie</button>
+                <button class="btn btn-sm btn-outline-primary rounded-pill px-3 btn-filter" data-filter="śniadanie">🍳 Śniadania</button>
+                <button class="btn btn-sm btn-outline-danger rounded-pill px-3 btn-filter" data-filter="obiad">🍲 Obiady</button>
+                <button class="btn btn-sm btn-outline-warning text-dark rounded-pill px-3 btn-filter" data-filter="kanapki">🥪 Kanapki</button>
+            </div>
+            <br />
+            <div id="filterButtons" class="d-flex flex-wrap justify-content-center gap-2">
+                <button class="btn btn-sm btn-outline-warning rounded-pill px-3 btn-filter" data-filter="makaron">🍝 Makaron</button>
+                <button class="btn btn-sm btn-outline-success rounded-pill px-3 btn-filter" data-filter="wege">🥑 Wege</button>
+                <button class="btn btn-sm btn-outline-danger rounded-pill px-3 btn-filter" data-filter="mięso">🥩 Mięso</button>
+                <button class="btn btn-sm btn-outline-danger rounded-pill px-3 btn-filter" data-filter="mięso">🍜 Orient</button>
+                <button class="btn btn-sm btn-outline-warning rounded-pill px-3 btn-filter" data-filter="słodkie">🍩 Słodkie</button>
             </div>
         </div>
     </div>
@@ -52,18 +57,20 @@
         
         <div class="col recipe-card" data-tags="śniadanie mięso">
             <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1525351484333-20563878e672?w=500" class="card-img-top" alt="Jajecznica">
+                <img src="img/English-breakfast.jpg" class="card-img-top" alt="Jajecznica">
                 <div class="card-body">
                     <div class="mb-2">
-                        <span class="badge rounded-pill bg-primary">śniadanie</span>
-                        <span class="badge rounded-pill bg-secondary">mięso</span>
+                        <span class="badge rounded-pill bg-primary">🍳 śniadanie</span>
+                        <span class="badge rounded-pill bg-danger">🥩 mięso</span>
                     </div>
-                    <h5 class="card-title">Jajecznica na bogato</h5>
+                    <h5 class="card-title">Śniadanie angielskie</h5>
                     <hr>
                     <h6>Składniki:</h6>
                     <ul class="list-group mb-3">
-                        <li class="list-group-item">• 3 jajka</li>
+                        <li class="list-group-item">• 1 jajko (jajecznica lub sadzone)</li>
                         <li class="list-group-item">• 1 parówka lub kiełbaska</li>
+                        <li class="list-group-item">• Fasolka w pomidorach</li>
+                        <li class="list-group-item">• Boczek</li>
                         <li class="list-group-item">• 1/2 pomidora i szczypiorek</li>
                         <li class="list-group-item">• Masło do smażenia</li>
                     </ul>
@@ -75,11 +82,11 @@
 
         <div class="col recipe-card" data-tags="śniadanie wege">
             <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1590412200988-a436970781fa?w=500" class="card-img-top" alt="Szakszuka">
+                <img src="img/shakshuka.jpg" class="card-img-top" alt="Szakszuka">
                 <div class="card-body">
                     <div class="mb-2">
-                        <span class="badge rounded-pill bg-primary">śniadanie</span>
-                        <span class="badge rounded-pill bg-success">wege</span>
+                        <span class="badge rounded-pill bg-primary">🍳 śniadanie</span>
+                        <span class="badge rounded-pill bg-success">🥑 wege</span>
                     </div>
                     <h5 class="card-title">Szakszuka</h5>
                     <hr>
@@ -89,6 +96,7 @@
                         <li class="list-group-item">• 1/2 puszki pomidorów</li>
                         <li class="list-group-item">• 1/4 papryki i cebula</li>
                         <li class="list-group-item">• Kumin, papryka słodka</li>
+                        <li class="list-group-item">• Chorizo 🥩 (opcjonalnie)</li>
                     </ul>
                     <h6>Przygotowanie:</h6>
                     <p class="small text-muted mb-0">Udusić warzywa z przyprawami. Zrobić wgłębienia, wbić jajka i dusić pod przykryciem.</p>
@@ -98,13 +106,13 @@
 
         <div class="col recipe-card" data-tags="śniadanie wege słodkie">
             <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1598886367836-8c9e54823871?w=500" class="card-img-top" alt="Dutch Baby">
+                <img src="img/dutchbaby.jpg" class="card-img-top" alt="Dutch Baby">
                 <div class="card-body">
                     <div class="mb-2">
-                        <span class="badge rounded-pill bg-primary">śniadanie</span>
-                        <span class="badge rounded-pill bg-success">słodkie</span>
+                        <span class="badge rounded-pill bg-primary">🍳 śniadanie</span>
+                        <span class="badge rounded-pill bg-warning">🍩 słodkie</span>
                     </div>
-                    <h5 class="card-title">Dutch Baby</h5>
+                    <h5 class="card-title">Dutch baby</h5>
                     <hr>
                     <h6>Składniki:</h6>
                     <ul class="list-group mb-3">
@@ -121,13 +129,13 @@
 
         <div class="col recipe-card" data-tags="śniadanie wege słodkie">
             <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=500" class="card-img-top" alt="Croissant">
+                <img src="img/croissant with jam.jpg" class="card-img-top" alt="Croissant">
                 <div class="card-body">
                     <div class="mb-2">
-                        <span class="badge rounded-pill bg-primary">śniadanie</span>
-                        <span class="badge rounded-pill bg-success">słodkie</span>
+                        <span class="badge rounded-pill bg-primary">🍳 śniadanie</span>
+                        <span class="badge rounded-pill bg-warning">🍩 słodkie</span>
                     </div>
-                    <h5 class="card-title">Croissanty na słodko</h5>
+                    <h5 class="card-title">Croissant z dżemem</h5>
                     <hr>
                     <h6>Składniki:</h6>
                     <ul class="list-group mb-3">
@@ -144,34 +152,34 @@
 
         <div class="col recipe-card" data-tags="śniadanie wege">
             <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1626379961674-6831d102dc4e?w=500" class="card-img-top" alt="Croissant wytrawny">
+                <img src="img/Ham-and-Cheese-Croissant-Delight.jpg" class="card-img-top" alt="Croissant wytrawny">
                 <div class="card-body">
                     <div class="mb-2">
-                        <span class="badge rounded-pill bg-primary">śniadanie</span>
-                        <span class="badge rounded-pill bg-success">wege</span>
+                        <span class="badge rounded-pill bg-primary">🍳 śniadanie</span>
+                        <span class="badge rounded-pill bg-danger">🥩 mięso</span>
                     </div>
-                    <h5 class="card-title">Croissant wytrawny</h5>
+                    <h5 class="card-title">Croissant z szynką i serem</h5>
                     <hr>
                     <h6>Składniki:</h6>
                     <ul class="list-group mb-3">
                         <li class="list-group-item">• 1 duży croissant</li>
-                        <li class="list-group-item">• 1/2 awokado</li>
-                        <li class="list-group-item">• Plaster sera żółtego</li>
+                        <li class="list-group-item">• 1 plaster szynki</li>
+                        <li class="list-group-item">• 1 plaster sera żółtego</li>
                         <li class="list-group-item">• Jajko (opcjonalnie)</li>
                     </ul>
                     <h6>Przygotowanie:</h6>
-                    <p class="small text-muted mb-0">Przekrój croissanta, ułóż ser i awokado. Można zapiec chwilę w piecu.</p>
+                    <p class="small text-muted mb-0">Przekrój croissanta, ułóż szynkę i ser. Można zapiec chwilę w piecu.</p>
                 </div>
             </div>
         </div>
 
         <div class="col recipe-card" data-tags="śniadanie wege słodkie">
             <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500" class="card-img-top" alt="Brioche">
+                <img src="img/brioche with cream and jam.jpg" class="card-img-top" alt="Brioche">
                 <div class="card-body">
                     <div class="mb-2">
-                        <span class="badge rounded-pill bg-primary">śniadanie</span>
-                        <span class="badge rounded-pill bg-success">słodkie</span>
+                        <span class="badge rounded-pill bg-primary">🍳 śniadanie</span>
+                        <span class="badge rounded-pill bg-warning">🍩 słodkie</span>
                     </div>
                     <h5 class="card-title">Brioche z twarogiem</h5>
                     <hr>
@@ -190,19 +198,20 @@
 
         <div class="col recipe-card" data-tags="śniadanie mięso orient">
             <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1594833939525-24d9c79e64bd?w=500" class="card-img-top" alt="Ryż smażony">
+                <img src="img/Bacon-Kimchi-Fried-Rice-12.jpg" class="card-img-top" alt="Ryż smażony">
                 <div class="card-body">
                     <div class="mb-2">
-                        <span class="badge rounded-pill bg-primary">śniadanie</span>
-                        <span class="badge rounded-pill bg-danger">orient</span>
+                        <span class="badge rounded-pill bg-primary">🍳 śniadanie</span>
+                        <span class="badge rounded-pill bg-danger">🍜 orient</span>
                     </div>
-                    <h5 class="card-title">Ryż śniadaniowy</h5>
+                    <h5 class="card-title">Ryż z kimchi</h5>
                     <hr>
                     <h6>Składniki:</h6>
                     <ul class="list-group mb-3">
-                        <li class="list-group-item">• 100g ryżu (wczorajszego)</li>
+                        <li class="list-group-item">• 100g ryżu</li>
                         <li class="list-group-item">• 1 jajko sadzone</li>
-                        <li class="list-group-item">• 50g boczku, kimchi</li>
+                        <li class="list-group-item">• 50g boczku</li>
+                        <li class="list-group-item">• Kimchi</li>
                         <li class="list-group-item">• Szczypiorek, sos sojowy</li>
                     </ul>
                     <h6>Przygotowanie:</h6>
@@ -213,20 +222,19 @@
 
         <div class="col recipe-card" data-tags="śniadanie wege słodkie">
             <div class="card h-100 shadow-sm border-0">
-                <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500" class="card-img-top" alt="Pancakes">
+                <img src="img/pancakes with jam.png" class="card-img-top" alt="Pancakes">
                 <div class="card-body">
                     <div class="mb-2">
-                        <span class="badge rounded-pill bg-primary">śniadanie</span>
-                        <span class="badge rounded-pill bg-success">słodkie</span>
+                        <span class="badge rounded-pill bg-primary">🍳 śniadanie</span>
+                        <span class="badge rounded-pill bg-warning">🍩 słodkie</span>
                     </div>
-                    <h5 class="card-title">Pancakes</h5>
+                    <h5 class="card-title">Pancakes z dżemem</h5>
                     <hr>
                     <h6>Składniki:</h6>
                     <ul class="list-group mb-3">
                         <li class="list-group-item">• Ciasto na maślance/mleku</li>
-                        <li class="list-group-item">• Twarożek waniliowy</li>
+                        <li class="list-group-item">• Twarożek</li>
                         <li class="list-group-item">• Dżem jagodowy</li>
-                        <li class="list-group-item">• Syrop klonowy</li>
                     </ul>
                     <h6>Przygotowanie:</h6>
                     <p class="small text-muted mb-0">Smaż małe placuszki na suchej patelni. Podawaj w wieżyczce z dodatkami.</p>
