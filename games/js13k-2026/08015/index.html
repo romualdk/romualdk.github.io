@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Rainbow Runner</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <style>
+    /* --- 1. RESET & BASE --- */
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+    body, html {
+      width: 100%; height: 100%; overflow: hidden;
+      background: linear-gradient(to bottom, #bbf2f6, #ffe1e8);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* --- 2. UI & CAMERA --- */
+    .ui-layer {
+      position: absolute; top: 30px; left: 0; width: 100%; z-index: 10; pointer-events: none;
+      text-align: center; font-weight: bold; color: #4a154b;
+      text-shadow: 2px 2px 0 #fff; font-size: 1.8rem; 
+    }
+    .game-viewport {
+      position: relative; width: 100vw; height: 100vh; overflow: hidden;
+      perspective: 200px; perspective-origin: 50% 20%;
+    }
+
+    /* --- 3. ENVIRONMENT & ROAD --- */
+    .road-container {
+      position: absolute; bottom: 0px; left: 50%; width: 100vw; max-width: 1200px; height: 200vh;
+      transform: translateX(-50%) rotateX(68deg); transform-style: preserve-3d; transform-origin: bottom center;
+    }
+    .road-lanes { display: flex; gap: 4%; width: 100%; height: 100%; transform-style: preserve-3d; }
+    
+    /* Consolidated Lane Logic using CSS Variables */
+    .lane {
+      position: relative; flex: 1; transform-style: preserve-3d;
+      background: 
+        linear-gradient(to bottom, transparent 0%, var(--core) 45%, var(--core) 75%),
+        linear-gradient(to bottom, transparent 0%, var(--core) 45%, var(--core) 75%),
+        linear-gradient(to bottom, transparent 0%, var(--grad1) 45%, var(--grad2) 75%, var(--grad1) 100%);
+      background-size: 10px 100%, 10px 100%, 100% 100%;
+      background-position: 15px 0, calc(100% - 15px) 0, 0 0; background-repeat: no-repeat;
+    }
+    .lane::before {
+      content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none; filter: blur(8px);
+      background: 
+        linear-gradient(to bottom, transparent 0%, var(--glow) 45%, var(--glow) 75%),
+        linear-gradient(to bottom, transparent 0%, var(--glow) 45%, var(--glow) 75%);
+      background-size: 22px 100%, 22px 100%;
+      background-position: calc(15px - 6px) 0, calc(100% - 15px - 6px) 0; background-repeat: no-repeat;
+    }
+    
+    /* Assigning Lane Colors */
+    .lane:nth-child(1) { --core: #ffea00; --grad1: #ffa801; --grad2: #ff4900; --glow: rgba(255, 234, 0, 0.8); }
+    .lane:nth-child(2) { --core: #00e5ff; --grad1: #098bd7; --grad2: #6c32c4; --glow: rgba(0, 229, 255, 0.8); }
+    .lane:nth-child(3) { --core: #ffcbdc; --grad1: #fd1767; --grad2: #c6024c; --glow: rgba(255, 203, 220, 0.8); }
+
+    .rainbow {
+      position: absolute; top: -2000px; left: 50%; width: 8000px; height: 55px; opacity: 0.8; filter: blur(10px);
+      transform: translateX(-50%) rotateX(-68deg); transform-origin: bottom center;
+      display: flex; justify-content: center; align-items: center;
+    }
+
+    /* --- 4. PLAYER & ENTITIES --- */
+    .player {
+      position: absolute; bottom: 60px; width: 145px; height: 204px; z-index: 5;
+      transform: translateX(-50%) rotateX(-68deg); transform-origin: bottom center; transform-style: preserve-3d;
+      transition: left 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .player.facing-left { transform: translateX(-50%) rotateX(-68deg) scaleX(-1); }
+    
+    .unicorn-img {
+      position: absolute; bottom: 100px; left: 0; width: 100%; height: 100%; z-index: 2;
+      animation: gallop 0.8s ease-in-out infinite alternate;
+      filter: drop-shadow(2px 0 0 #5f2d79) 
+          drop-shadow(-2px 0 0 #5f2d79) 
+          drop-shadow(0 2px 0 #5f2d79) 
+          drop-shadow(0 -2px 0 #5f2d79);
+    }
+    .player-shadow-unicorn {
+      position: absolute; bottom: 10px; left: 50%; width: 90px; height: 90px; z-index: 1;
+      transform: translateX(-50%) rotateX(68deg); transform-origin: center center; filter: brightness(0) blur(3px);
+      animation: gallopShadow 0.8s ease-in-out infinite alternate;
+    }
+
+    .entity {
+      position: absolute; width: 100px; height: 100px; transform-style: preserve-3d;
+      transform: translateX(-50%) rotateX(-68deg); transform-origin: bottom center;
+    }
+    .star { 
+      position: absolute; left: 0; top: 0; width: 100%; height: 100%; z-index: 2;
+      filter: drop-shadow(0 0 8px rgba(255, 220, 30, 0.9)); transform: translateY(-25px);
+      animation: floatStar 1.2s ease-in-out infinite alternate;
+    }
+    .shadow {
+      position: absolute; bottom: -30px; left: 50%; width: 60px; height: 60px; z-index: 1;
+      transform: translateX(-50%) rotateX(68deg); transform-origin: center center;
+      filter: brightness(0) opacity(0.4) blur(4px);
+      animation: floatShadow 1.2s ease-in-out infinite alternate;
+    }
+
+    /* --- 5. KEYFRAMES --- */
+    @keyframes gallop {
+      from { transform: translateZ(60px) translateY(0px); }
+      to { transform: translateZ(60px) translateY(-20px); }
+    }
+    @keyframes gallopShadow {
+      from { transform: translateX(-50%) rotateX(68deg) scale(0.9); opacity: 0.4; }
+      to { transform: translateX(-50%) rotateX(68deg) scale(1.1); opacity: 0.3; }
+    }
+    @keyframes floatStar {
+      from { transform: translateY(-60px); }
+      to { transform: translateY(-120px); }
+    }
+    @keyframes floatShadow {
+      from { transform: translateX(-50%) rotateX(68deg) scale(1); opacity: 0.6; }
+      to { transform: translateX(-50%) rotateX(68deg) scale(2); opacity: 0.4; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="game-viewport" id="viewport">
+    <div class="ui-layer" id="score-display">DISTANCE: 0m</div>
+
+    <div class="road-container" id="road-container">
+      <div class="road-lanes">
+        <div class="lane"></div>
+        <div class="lane"></div>
+        <div class="lane"></div>
+      </div>
+      <div id="entities-layer" style="position: absolute; width: 100%; height: 100%; transform-style: preserve-3d; top: 0; left: 0; pointer-events: none;"></div>
+      
+      <div class="player" id="player">
+        <img src="assets/unicorn.svg" class="player-shadow-unicorn" />
+        <img src="assets/unicorn.svg" class="unicorn-img" width="145" height="204" />
+      </div>
+      
+      <div class="rainbow"><img src="assets/rainbow.svg" /></div>
+    </div>
+  </div>
+
+  <script>
+    // System Variables
+    const player = document.getElementById('player');
+    const roadContainer = document.getElementById('road-container');
+    const entitiesLayer = document.getElementById('entities-layer');
+    const scoreDisplay = document.getElementById('score-display');
+    const viewport = document.getElementById('viewport');
+
+    // Game State
+    let currentLane = 1; // 0: Left, 1: Center, 2: Right
+    let distance = 0;
+    let spawnTimer = 0;
+    const gameSpeed = 6;
+    const entities = [];
+    const lanePercentages = [15.3, 50, 84.7];
+
+    // Player Logic
+    function updatePlayerPosition(prevLane) {
+      player.style.left = `${lanePercentages[currentLane]}%`;
+
+      if (currentLane === 0) {
+        player.classList.remove('facing-left');
+      } else if (currentLane === 2) {
+        player.classList.add('facing-left');
+      } else if (currentLane === 1 && prevLane !== undefined) {
+        // Toggle cleverly handles keeping the prior direction when landing in the center
+        player.classList.toggle('facing-left', prevLane === 2);
+      }
+    }
+
+    function movePlayer(direction) {
+      const prevLane = currentLane;
+      
+      if (direction === -1 && currentLane > 0) currentLane--;
+      if (direction === 1 && currentLane < 2) currentLane++;
+      
+      if (prevLane !== currentLane) {
+        updatePlayerPosition(prevLane);
+      }
+    }
+
+    // Input Listeners (Unified)
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft' || e.key === 'a') movePlayer(-1);
+      if (e.key === 'ArrowRight' || e.key === 'd') movePlayer(1);
+    });
+
+    viewport.addEventListener('pointerdown', (e) => {
+      movePlayer(e.clientX < window.innerWidth / 2 ? -1 : 1);
+    });
+
+    // Entity Spawner
+    function spawnEntity() {
+      const lane = Math.floor(Math.random() * 3);
+      const el = document.createElement('div');
+      el.className = 'entity';
+      el.innerHTML = '<img src="assets/star.svg" class="shadow" /><img src="assets/star.svg" class="star" />';
+      
+      el.style.left = `${lanePercentages[lane]}%`;
+      el.style.top = '-100px';
+
+      entitiesLayer.appendChild(el);
+      entities.push({ element: el, lane: lane, y: -100 });
+    }
+
+    // Main Game Loop
+    function gameLoop() {
+      distance += 0.5;
+      scoreDisplay.innerText = `DISTANCE: ${Math.floor(distance)}m`;
+
+      if (++spawnTimer > 45) {
+        spawnEntity();
+        spawnTimer = 0;
+      }
+
+      const containerHeight = roadContainer.clientHeight;
+
+      for (let i = entities.length - 1; i >= 0; i--) {
+        const ent = entities[i];
+        ent.y += gameSpeed;
+        ent.element.style.top = `${ent.y}px`;
+
+        // Unified cleanup logic (check for collision AND out of bounds)
+        const isColliding = ent.y > containerHeight - 140 && ent.y < containerHeight - 80 && ent.lane === currentLane;
+        const isOutOfBounds = ent.y > containerHeight + 100;
+
+        if (isColliding || isOutOfBounds) {
+          ent.element.remove();
+          entities.splice(i, 1);
+        }
+      }
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Initialize Game
+    updatePlayerPosition();
+    requestAnimationFrame(gameLoop);
+  </script>
+</body>
+</html>
