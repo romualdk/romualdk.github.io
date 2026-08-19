@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <defs>
+    <linearGradient id="cloudGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0e6096" />
+      <stop offset="100%" stop-color="#04263d" />
+    </linearGradient>
+  </defs>
+  <path fill="url(#cloudGradient)" d="
+      M 29.08,85 
+      A 18,18 0 1,1 43.27,52.11 
+      A 22,22 0 0,1 71.08,33.81 
+      A 30,30 0 0,1 128.92,33.81 
+      A 22,22 0 0,1 156.73,52.11 
+      A 18,18 0 1,1 170.92,85 
+      H 29.08 Z
+  "/>
+</svg>
