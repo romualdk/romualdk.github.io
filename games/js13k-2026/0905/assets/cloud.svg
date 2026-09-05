@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Screen 2D Pseudo-3D Canvas - Layer Toggles</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { 
+            width: 100%; 
+            height: 100%; 
+            overflow: hidden; 
+            background-color: #fff2f9; 
+            background-image: 
+                radial-gradient(circle at top left, #ff9de2 0%, transparent 60%),
+                radial-gradient(circle at top right, #72f5ff 0%, transparent 60%),
+                radial-gradient(circle at bottom right, #ffe17d 0%, transparent 60%),
+                radial-gradient(circle at bottom left, #ffb3c6 0%, transparent 60%); 
+        }
+        
+        .canvas-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        #sparkleCanvas {
+            pointer-events: none;
+        }
+
+        #fpsCounter {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #00ffcc;
+            font-family: monospace;
+            font-size: 14px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            pointer-events: none;
+            display: none;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+
+<div id="fpsCounter">FPS: 60 | Entities: 1500</div>
+<div class="canvas-container">
+    <canvas id="gameCanvas"></canvas>
+    <canvas id="sparkleCanvas"></canvas>
+</div>
+
+<script>
+// --- CANVAS SETUP ---
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+
+const sparkleCanvas = document.getElementById('sparkleCanvas');
+const sparkleCtx = sparkleCanvas.getContext('2d');
+
+const fpsElem = document.getElementById('fpsCounter');
+
+// --- LAYER VISIBILITY & KEYBOARD CONTROLS ---
+let debugMode = false;
+let showMainLayer = true;
+let showSparkleLayer = true;
+
+window.addEventListener('keydown', (e) => {
+    if (e.key === 'd' || e.key === 'D') {
+        debugMode = !debugMode;
+        fpsElem.style.display = debugMode ? 'block' : 'none';
+    }
+    if (e.key === '1') {
+        showMainLayer = !showMainLayer;
+        canvas.style.display = showMainLayer ? 'block' : 'none';
+    }
+    if (e.key === '2') {
+        showSparkleLayer = !showSparkleLayer;
+        sparkleCanvas.style.display = showSparkleLayer ? 'block' : 'none';
+    }
+});
+
+// --- ASSET PRELOADING ---
+const ASSETS = {
+    star: new Image(),
+    sparkle: new Image(),
+    gate: new Image(),
+    cloud: new Image()
+};
+ASSETS.star.src = 'assets/star.svg';
+ASSETS.sparkle.src = 'assets/sparkle.svg';
+ASSETS.gate.src = 'assets/gate.svg';
+ASSETS.cloud.src = 'assets/cloud.svg';
+
+// --- SPEED CONFIGURATION ---
+const STAR_SPEED    = 0.25; 
+const SPARKLE_SPEED = 0.5; 
+const GATE_SPEED    = 0.25;
+const CLOUD_SPEED   = 0.3;
+
+function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    sparkleCanvas.width = window.innerWidth;
+    sparkleCanvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+// --- PROJECTION GEOMETRY ---
+const projection = {
+    getBoxes() {
+        const w = canvas.width;
+        const h = canvas.height;
+        return {
+            frontBox: { x: 0, y: h * 0.45, w: w, h: h * 0.55 },
+            backBox:  { x: w * 0.4, y: 0, w: w * 0.2, h: h * 0.25 }
+        };
+    },
+
+    project(x, yRel, z) {
+        z = Math.max(0, z);
+        const zVisual = z * z;
+
+        const { frontBox: f, backBox: b } = this.getBoxes();
+
+        const boxX = b.x + (f.x - b.x) * zVisual;
+        const boxW = b.w + (f.w - b.w) * zVisual;
+        const boxY = b.y + (f.y - b.y) * zVisual;
+        const boxH = b.h + (f.h - b.h) * zVisual;
+
+        const screenX = boxX + (x + 0.5) * boxW;
+        const floorY = boxY + boxH;               
+        const screenY = boxY + yRel * boxH;      
+        const scale = boxW / f.w;
+
+        return { x: screenX, y: screenY, floorY, scale };
+    }
+};
+
+// --- SPRAY HELPER ---
+function getRandomSpanX(z) {
+    const zVis = z * z;
+    const { frontBox: f, backBox: b } = projection.getBoxes();
+    const boxX = b.x + (f.x - b.x) * zVis;
+    const boxW = b.w + (f.w - b.w) * zVis;
+
+    const xLeft = -boxX / boxW - 0.5;
+    const xRight = (canvas.width - boxX) / boxW - 0.5;
+
+    return xLeft + Math.random() * (xRight - xLeft);
+}
+
+// --- GAME STATE ---
+const entities = [];
+
+function resetEntity(ent) {
+    ent.z = 0.0;
+    if (ent.type === 'sparkle') {
+        ent.x = getRandomSpanX(0.0);
+        ent.yRel = Math.random();
+    } else if (ent.type === 'cloud') {
+        ent.x = getRandomSpanX(0.0);
+        // Random width between 20% and 30% of screen width
+        ent.widthRatio = 0.20 + Math.random() * 0.10;
+        if (ent.surface === 'under') {
+            ent.yRel = 1.05 + Math.random() * 0.45;
+        } else {
+            ent.yRel = Math.random() * 0.5;
+        }
+    } else {
+        ent.x = (Math.random() - 0.5) * 0.9;
+    }
+}
+
+// 1. Floating Stars
+for (let i = 0; i < 100; i++) {
+    entities.push({
+        type: 'star',
+        x: (Math.random() - 0.5) * 0.9,
+        yRel: 1.0,
+        z: Math.random(),
+        size: 20 + Math.random() * 60,
+        floatHeight: 20 + Math.random() * 60,
+        speed: STAR_SPEED,
+        animPhase: Math.random() * Math.PI * 2
+    });
+}
+
+// 2. Full-Width Screen Sparkles
+for (let i = 0; i < 100; i++) {
+    const initZ = Math.random();
+    entities.push({
+        type: 'sparkle',
+        x: getRandomSpanX(initZ),
+        yRel: Math.random(),
+        z: initZ,
+        size: 10 + Math.random() * 16,
+        speed: SPARKLE_SPEED
+    });
+}
+
+// 3. Grounded Gates
+for (let i = 0; i < 500; i++) {
+    entities.push({
+        type: 'gate',
+        x: (Math.random() - 0.5) * 0.9,
+        yRel: 1.0,
+        z: Math.random(),
+        size: 18 + Math.random() * 45,
+        speed: GATE_SPEED
+    });
+}
+
+// 4. Clouds - Under Floor (20-30% Screen Width, 2:1 Aspect Ratio)
+for (let i = 0; i < 50; i++) {
+    const initZ = Math.random();
+    entities.push({
+        type: 'cloud',
+        surface: 'under',
+        x: getRandomSpanX(initZ),
+        yRel: 1.05 + Math.random() * 0.45,
+        z: initZ,
+        widthRatio: 0.20 + Math.random() * 0.10,
+        speed: CLOUD_SPEED
+    });
+}
+
+// 5. Clouds - Inside Top Half (20-30% Screen Width, 2:1 Aspect Ratio)
+for (let i = 0; i < 50; i++) {
+    const initZ = Math.random();
+    entities.push({
+        type: 'cloud',
+        surface: 'inside',
+        x: getRandomSpanX(initZ),
+        yRel: Math.random() * 0.5,
+        z: initZ,
+        widthRatio: 0.20 + Math.random() * 0.10,
+        speed: CLOUD_SPEED
+    });
+}
+
+// --- RENDER FUNCTIONS ---
+function renderSolidFloor() {
+    const { frontBox: f, backBox: b } = projection.getBoxes();
+
+    ctx.fillStyle = '#c8b6ff'; 
+    ctx.beginPath();
+    ctx.moveTo(b.x, b.y + b.h);
+    ctx.lineTo(b.x + b.w, b.y + b.h);
+    ctx.lineTo(f.x + f.w, f.y + f.h);
+    ctx.lineTo(f.x, f.y + f.h); 
+    ctx.closePath();
+    ctx.fill();
+}
+
+function renderWireframeBox() {
+    const { frontBox: f, backBox: b } = projection.getBoxes();
+
+    ctx.strokeStyle = '#00a8ff'; 
+    ctx.lineWidth = 2;
+
+    ctx.strokeRect(b.x, b.y, b.w, b.h);
+    ctx.strokeRect(f.x, f.y, f.w, f.h);
+
+    ctx.beginPath();
+    ctx.moveTo(b.x, b.y);             ctx.lineTo(f.x, f.y);
+    ctx.moveTo(b.x + b.w, b.y);       ctx.lineTo(f.x + f.w, f.y);
+    ctx.moveTo(b.x, b.y + b.h);       ctx.lineTo(f.x, f.y + f.h);
+    ctx.moveTo(b.x + b.w, b.y + b.h); ctx.lineTo(f.x + f.w, f.y + f.h);
+    ctx.stroke();
+}
+
+function update(dt, timestamp) {
+    entities.forEach(ent => {
+        ent.z += ent.speed * dt;
+
+        if (ent.z >= 1.0) {
+            const p = projection.project(ent.x, ent.yRel, ent.z);
+            let isOffScreen = false;
+
+            if (ent.type === 'star') {
+                const drawSize = ent.size * p.scale;
+                const hoverAnim = Math.sin((timestamp * 0.005) + ent.animPhase) * 8;
+                const totalFloat = (ent.floatHeight + hoverAnim) * p.scale;
+                
+                const top = p.floorY - drawSize - totalFloat;
+                const bottom = p.floorY + (drawSize * 0.12);
+                const left = p.x - (drawSize * 0.5);
+                const right = p.x + (drawSize * 0.5);
+
+                isOffScreen = (top > canvas.height) || (bottom < 0) || (right < 0) || (left > canvas.width);
+            } else if (ent.type === 'sparkle') {
+                const drawSize = ent.size * p.scale;
+                const top = p.y - drawSize;
+                const bottom = p.y + drawSize;
+                const left = p.x - drawSize;
+                const right = p.x + drawSize;
+
+                isOffScreen = (top > canvas.height) || (bottom < 0) || (right < 0) || (left > canvas.width);
+            } else if (ent.type === 'cloud') {
+                const drawW = (canvas.width * ent.widthRatio) * p.scale;
+                const drawH = drawW * 0.5; // 200x100 aspect ratio
+                const top = p.y - drawH / 2;
+                const bottom = p.y + drawH / 2;
+                const left = p.x - drawW / 2;
+                const right = p.x + drawW / 2;
+
+                isOffScreen = (top > canvas.height) || (bottom < 0) || (right < 0) || (left > canvas.width);
+            } else if (ent.type === 'gate') {
+                const drawSize = ent.size * p.scale;
+                const top = p.floorY - drawSize;
+                const bottom = p.floorY;
+                const left = p.x - (drawSize * 0.5);
+                const right = p.x + (drawSize * 0.5);
+
+                isOffScreen = (top > canvas.height) || (bottom < 0) || (right < 0) || (left > canvas.width);
+            }
+
+            if (isOffScreen) {
+                resetEntity(ent);
+            }
+        }
+    });
+}
+
+function render(timestamp) {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    sparkleCtx.clearRect(0, 0, sparkleCanvas.width, sparkleCanvas.height);
+
+    renderSolidFloor();
+
+    // Sort back-to-front
+    entities.sort((a, b) => a.z - b.z);
+
+    entities.forEach(ent => {
+        const p = projection.project(ent.x, ent.yRel, ent.z);
+
+        let bx = 0, by = 0, bw = 0, bh = 0;
+        const targetCtx = (ent.type === 'sparkle') ? sparkleCtx : ctx;
+
+        if (ent.type === 'star') {
+            const drawSize = ent.size * p.scale;
+            const hoverAnim = Math.sin((timestamp * 0.005) + ent.animPhase) * 8;
+            const totalFloat = (ent.floatHeight + hoverAnim) * p.scale;
+
+            // Ground Shadow
+            const shadowScale = Math.max(0.4, 1 - (totalFloat / (200 * p.scale)));
+            const shadowAlpha = 0.25 * shadowScale;
+
+            ctx.fillStyle = `rgba(0, 0, 0, ${shadowAlpha})`;
+            ctx.beginPath();
+            ctx.ellipse(
+                p.x, 
+                p.floorY, 
+                (drawSize * 0.45) * shadowScale, 
+                (drawSize * 0.12) * shadowScale, 
+                0, 0, Math.PI * 2
+            );
+            ctx.fill();
+
+            bw = drawSize;
+            bh = drawSize;
+            bx = p.x - drawSize / 2;
+            by = p.floorY - drawSize - totalFloat;
+
+        } else if (ent.type === 'sparkle') {
+            const drawSize = ent.size * p.scale;
+            bw = drawSize;
+            bh = drawSize;
+            bx = p.x - drawSize / 2;
+            by = p.y - drawSize / 2;
+
+        } else if (ent.type === 'cloud') {
+            bw = (canvas.width * ent.widthRatio) * p.scale;
+            bh = bw * 0.5; // Aspect ratio 2:1 (200x100 base proportion)
+            bx = p.x - bw / 2;
+            by = p.y - bh / 2;
+
+        } else if (ent.type === 'gate') {
+            const drawSize = ent.size * p.scale;
+            bw = drawSize;
+            bh = drawSize;
+            bx = p.x - drawSize / 2;
+            by = p.floorY - drawSize;
+        }
+
+        // Render SVG to target canvas
+        const img = ASSETS[ent.type];
+        if (img && img.complete) {
+            targetCtx.drawImage(img, bx, by, bw, bh);
+        }
+
+        // Render debug bounding box
+        if (debugMode) {
+            let debugColor = '#ff0055';
+            if (ent.type === 'sparkle') debugColor = '#00ffcc';
+            if (ent.type === 'cloud') debugColor = '#ffaa00';
+
+            targetCtx.strokeStyle = debugColor;
+            targetCtx.lineWidth = 1;
+            targetCtx.strokeRect(bx, by, bw, bh);
+        }
+    });
+
+    if (debugMode) {
+        renderWireframeBox();
+    }
+}
+
+// --- MAIN LOOP ---
+let lastTime = 0;
+let frameCount = 0;
+let lastFpsUpdate = 0;
+let isPaused = false;
+
+document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        isPaused = true;
+    } else {
+        isPaused = false;
+        lastTime = performance.now();
+    }
+});
+
+function loop(timestamp) {
+    if (!isPaused) {
+        let dt = (timestamp - lastTime) / 1000 || 0;
+        lastTime = timestamp;
+
+        if (dt > 0.1) dt = 0;
+
+        frameCount++;
+        if (timestamp - lastFpsUpdate >= 500) {
+            const fps = Math.round((frameCount * 1000) / (timestamp - lastFpsUpdate));
+            fpsElem.textContent = `FPS: ${fps} | Entities: ${entities.length}`;
+            frameCount = 0;
+            lastFpsUpdate = timestamp;
+        }
+
+        update(dt, timestamp);
+        render(timestamp);
+    }
+
+    requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+</script>
+
+</body>
+</html>

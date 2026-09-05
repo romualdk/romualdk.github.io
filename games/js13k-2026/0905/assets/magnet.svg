@@ -1,0 +1,19 @@
+<svg viewBox="0 0 110 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <path id="l" d="M25 30v30a25 25 0 0 0 25 25" fill="none" stroke-width="20"/>
+    <path id="r" d="M50 85a25 25 0 0 0 25-25V30" fill="none" stroke-width="20"/>
+    <path id="t" d="M15 30h20M65 30h20" fill="none" stroke-width="20"/>
+  </defs>
+
+  <g transform="translate(10,0)">
+    <use href="#l" stroke="#068"/>
+    <use href="#r" stroke="#a22"/>
+    <use href="#t" stroke="#ccc"/>
+  </g>
+
+  <g>
+    <use href="#l" stroke="#0af"/>
+    <use href="#r" stroke="#ff3b30"/>
+    <use href="#t" stroke="#fff"/>
+  </g>
+</svg>
