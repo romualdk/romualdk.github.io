@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="rainbow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FF3333"/>
+      <stop offset="20%" stop-color="#FF9933"/>
+      <stop offset="40%" stop-color="#FFFF33"/>
+      <stop offset="60%" stop-color="#33CC66"/>
+      <stop offset="80%" stop-color="#3399FF"/>
+      <stop offset="100%" stop-color="#9933FF"/>
+    </linearGradient>
+    <linearGradient id="trackGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="white" stop-opacity="0"/>
+      <stop offset="30%" stop-color="white" stop-opacity="1"/>
+      <stop offset="100%" stop-color="white" stop-opacity="1"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Base Rainbow Square -->
+  <rect width="32" height="32" rx="6" fill="url(#rainbow)"/>
+  
+  <!-- Track Perspective Triangle -->
+  <polygon points="16,6 4,32 28,32" fill="url(#trackGrad)"/>
+</svg>
