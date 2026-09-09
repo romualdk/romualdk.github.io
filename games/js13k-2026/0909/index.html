@@ -288,6 +288,14 @@ const gameOverTitles = [
     "STELLAR PERFORMANCE! TRY AGAIN?"
 ];
 
+const objectiveMessages = [
+    "Collect 100 stars to slow down time!",
+    "Gather 100 stars to ease the pace!",
+    "Grab 100 stars to trigger a slowdown!",
+    "Collect 100 stars to catch your breath!",
+    "Catch 100 stars to tame the rush!"
+];
+
 let gameTime = 0, gameDistance = 0, collectedStars = 0, passedRainbows = 0, lastLifeMilestone = 0;
 let globalSpeedMultiplier = 1.0, lastSpawnedGateType = null, lives = 3;
 let isGameOver = false, restartTimeout = null;
@@ -381,15 +389,21 @@ const spawnLaneSequence = [0, 1, 2, 1];
 const entities = [], particles = [], floatingTexts = [];
 
 function createSpeedUpText(x, y) {
-    floatingTexts.push({ text: 'SPEED UP!', icon: null, x, y, vy: -90, alpha: 1.0, life: 1.0, decay: 1.0 });
+    floatingTexts.push({ text: 'SPEED UP!', icon: null, iconEnd: null, x, y, vy: -90, alpha: 1.0, life: 1.0, decay: 1.0 });
 }
 
 function createOneUpText(x, y) {
-    floatingTexts.push({ text: '1 UP', icon: ASSETS.heart, x, y, vy: -90, alpha: 1.0, life: 1.0, decay: 1.0 });
+    floatingTexts.push({ text: '1 UP', icon: ASSETS.heart, iconEnd: null, x, y, vy: -90, alpha: 1.0, life: 1.0, decay: 1.0 });
 }
 
 function createSlowDownText(x, y) {
-    floatingTexts.push({ text: 'SLOW DOWN!', icon: null, x, y, vy: -90, alpha: 1.0, life: 1.0, decay: 1.0 });
+    floatingTexts.push({ text: 'SLOW DOWN!', icon: null, iconEnd: null, x, y, vy: -90, alpha: 1.0, life: 1.0, decay: 1.0 });
+}
+
+function createObjectiveText(x, y) {
+    const randomMsg = objectiveMessages[Math.floor(Math.random() * objectiveMessages.length)];
+    // Removed icon and iconEnd so it fits nicely on narrow screens
+    floatingTexts.push({ text: randomMsg, icon: null, iconEnd: null, x, y, vy: -90, alpha: 1.0, life: 1.5, decay: 0.6 });
 }
 
 function createStarBurst(x, y, count = 14, speedMult = 1, imgAsset = ASSETS.star) {
@@ -527,6 +541,9 @@ function restartGame() {
     entities.length = 0; particles.length = 0; floatingTexts.length = 0;
     spawnBackgroundEntities();
     updateHUDRecord();
+
+    const p = projection.project({ x: 0, yRel: 0.5, z: 0.5 }, {});
+    createObjectiveText(p.x, canvas.height * 0.50);
 }
 
 function update(dt) {
@@ -572,18 +589,28 @@ function update(dt) {
         spawnTimer -= currentSpawnInterval;
         const laneIndex = spawnLaneSequence[nextSpawnLaneIndex];
         nextSpawnLaneIndex = (nextSpawnLaneIndex + 1) % spawnLaneSequence.length;
-        const standardYRel = 0.5 + size / (size * 2);
-        const randRoll = Math.random();
+        
+        const { size } = projection.getCubeParams();
+        const laneWidth = (size * 2) / 3;
         const laneCenterX = (-size + (laneIndex * laneWidth) + laneWidth / 2) / size;
+        const randRoll = Math.random();
+        
+        const starSize = laneWidth * 0.6;
+        const redGateSize = laneWidth * 0.75; 
+        const greenGateSize = size * 2;
+        
+        const starYRel = 1.0 - (starSize / (4 * size));
+        const redGateYRel = 1.0 - (redGateSize / (4 * size));
+        const greenGateYRel = 1.0 - ((greenGateSize * 0.5) / (4 * size));
 
         if (randRoll < 0.67) {
-            entities.push({ type: 'star', lane: laneIndex, x: laneCenterX, yRel: standardYRel - 0.08, z: 0.0, size: FIXED_STAR_SIZE, speed: ENTITY_SPEED, collected: false });
+            entities.push({ type: 'star', lane: laneIndex, x: laneCenterX, yRel: starYRel, z: 0.0, size: starSize, speed: ENTITY_SPEED, collected: false });
             lastSpawnedGateType = null;
         } else if (randRoll < 0.92 || lastSpawnedGateType === 'green') {
-            entities.push({ type: 'gate', gateType: 'red', lane: laneIndex, x: laneCenterX, yRel: standardYRel - 0.05, z: 0.0, size: 140, speed: ENTITY_SPEED, hit: false });
+            entities.push({ type: 'gate', gateType: 'red', lane: laneIndex, x: laneCenterX, yRel: redGateYRel, z: 0.0, size: redGateSize, speed: ENTITY_SPEED, hit: false });
             lastSpawnedGateType = 'red';
         } else {
-            entities.push({ type: 'gate', gateType: 'green', lane: -1, x: 0, yRel: standardYRel - 0.05, z: 0.0, size: size * 2, speed: ENTITY_SPEED, hit: false });
+            entities.push({ type: 'gate', gateType: 'green', lane: -1, x: 0, yRel: greenGateYRel, z: 0.0, size: greenGateSize, speed: ENTITY_SPEED, hit: false });
             lastSpawnedGateType = 'green';
         }
     }
@@ -606,7 +633,6 @@ function update(dt) {
             if (playerBox.x < p.x + drawSize * 0.4 && playerBox.x + playerBox.width > p.x - drawSize * 0.4 && playerBox.y < p.y + drawSize * 0.4 && playerBox.y + playerBox.height > p.y - drawSize * 0.4) {
                 collectedStars++;
                 
-                // Check if this is the 100th star to double the particle count and size multiplier
                 const isHundredth = (collectedStars % 100 === 0);
                 const particleCount = isHundredth ? 28 : 14;
                 const speedMultiplier = isHundredth ? 1.8 : 1.0;
@@ -762,37 +788,93 @@ function renderParticles() {
 function renderFloatingTexts() {
     if (floatingTexts.length === 0) return;
     ctx.save();
-    ctx.font = '900 42px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif';
-    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    
+    const dynamicFontSize = Math.max(14, Math.min(26, window.innerWidth * 0.045));
+    ctx.font = `900 ${dynamicFontSize}px "Segoe UI", Tahoma, Geneva, Verdana, sans-serif`;
+
+    const maxAllowedWidth = window.innerWidth - 32;
 
     floatingTexts.forEach(ft => {
         ctx.save();
         ctx.globalAlpha = ft.alpha;
-        
-        let textWidth = ctx.measureText(ft.text).width;
-        let iconSize = ft.icon ? 40 : 0;
-        let spacing = ft.icon ? 12 : 0;
-        let boxWidth = textWidth + iconSize + spacing + 50;
-        let boxX = ft.x - boxWidth / 2, boxY = ft.y - 30;
 
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
+        const iconSize = dynamicFontSize * 0.95;
+        const spacing = dynamicFontSize * 0.3;
+        const padX = dynamicFontSize * 1.2;
+        // Balanced vertical padding so spacing above and below text is the same
+        const padY = dynamicFontSize * 0.65;
+
+        let hasStart = ft.icon && ft.icon.complete && ft.icon.naturalWidth !== 0;
+        let hasEnd = ft.iconEnd && ft.iconEnd.naturalWidth !== 0;
+        const iconReservedWidth = (hasStart ? iconSize + spacing : 0) + (hasEnd ? iconSize + spacing : 0);
+
+        // Word wrap long text into lines
+        const words = ft.text.split(' ');
+        let lines = [];
+        let currentLine = '';
+
+        for (let i = 0; i < words.length; i++) {
+            let testLine = currentLine ? currentLine + ' ' + words[i] : words[i];
+            let testWidth = ctx.measureText(testLine).width + iconReservedWidth;
+            if (testWidth > maxAllowedWidth && currentLine) {
+                lines.push(currentLine);
+                currentLine = words[i];
+            } else {
+                currentLine = testLine;
+            }
+        }
+        if (currentLine) lines.push(currentLine);
+
+        // Find widest line
+        let maxTextWidth = 0;
+        lines.forEach(l => {
+            let w = ctx.measureText(l).width;
+            if (w > maxTextWidth) maxTextWidth = w;
+        });
+
+        const boxWidth = Math.min(maxAllowedWidth, maxTextWidth + iconReservedWidth + padX);
+        const lineHeight = dynamicFontSize * 1.25;
+        const boxHeight = (lines.length * lineHeight) + (padY * 2);
+        
+        let boxX = Math.max(16, Math.min(ft.x - boxWidth / 2, window.innerWidth - boxWidth - 16));
+        let boxY = ft.y - boxHeight / 2;
+
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.94)';
         ctx.strokeStyle = 'rgba(255, 182, 215, 0.8)';
-        ctx.lineWidth = 4;
-        ctx.beginPath(); ctx.roundRect(boxX, boxY, boxWidth, 60, 30);
+        ctx.lineWidth = 3;
+        ctx.beginPath(); 
+        // Using a large radius (40px) matching the HUD main bar pill shape
+        ctx.roundRect(boxX, boxY, boxWidth, boxHeight, 40);
         ctx.fill(); ctx.stroke();
 
-        ctx.shadowColor = 'rgba(255, 255, 255, 0.9)'; ctx.shadowBlur = 16;
+        ctx.shadowColor = 'rgba(255, 255, 255, 0.9)'; ctx.shadowBlur = 10;
         ctx.fillStyle = '#ff006e'; ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = 4; ctx.lineJoin = 'round';
+        ctx.lineWidth = 3; ctx.lineJoin = 'round';
 
-        if (ft.icon && ft.icon.complete && ft.icon.naturalWidth !== 0) {
-            let startX = ft.x - boxWidth / 2 + 25;
-            ctx.drawImage(ft.icon, startX, ft.y - 20, 40, 40);
-            let textDrawX = startX + 40 + spacing + textWidth / 2;
-            ctx.strokeText(ft.text, textDrawX, ft.y); ctx.fillText(ft.text, textDrawX, ft.y);
-        } else {
-            ctx.strokeText(ft.text, ft.x, ft.y); ctx.fillText(ft.text, ft.x, ft.y);
-        }
+        let startY = boxY + padY + (dynamicFontSize * 0.8);
+
+        lines.forEach((line, lineIdx) => {
+            let lineWidth = ctx.measureText(line).width;
+            let totalLineWidth = lineWidth + (lineIdx === 0 && hasStart ? iconSize + spacing : 0) + (lineIdx === lines.length - 1 && hasEnd ? iconSize + spacing : 0);
+            let drawX = boxX + (boxWidth - totalLineWidth) / 2;
+            let currentLineY = startY + (lineIdx * lineHeight);
+
+            if (lineIdx === 0 && hasStart) {
+                ctx.drawImage(ft.icon, drawX, currentLineY - iconSize * 0.7, iconSize, iconSize);
+                drawX += iconSize + spacing;
+            }
+
+            ctx.textAlign = 'left'; 
+            ctx.textBaseline = 'alphabetic';
+            ctx.strokeText(line, drawX, currentLineY); 
+            ctx.fillText(line, drawX, currentLineY);
+            drawX += lineWidth;
+
+            if (lineIdx === lines.length - 1 && hasEnd) {
+                drawX += spacing;
+                ctx.drawImage(ft.iconEnd, drawX, currentLineY - iconSize * 0.7, iconSize, iconSize);
+            }
+        });
 
         ctx.restore();
     });
@@ -873,6 +955,9 @@ function gameLoop(timestamp) {
     }
     requestAnimationFrame(gameLoop);
 }
+
+const initialProj = projection.project({ x: 0, yRel: 0.5, z: 0.5 }, {});
+createObjectiveText(initialProj.x, canvas.height * 0.50);
 
 requestAnimationFrame(gameLoop);
 </script>
